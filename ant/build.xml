@@ -105,6 +105,7 @@
 		<junit			
 			printsummary="yes"
 		>
+			<formatter type="xml" />
 			<classpath refid="project.classpath"/>
 			<test name="uk.ac.glasgow.senotes.ant.test.HelloWorldTest"/>
 		</junit>
