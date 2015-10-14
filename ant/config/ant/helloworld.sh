@@ -1,0 +1,1 @@
+java -classpath @INSTALLDIR/helloworldproject.jar uk/ac/glasgow/senotes/ant/HelloWorldProject

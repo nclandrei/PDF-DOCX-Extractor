@@ -1,0 +1,31 @@
+<ivysettings>
+
+	<settings
+		defaultResolver="chained" />
+
+	<resolvers>
+	
+		<chain 
+			name="chained"
+			returnFirst="true"
+			dual="true"
+		>
+
+			<ibiblio
+				name="1"
+				m2compatible="true"
+			/>
+		
+			<ibiblio
+				name="2"
+				m2compatible="true"
+				root="http://mirrors.ibiblio.org/maven2"
+				pattern="/[organisation]/[module]/[revision]/[artifact].[ext]"		
+			/>
+			
+		</chain>
+		
+	</resolvers>
+
+
+</ivysettings>
