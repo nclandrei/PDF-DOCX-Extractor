@@ -103,7 +103,7 @@
 		depends="compile">
 		
 		<junit			
-			printsummary="yes"
+			printsummary="true"
 		>
 			<formatter type="xml" />
 			<classpath refid="project.classpath"/>
