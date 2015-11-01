@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="97f34e3a-6c80-4b5c-998f-31f2292c2fa0" name="Default" comment="" />
+    <list default="true" readonly="true" id="c505d16a-17b7-4217-9939-26869db71764" name="Default" comment="" />
     <ignored path="Main.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -91,8 +91,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -131,7 +131,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -392,16 +392,16 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="97f34e3a-6c80-4b5c-998f-31f2292c2fa0" name="Default" comment="" />
-      <created>1446401980245</created>
+      <changelist id="c505d16a-17b7-4217-9939-26869db71764" name="Default" comment="" />
+      <created>1446402326016</created>
       <option name="number" value="Default" />
-      <updated>1446401980245</updated>
-      <workItem from="1446401983519" duration="36000" />
+      <updated>1446402326016</updated>
+      <workItem from="1446402329479" duration="30000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36000" />
+    <option name="totallyTimeSpent" value="30000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
