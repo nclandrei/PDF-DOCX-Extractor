@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.cos.COSStream;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
@@ -34,13 +35,14 @@ public class PDFManager {
         pdfStripper = new PDFTextStripper();
         pdDoc = new PDDocument(cosDoc);
         pdDoc.getNumberOfPages();
-        pdfStripper.setStartPage(1);
-        pdfStripper.setEndPage(10);
+        pdfStripper.setStartPage(7);
+        pdfStripper.setEndPage(7);
         // reading text from page 1 to 10
         // if you want to get text from full pdf file use this code
         // pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
         Text = pdfStripper.getText(pdDoc);
+
         return Text;
     }
 
