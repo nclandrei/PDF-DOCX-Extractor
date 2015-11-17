@@ -24,7 +24,6 @@ class test2{
         Scanner lineScan;
         while(scan.hasNext()) {
             lineScan = new Scanner(scan.nextLine());
-
             while (lineScan.hasNext()) {
                 String token = lineScan.next();
 
