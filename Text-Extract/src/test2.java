@@ -46,6 +46,9 @@ class test2{
 
             }
         }
-        Util.numberTable(tableText);
+        LinkedList<String> parsedTable = Util.numberTable(tableText);
+        for(String s: parsedTable){
+            System.out.println(s);
+        }
     }
 }

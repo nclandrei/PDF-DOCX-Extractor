@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -8,30 +10,47 @@ public final class Util {
     private Util(){
     }
 
-    public static void numberTable(String text) {
+    public static LinkedList<String> numberTable(String text) {
 
         Scanner lineScan = new Scanner(text);
         boolean newLine = false;
 
+        LinkedList<String> parsedTable = new LinkedList<>();
+        int index = 0;
+
+        String parsedRow = "";
+
+        parsedTable.add(parsedRow);
         while (lineScan.hasNext()) {
             String token = lineScan.next();
+            parsedRow = parsedTable.getLast();
             if (!token.equals("-")) {
                 try {
                     Integer.parseInt(token);
-                    System.out.printf(" %s ", token);
+                    parsedRow += token + " ";
+                    parsedTable.set(index,parsedRow);
+                    //System.out.printf(" %s ", token);
                     newLine = true;
                 } catch (NumberFormatException e) {
                     if (newLine) {
-                        System.out.print("\n" + token + " ");
+                        index++;
+                        parsedRow = (token + " ");
+                        parsedTable.addLast(parsedRow);
+                        //System.out.print("\n" + token + " ");
                         newLine = false;
                     } else {
-                        System.out.print(token + " ");
+                        parsedRow += token + " ";
+                        parsedTable.set(index,parsedRow);
+                        //System.out.print(token + " ");
                     }
                 }
             } else {
-                System.out.printf(" - ");
+                parsedRow += token + " ";
+                parsedTable.set(index,parsedRow);
+                //System.out.printf(" - ");
             }
         }
+        return parsedTable;
     }
 
     public static void isNumTableType(String text){
