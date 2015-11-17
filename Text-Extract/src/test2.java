@@ -1,10 +1,16 @@
+/**
+ * Created by richy734 on 11/11/15.
+ */
+import sun.security.provider.certpath.AdjacencyList;
+
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-class test{
+class test2{
 
-        public static void main(String[] args) throws IOException {
-/*
+    public static void main(String[] args) throws IOException {
+
         PDFManager pdfManager = new PDFManager();
         pdfManager.setFilePath("res/sample.pdf");
         //StringBuilder sb = new  StringBuilder();
@@ -13,13 +19,9 @@ class test{
 
         String text = pdfManager.ToText();
 
-
+        String tableText = "";
         Scanner scan = new Scanner(text);
         Scanner lineScan;
-        boolean newLine = false;
-        boolean isHeader = true;
-        int width=0;
-        String currentString = "";
         while(scan.hasNext()) {
             lineScan = new Scanner(scan.nextLine());
 
@@ -38,26 +40,12 @@ class test{
                     important = false;
                 }
 
-                if (important) {
-                    if(!token.equals("-")){
-                        try{
-                            int x = Integer.parseInt(token);
-                            System.out.printf(" %s ", token);
-                            newLine = true;
-                        }catch(NumberFormatException e){
-                            if(newLine) {
-                                System.out.print("\n" + token + " ");
-                                newLine = false;
-                            }else{
-                                System.out.print(token + " ");
-                            }
-                        }
-                    }else{
-                        System.out.printf(" - ");
-                    }
+                if(important){
+                    tableText+=token + " ";
                 }
+
             }
         }
-        */
+        Util.numberTable(tableText);
     }
 }
