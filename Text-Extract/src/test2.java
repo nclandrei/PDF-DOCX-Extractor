@@ -1,7 +1,6 @@
 /**
  * Created by richy734 on 11/11/15.
  */
-import sun.security.provider.certpath.AdjacencyList;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -22,6 +21,7 @@ class test2{
         String tableText = "";
         Scanner scan = new Scanner(text);
         Scanner lineScan;
+        LinkedList<LinkedList<String>> tables = new LinkedList<>();
         while(scan.hasNext()) {
             lineScan = new Scanner(scan.nextLine());
             while (lineScan.hasNext()) {
@@ -37,6 +37,9 @@ class test2{
                 }
                 if (token.equals("Source:")) {
                     important = false;
+                    tables.add(Util.numberTable(tableText));
+                    tableText="";
+
                 }
 
                 if(important){
@@ -45,9 +48,12 @@ class test2{
 
             }
         }
-        LinkedList<String> parsedTable = Util.numberTable(tableText);
-        for(String s: parsedTable){
-            System.out.println(s);
+
+        for(LinkedList<String> ll: tables){
+            for(String s: ll){
+                System.out.println(s);
+            }
+            System.out.println();
         }
     }
 }
