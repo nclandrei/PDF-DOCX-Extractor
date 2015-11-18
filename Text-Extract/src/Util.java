@@ -5,6 +5,25 @@ import java.util.Scanner;
 /**
  * Created by richy734 on 11/11/15.
  */
+
+/**
+ * This is just a utility class to extract a table from
+ * a string, currently only handles number based tables
+ * e.g.:
+ *
+ * given a string =  "header1 header2 header3 row1 1 2 3 row2 4 5 6 row3 7 8 9"
+ *
+ * It generates a linked list of strings representing a table of the form:
+ *
+ *          header1     header2     header3
+ * row1        1          2            3
+ * row2        4          5            6
+ * row3        7          8            9
+ *
+ * with each string being a row of the table.
+ * 
+ */
+
 public final class Util {
 
     private Util(){
