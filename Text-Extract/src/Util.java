@@ -21,7 +21,7 @@ import java.util.Scanner;
  * row3        7          8            9
  *
  * with each string being a row of the table.
- * 
+ *
  */
 
 public final class Util {
