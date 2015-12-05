@@ -12,5 +12,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-test:4.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:4.2.3.RELEASE" level="project" />
   </component>
 </module>

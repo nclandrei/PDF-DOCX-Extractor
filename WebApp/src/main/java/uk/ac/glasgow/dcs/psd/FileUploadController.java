@@ -1,39 +1,22 @@
 package uk.ac.glasgow.dcs.psd;
 
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.stereotype.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @Controller
-@EnableAutoConfiguration
-public class WebAppApplication {
-
-    @RequestMapping("/")
-    String home() {
-        return "/index.html";
-    }
-
-    @RequestMapping("/response")
-    @ResponseBody
-    public Map<String,Object> randomResult() {
-        Map<String,Object> model = new HashMap<String,Object>();
-        model.put("id", UUID.randomUUID().toString());
-        model.put("content", "Hello World!");
-        return model;
-    }
+public class FileUploadController {
 
     @RequestMapping(value="/upload", method= RequestMethod.GET)
+    public @ResponseBody
     String provideUploadInfo() {
-        return "/some.html";
+        return "You can upload a file by posting to this same URL.";
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
@@ -53,10 +36,6 @@ public class WebAppApplication {
         } else {
             return "You failed to upload " + name + " because the file was empty.";
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(WebAppApplication.class, args);
     }
 
 }
