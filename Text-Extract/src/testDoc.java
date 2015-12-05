@@ -15,8 +15,8 @@ import java.util.LinkedList;
 public class testDoc {
 
     public static void main(String args[]) {
-        LinkedList<LinkedList<String>> tables = getTables("res/AnnandaleandEskdale-ProfileDraft1306.docx");
-        File outFile = new File("out.csv");
+        LinkedList<LinkedList<String>> tables = getTables("res/output.docx");
+        File outFile = new File("out2.csv");
         try {
             if(!outFile.exists()) outFile.createNewFile();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
@@ -54,11 +54,12 @@ public class testDoc {
                     if(!cell.getText().equals(" ") && !cell.getText().equals("")) {
                         rowString = results.getLast().getLast();
                         if(rowString.equals("")){
-                            rowString += cell.getText();
+                            rowString += "\"" + cell.getText() + "\"";
                         }else{
-                            rowString += "," + cell.getText();
+                            rowString += ",\"" + cell.getText()+"\"";
                         }
-                        results.getLast().set(results.getLast().size()-1, rowString);
+                        if(!rowString.equals("\n"))
+                            results.getLast().set(results.getLast().size()-1, rowString);
                     }
                 }
             }
