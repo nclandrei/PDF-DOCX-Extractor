@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.lang.StringBuilder;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,7 +20,7 @@ public class ParseTable {
 		JSONParser parser = new JSONParser();
 		StringBuilder sb = new StringBuilder();
 
-		try {
+		try (BufferedWriter buffer = new BufferedWriter(new FileWriter("output.csv"))){
 			JSONArray array = (JSONArray) parser.parse(new FileReader("./tables.json"));
 			for (Object obj : array) {
 				JSONObject table = (JSONObject) obj;
@@ -40,11 +42,11 @@ public class ParseTable {
 					}
 
 					sb.deleteCharAt(sb.length()-1);
-					System.out.print(sb.toString());
-					System.out.print("\n");
+					buffer.write(sb.toString());
+					buffer.write("\n");
 				}
 				if(sb.toString().compareTo("") != 0){
-					System.out.print("\n");
+					buffer.write("\n");
 				}
 			}
 
