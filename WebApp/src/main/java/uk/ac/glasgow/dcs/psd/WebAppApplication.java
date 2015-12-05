@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.IOUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -31,27 +32,27 @@ public class WebAppApplication {
         return model;
     }
 
-    @RequestMapping(value="/upload", method= RequestMethod.GET)
+    @RequestMapping(value="/uploadFile", method= RequestMethod.GET)
     String provideUploadInfo() {
         return "/some.html";
     }
 
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("name") String name,
-                                                 @RequestParam("file") MultipartFile file){
+    @RequestMapping(value="/uploadFile", method=RequestMethod.POST)
+    public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
+                String filename = file.getOriginalFilename();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(name)));
+                        new BufferedOutputStream(new FileOutputStream(new File(filename)));
                 stream.write(bytes);
                 stream.close();
-                return "You successfully uploaded " + name + "!";
+                return "You successfully uploaded! filename" + filename;
             } catch (Exception e) {
-                return "You failed to upload " + name + " => " + e.getMessage();
+                return "You failed to upload" + e.getMessage();
             }
         } else {
-            return "You failed to upload " + name + " because the file was empty.";
+            return "You failed to upload because the file was empty.";
         }
     }
 
