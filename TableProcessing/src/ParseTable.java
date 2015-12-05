@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.lang.StringBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,22 +16,35 @@ public class ParseTable {
 	public static void main(String[] args) {
 
 		JSONParser parser = new JSONParser();
+		StringBuilder sb = new StringBuilder();
 
 		try {
 			JSONArray array = (JSONArray) parser.parse(new FileReader("./tables.json"));
-
 			for (Object obj : array) {
 				JSONObject table = (JSONObject) obj;
 				JSONArray cells = (JSONArray) table.get("data");
 				for (Object c : cells) {
 					JSONArray cellProperties = (JSONArray) c;
+					sb = new StringBuilder();
 					for (Object p : cellProperties) {
 						JSONObject property = (JSONObject) p;
 						String text = (String) property.get("text");
-						if (text.compareTo(" ") != 0 && text.compareTo("") != 0) {
-							System.out.println(text);
+						if (text.compareTo(" ") == 0 || text.compareTo("") == 0) {
+							break;
 						}
+						sb.append(text + ",");
+						
 					}
+					if(sb.toString().compareTo("") == 0){
+						continue;
+					}
+
+					sb.deleteCharAt(sb.length()-1);
+					System.out.print(sb.toString());
+					System.out.print("\n");
+				}
+				if(sb.toString().compareTo("") != 0){
+					System.out.print("\n");
 				}
 			}
 
