@@ -31,7 +31,7 @@ public class ParseTable {
 					for (Object p : cellProperties) {
 						JSONObject property = (JSONObject) p;
 						String text = (String) property.get("text");
-						if (text.compareTo(" ") == 0 || text.compareTo("") == 0) {
+						if (text.compareTo(" ") == 0 || text.compareTo("") == 0 || text.length() > 100) {
 							break;
 						}
 						sb.append(text + ",");
