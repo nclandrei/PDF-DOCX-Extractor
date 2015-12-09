@@ -130,31 +130,35 @@
 		<div class="modal-content">
 			<h4>Submit a bug report</h4>
 			<div class="row">
-				<form class="col s12">
+				<form class="col s12" method="POST" action="send-mail" enctype="multipart/form-data">
+                    <input name="action" value="submit" type="hidden">
 					<div class="row">
 						<div class="input-field col s12">
-							<textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
-							<label class="" for="textarea1">What bugs have you encountered?</label>
+							<textarea style="height: 23px;" id="bug" name="bug" class="materialize-textarea"></textarea>
+							<label class="" for="bug">What bugs have you encountered?</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
-							<label class="" for="textarea1">What device are you running?</label>
+							<textarea style="height: 23px;" id="device" name="device" class="materialize-textarea"></textarea>
+							<label class="" for="device">What device are you running?</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
-							<label class="" for="textarea1">Please provide your name and email</label>
+							<textarea style="height: 23px;" id="name" name="name" class="materialize-textarea"></textarea>
+							<label class="" for="name">Please provide your name and email</label>
 						</div>
 					</div>
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat" type="submit" name="action">
+                        Submit
+                    </button>
 				</form>
 			</div>
 		</div>
-		<div class="modal-footer">
-			<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
-		</div>
+		<!--<div class="modal-footer">-->
+			<!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>-->
+		<!--</div>-->
 	</div>
 
 	<!--  Scripts-->

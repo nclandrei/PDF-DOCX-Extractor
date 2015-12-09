@@ -1,19 +1,19 @@
 package uk.ac.glasgow.dcs.psd;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
-import org.springframework.stereotype.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Controller
+@Configuration
+@ComponentScan
 @EnableAutoConfiguration
 public class WebAppApplication {
 
