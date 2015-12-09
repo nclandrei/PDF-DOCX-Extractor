@@ -62,6 +62,7 @@ public class WebAppApplication {
         os.close();
         is.close();
 
+        file.delete();
     }
 
     @RequestMapping(value="/uploadFile", method=RequestMethod.POST)
@@ -76,7 +77,10 @@ public class WebAppApplication {
                 stream.write(bytes);
                 stream.close();
                 String outputFileName = getFileLocation(filename.substring(0,filename.lastIndexOf(".")));
+
                 ExtractDocx.extractTables(getFileLocation(filename), outputFileName);
+                File originalFile = new File(getFileLocation(filename));
+                originalFile.delete();
 
                 return "redirect:/file/"+filename.substring(0,filename.lastIndexOf("."));
             } catch (Exception e) {
