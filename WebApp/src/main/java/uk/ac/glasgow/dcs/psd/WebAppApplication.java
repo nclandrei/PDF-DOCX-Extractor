@@ -58,10 +58,10 @@ public class WebAppApplication {
                                 new FileOutputStream(new File(getFileLocation(filename))));
                 stream.write(bytes);
                 stream.close();
+                String outputFileName = getFileLocation(filename.substring(0,filename.lastIndexOf(".")));
+                ExtractDocx.extractTables(getFileLocation(filename), outputFileName);
 
-                ExtractDocx.extractTables(file.getName(), filename);
-
-                return "redirect:/file/"+filename;
+                return "redirect:/file/"+filename.substring(0,filename.lastIndexOf("."));
             } catch (Exception e) {
                 return "You failed to upload" + e.getMessage();
             }
