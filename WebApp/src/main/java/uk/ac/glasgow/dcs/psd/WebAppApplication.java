@@ -41,7 +41,7 @@ public class WebAppApplication {
             @PathVariable("fileID") String fileName,
             HttpServletResponse response) throws IOException {
 
-        String src = getFileLocation(fileName+".jpg");
+        String src = getFileLocation(fileName+".csv");
         InputStream is = new FileInputStream(src);
         IOUtils.copy(is, response.getOutputStream());
         response.flushBuffer();
@@ -58,6 +58,8 @@ public class WebAppApplication {
                                 new FileOutputStream(new File(getFileLocation(filename))));
                 stream.write(bytes);
                 stream.close();
+
+                ExtractDocx.extractTables(file.getName(), filename);
 
                 return "redirect:/file/"+filename;
             } catch (Exception e) {
