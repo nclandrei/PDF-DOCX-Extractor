@@ -1,209 +1,188 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
-
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+	<title>CI Extraction Tool by Team X</title>
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<style>
-input[type="file"] {
-    display: none;
-}
-</style>
+		input[type="file"] {
+			display: none;
+		}
+	</style>
 </head>
 <body>
 
-  
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container">
-	<a id="logo-container" href="#" class="brand-logo">CI Extraction Tool</a>
-      
-<ul class="right hide-on-med-and-down">
-        <li><a href="#" id="bug-report-button">Submit a bug report</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Team</a></li>
+	<nav class="light-blue lighten-1" role="navigation">
+		<div class="nav-wrapper container">
+			<a id="logo-container" href="#" class="brand-logo">CI Extraction Tool</a>
 
-      </ul>
-<!--
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Team</a></li>
-      </ul>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="#" id="bug-report-button">Submit a bug report</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Team</a></li>
+			</ul>
+			<!--
+				  <ul id="nav-mobile" class="side-nav">
+					<li><a href="#">Team</a></li>
+				  </ul>
 
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
--->    </div>
-  </nav>
-  <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-      
-      <h1 class="header center orange-text">Crichton Institute Extraction Tool</h1>
-      <div class="row center">
-        <h5 class="header col s12 light">A modern way to extract tables from PDF and DOCX files</h5>
-      </div>
-      <div class="row center">
-	
-<!--
-<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">upload file</a>
--->
-<form method="POST" action="uploadFile" enctype="multipart/form-data">
+				  <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+			-->
+		</div>
+	</nav>
+	<div class="section no-pad-bot" id="index-banner">
+		<div class="container">
 
-<label class="btn-large waves-effect waves-light orange" type="file" name="fileToUpload" style="font-size:15px;margin-bottom:6px;">Upload file
-    <i class="material-icons right">cloud</i>
-<input id="file-upload" type="file" name="file" required/>
-</label>
+			<h1 class="header center orange-text">Crichton Institute Extraction Tool</h1>
+			<div class="row center">
+				<h5 class="header col s12 light">A modern way to extract tables from PDF and DOCX files</h5>
+			</div>
+			<div class="row center">
+				<!--
+				<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">upload file</a>
+				-->
+				<form method="POST" action="uploadFile" enctype="multipart/form-data">
+					<label class="btn-large waves-effect waves-light orange" type="file" name="fileToUpload" style="font-size:15px;margin-bottom:6px;">
+						Upload file
+						<i class="material-icons right">cloud</i>
+						<input id="file-upload" type="file" name="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
+					</label>
+					<button class="btn-large waves-effect waves-light orange" type="submit" name="action" style="font-size:15px;margin-bottom:6px;">
+						Submit
+						<i class="material-icons right">send</i>
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
 
-<button class="btn-large waves-effect waves-light orange" type="submit" name="action" style="font-size:15px;margin-bottom:6px;">Submit
-    <i class="material-icons right">send</i>
-</button>
+	<div class="container">
+		<div class="section">
+			<!--   Icon Section   -->
+			<div class="row">
+				<div class="col s12 m4">
+					<div class="icon-block">
+						<h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
+						<h5 class="center">Speedy Conversion</h5>
+						<p class="light">Using the Tabula API our app manages to accomplish impressive conversion times even when it comes to gigantic files. </p>
+					</div>
+				</div>
+				<div class="col s12 m4">
+					<div class="icon-block">
+						<h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
+						<h5 class="center">Easy to work with</h5>
+						<p class="light">We have put great care into providing the best possible user experience. To get started simply upload a PDF/DOCX file, wait for the conversion to happen, and download your CSV file.</p>
+					</div>
+				</div>
+				<div class="col s12 m4">
+					<div class="icon-block">
+						<h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+						<h5 class="center">Glasgow University Researched</h5>
+						<p class="light">Throughout the development of this tool each iteration has been closely monitored by University staff to ensure it conforms to industry standards.</p>
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<div class="section">
+		</div>
+	</div>
+	<footer class="page-footer orange">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">Crichton Institute</h5>
+					<p class="grey-text text-lighten-4">Crichton Institute is all about the local universities and colleges in the region working together for the region’s development, while making sure it is recognised both nationally and internationally. The partners are aware that successful regions are those who research and understand the issues, challenges and opportunities in their area and are, as a result, better positioned to make their case known where it matters.</p>
 
-</form>
-<!--
-<form action="#" method="post" enctype="multipart/form-data">
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
-</form>
--->
-      </div>
-      
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">Our Staff</h5>
+					<p class="grey-text text-lighten-4">
+						<div class="grey-text text-lighten-4">Eva Milroy</div>
+						<div class="grey-text text-lighten-4">Crichton Institute</div>
+						<div class="grey-text text-lighten-4">Development Officer</div>
+						<div class="grey-text text-lighten-4">01387 345 370</div>
+						<div class="grey-text text-lighten-4">eva.milroy@glasgow.ac.uk</div>
+					</p>
+				</div>
+				<div class="col l3 s12" style="">
+					<h5 class="white-text">Social Media</h5>
+					<ul>
+						<li><a class="white-text" href="http://crichtoninstitute.co.uk/">Main Website</a></li>
+						<li><a class="white-text" href="https://twitter.com/CrichtonInst">Twitter</a></li>
+						<li><a class="white-text" href="https://www.linkedin.com/groups/4835261/profile">LinkedIn</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				Made by <a class="orange-text text-lighten-3" href="#">Team X @ University of Glasgow 2015 / 2016</a>
+			</div>
+		</div>
+	</footer>
+	<!-- Modal Structure -->
+	<div id="modal1" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h4>Submit a bug report</h4>
+			<div class="row">
+				<form class="col s12">
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
+							<label class="" for="textarea1">What bugs have you encountered?</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
+							<label class="" for="textarea1">What device are you running?</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
+							<label class="" for="textarea1">Please provide your name and email</label>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
+		</div>
+	</div>
 
-    </div>
-  </div>
+	<!--  Scripts-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="../../js/materialize.js"></script>
+	<script src="js/init.js"></script>
+	<script>
 
+		$(document).ready(function () {
 
-  <div class="container">
-    <div class="section">
+			$('.modal-trigger').leanModal();
+			$('#bug-report-button').on('click', function () {
+				$('#modal1').openModal();
+			});
+			//$('#textarea1').val('New Text');
+			$('#textarea1').trigger('autoresize');
 
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speedy Conversion</h5>
-
-            <p class="light">Using the Tabula API our app manages to accomplish impressive conversion times even when it comes to gigantic files. </p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have put great care into providing the best possible user experience. To get started simply upload a PDF/DOCX file, wait for the conversion to happen, and download your CSV file.</p>
-          </div>
-        </div>
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">Glasgow University Researched</h5>
-
-            <p class="light">Throughout the development of this tool each iteration has been closely monitored by University staff to ensure it conforms to industry standards.</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-    
-
-    <div class="section">
-
-    </div>
-  </div>
-
-  <footer class="page-footer orange">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Crichton Institute</h5>
-          <p class="grey-text text-lighten-4">Crichton Institute is all about the local universities and colleges in the region working together for the region’s development, while making sure it is recognised both nationally and internationally. The partners are aware that successful regions are those who research and understand the issues, challenges and opportunities in their area and are, as a result, better positioned to make their case known where it matters.</p>
-
-
-        </div>
-
-        <div class="col l3 s12">
-          <h5 class="white-text">Our Staff</h5>
-          <p class="grey-text text-lighten-4"><div class="grey-text text-lighten-4">Eva Milroy</div>
-<div class="grey-text text-lighten-4">Crichton Institute</div>
-<div class="grey-text text-lighten-4">Development Officer</div>
-<div class="grey-text text-lighten-4">01387 345 370</div>
-<div class="grey-text text-lighten-4">eva.milroy@glasgow.ac.uk</div></p>
-        </div>
-
-        <div class="col l3 s12" style="">
-          <h5 class="white-text">Social Media</h5>
-          <ul>
-            <li><a class="white-text" href="http://crichtoninstitute.co.uk/">Main Website</a></li>
-            <li><a class="white-text" href="https://twitter.com/CrichtonInst">Twitter</a></li>
-            <li><a class="white-text" href="https://www.linkedin.com/groups/4835261/profile">LinkedIn</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="#">Team X @ University of Glasgow 2015 / 2016</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal modal-fixed-footer">
-    <div class="modal-content">
-      <h4>Submit a bug report</h4>
-      <div class="row">
-          <form class="col s12">
-            <div class="row">
-              <div class="input-field col s12">
-                <textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
-                <label class="" for="textarea1">What bugs have you encountered?</label>
-              </div>
-            </div>
-	<div class="row">
-              <div class="input-field col s12">
-                <textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
-                <label class="" for="textarea1">What device are you running?</label>
-              </div>
-            </div>
-	<div class="row">
-              <div class="input-field col s12">
-                <textarea style="height: 23px;" id="textarea1" class="materialize-textarea"></textarea>
-                <label class="" for="textarea1">Please provide your name and email</label>
-              </div>
-            </div>
-          </form>
-        </div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
-    </div>
-  </div>
-
-
-
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="../../js/materialize.js"></script>
-  <script src="js/init.js"></script>
-  <script>
-
-  $(document).ready(function(){
-    
-   	$('.modal-trigger').leanModal();
-	$('#bug-report-button').on('click',function(){
-		$('#modal1').openModal();
-	});
-	//$('#textarea1').val('New Text');
-  	$('#textarea1').trigger('autoresize');
-      
-  });
+            $('#file-upload').on( 'change', function() {
+              myfile= $( this ).val();
+              var ext = myfile.split('.').pop();
+              if(ext != "docx" && ext != "" && ext != null) {
+                  alert("Extension ." + ext + " is not supported."
+                          + " This tool does only work with Microsoft Office .docx documents!");
+              }
+            });
+		});
 
 
-</script>
-  </body>
+	</script>
+</body>
 </html>
