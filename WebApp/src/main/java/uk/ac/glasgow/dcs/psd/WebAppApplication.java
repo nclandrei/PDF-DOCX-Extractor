@@ -42,9 +42,26 @@ public class WebAppApplication {
             HttpServletResponse response) throws IOException {
 
         String src = getFileLocation(fileName+".csv");
-        InputStream is = new FileInputStream(src);
-        IOUtils.copy(is, response.getOutputStream());
-        response.flushBuffer();
+
+        File file = new File(src);
+        InputStream is = new FileInputStream(file);
+
+        // MIME type of the file
+        response.setContentType("application/octet-stream");
+        // Response header
+        response.setHeader("Content-Disposition", "attachment; filename=\""
+                + file.getName() + "\"");
+        // Read from the file and write into the response
+        OutputStream os = response.getOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = is.read(buffer)) != -1) {
+            os.write(buffer, 0, len);
+        }
+        os.flush();
+        os.close();
+        is.close();
+
     }
 
     @RequestMapping(value="/uploadFile", method=RequestMethod.POST)
