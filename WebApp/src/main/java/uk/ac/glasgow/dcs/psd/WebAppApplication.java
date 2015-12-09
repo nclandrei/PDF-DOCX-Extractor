@@ -4,6 +4,7 @@ import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
+@Controller
 public class WebAppApplication {
 
     @RequestMapping("/")
@@ -29,11 +31,6 @@ public class WebAppApplication {
         model.put("id", UUID.randomUUID().toString());
         model.put("content", "Hello World!");
         return model;
-    }
-
-    @RequestMapping(value="/uploadFile", method= RequestMethod.GET)
-    String provideUploadInfo() {
-        return "/index.html";
     }
 
     @RequestMapping(value = "/file/{fileID}", method = RequestMethod.GET)

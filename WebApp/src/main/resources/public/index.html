@@ -131,7 +131,6 @@
             <div class="modal-content">
                 <h4>Submit a bug report</h4>
                 <div class="row">
-                        <input name="action" value="submit" type="hidden">
                         <div class="row">
                             <div class="input-field col s12">
                                 <textarea style="height: 23px;" id="bug" name="bug" class="materialize-textarea"></textarea>
@@ -179,6 +178,7 @@
               myfile= $( this ).val();
               var ext = myfile.split('.').pop();
               if(ext != "docx" && ext != "" && ext != null) {
+				  myfile= $( this ).val(null);
                   alert("Extension ." + ext + " is not supported."
                           + " This tool does only work with Microsoft Office .docx documents!");
               }
