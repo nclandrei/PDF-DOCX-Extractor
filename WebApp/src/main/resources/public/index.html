@@ -45,7 +45,7 @@
 				<!--
 				<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">upload file</a>
 				-->
-				<form method="POST" action="uploadFile" enctype="multipart/form-data">
+				<form method="POST" action="uploadFile" id="localUpload" enctype="multipart/form-data">
 					<label class="btn-large waves-effect waves-light orange" type="file" name="fileToUpload" style="font-size:15px;margin-bottom:6px;">
 						Upload file
 						<i class="material-icons right">cloud</i>
@@ -128,7 +128,7 @@
 	</footer>
 	<!-- Modal Structure -->
 	<div id="modal1" class="modal modal-fixed-footer">
-        <form class="col s12" method="POST" action="send-mail" enctype="multipart/form-data">
+        <form class="col s12" method="POST" action="send-mail" id="bug-report" enctype="multipart/form-data">
             <div class="modal-content">
                 <h4>Submit a bug report</h4>
                 <div class="row">
@@ -159,12 +159,13 @@
 		</div>
         </form>
 	</div>
-
+    <div id="spinner"></div>
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="ismo0xlhjk13ve6"></script>
 	<script src="../../js/materialize.js"></script>
 	<script src="js/init.js"></script>
+    <script src="js/spin.min.js"></script>
 	<script>
 
 		$(document).ready(function () {
@@ -185,48 +186,158 @@
                           + " This tool does only work with Microsoft Office .docx documents!");
               }
             });
-		});
 
-        var button = Dropbox.createChooseButton({
-            // Required. Called when a user selects an item in the Chooser.
-            success: function(files) {
+            $('#localUpload').submit(function(e) {
+                e.preventDefault();
+                $('#spinner').spin('default');
+                var formData = new FormData(document.getElementById("localUpload"));
                 $.ajax({
                     type: "POST",
-                    url: "/uploadFileDropbox",
-                    data: { file: files[0].link,
-                            fileName: files[0].name },
+                    url: "/uploadFile",
+                    enctype: 'multipart/form-data',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (result) {
+                        $('#spinner').spin(false);
                         location.href = result;
                     },
                     error: function (e) {
                         alert('Failure ' + e.status);
                     },
                 });
-            },
+            });
 
-            // Optional. Called when the user closes the dialog without selecting a file
-            // and does not include any parameters.
-            cancel: function() {
+            $('#bug-report').submit(function(e) {
+                e.preventDefault();
+                $('#spinner').spin('default');
+                var formData = new FormData(document.getElementById("bug-report"));
+                $.ajax({
+                    type: "POST",
+                    url: "/send-mail",
+                    enctype: 'multipart/form-data',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        $('#spinner').spin(false);
+                        alert(result);
+                    },
+                    error: function (e) {
+                        alert('Failure ' + e.status);
+                    },
+                });
+            });
 
-            },
+            var button = Dropbox.createChooseButton({
+                // Required. Called when a user selects an item in the Chooser.
+                success: function(files) {
+                    $('#spinner').spin('default');
+                    $.ajax({
+                        type: "POST",
+                        url: "/uploadFileDropbox",
+                        data: { file: files[0].link,
+                            fileName: files[0].name },
+                        success: function (result) {
+                            $('#spinner').spin(false);
+                            location.href = result;
+                        },
+                        error: function (e) {
+                            alert('Failure ' + e.status);
+                        },
+                    });
+                },
 
-            // Optional. "preview" (default) is a preview link to the document for sharing,
-            // "direct" is an expiring link to download the contents of the file. For more
-            // information about link types, see Link types below.
-            linkType: "direct", // or "direct"
+                // Optional. Called when the user closes the dialog without selecting a file
+                // and does not include any parameters.
+                cancel: function() {
 
-            // Optional. A value of false (default) limits selection to a single file, while
-            // true enables multiple file selection.
-            multiselect: false, // or true
+                },
 
-            // Optional. This is a list of file extensions. If specified, the user will
-            // only be able to select files with these extensions. You may also specify
-            // file types, such as "video" or "images" in the list. For more information,
-            // see File types below. By default, all extensions are allowed.
-            extensions: ['.docx'],
-        });
+                // Optional. "preview" (default) is a preview link to the document for sharing,
+                // "direct" is an expiring link to download the contents of the file. For more
+                // information about link types, see Link types below.
+                linkType: "direct", // or "direct"
 
-        document.getElementById("dropbox").appendChild(button);
+                // Optional. A value of false (default) limits selection to a single file, while
+                // true enables multiple file selection.
+                multiselect: false, // or true
+
+                // Optional. This is a list of file extensions. If specified, the user will
+                // only be able to select files with these extensions. You may also specify
+                // file types, such as "video" or "images" in the list. For more information,
+                // see File types below. By default, all extensions are allowed.
+                extensions: ['.docx'],
+            });
+
+            document.getElementById("dropbox").appendChild(button);
+
+            // loading spinner
+            ;(function(factory) {
+
+                if (typeof exports == 'object') {
+                    // CommonJS
+                    factory(require('jquery'), require('spin.js'))
+                } else if (typeof define == 'function' && define.amd) {
+                    // AMD, register as anonymous module
+                    define(['jquery', 'spin'], factory)
+                } else {
+                    // Browser globals
+                    if (!window.Spinner) throw new Error('Spin.js not present')
+                    factory(window.jQuery, window.Spinner)
+                }
+
+            }(function($, Spinner) {
+
+                $.fn.spin = function(opts, color) {
+
+                    return this.each(function() {
+                        var $this = $(this)
+                                , data = $this.data()
+
+                        if (data.spinner) {
+                            data.spinner.stop()
+                            delete data.spinner
+                        }
+                        if (opts !== false) {
+                            opts = $.extend(
+                                    { color: color || $this.css('color') }
+                                    , $.fn.spin.presets[opts] || opts
+                            )
+                            data.spinner = new Spinner(opts).spin(this)
+                        }
+                    })
+                }
+
+                $.fn.spin.presets = {
+                    tiny:  { lines:  8, length: 2, width: 2, radius: 3 }
+                    , small: { lines:  8, length: 4, width: 3, radius: 5 }
+                    , large: { lines: 10, length: 8, width: 4, radius: 8 }
+                    , default: {
+                        lines: 13 // The number of lines to draw
+                        , length: 28 // The length of each line
+                        , width: 14 // The line thickness
+                        , radius: 42 // The radius of the inner circle
+                        , scale: 1 // Scales overall size of the spinner
+                        , corners: 1 // Corner roundness (0..1)
+                        , color: '#000' // #rgb or #rrggbb or array of colors
+                        , opacity: 0.25 // Opacity of the lines
+                        , rotate: 0 // The rotation offset
+                        , direction: 1 // 1: clockwise, -1: counterclockwise
+                        , speed: 1 // Rounds per second
+                        , trail: 60 // Afterglow percentage
+                        , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+                        , zIndex: 2e9 // The z-index (defaults to 2000000000)
+                        , className: 'spinner' // The CSS class to assign to the spinner
+                        , top: '50%' // Top position relative to parent
+                        , left: '50%' // Left position relative to parent
+                        , shadow: false // Whether to render a shadow
+                        , hwaccel: false // Whether to use hardware acceleration
+                        , position: 'absolute' // Element positioning
+                    }
+                }
+            }));
+		});
 
 	</script>
 </body>

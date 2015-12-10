@@ -67,6 +67,7 @@ public class WebAppApplication {
     }
 
     @RequestMapping(value="/uploadFile", method=RequestMethod.POST)
+    @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
@@ -83,7 +84,7 @@ public class WebAppApplication {
                 File originalFile = new File(getFileLocation(filename));
                 originalFile.delete();
 
-                return "redirect:/file/"+filename.substring(0,filename.lastIndexOf("."));
+                return "/file/" + filename.substring(0,filename.lastIndexOf("."));
             } catch (Exception e) {
                 return "You failed to upload" + e.getMessage();
             }

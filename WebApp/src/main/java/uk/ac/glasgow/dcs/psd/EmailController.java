@@ -19,8 +19,10 @@ public class EmailController {
                            @RequestParam("name") String name) throws MessagingException {
 		smtpMailSender.send("guteamx.contact@gmail.com", "Bug report on " + device + " by " + name,
                 bug);
-		return "Your message was sent successfully.<br> Do you want to return to "
-                + "<a href=\"/\">Main page?</a>";
+        
+		return "Your message was sent successfully.";
+//		return "Your message was sent successfully.<br> Do you want to return to "
+//                + "<a href=\"/\">Main page?</a>";
 	}
 
 
