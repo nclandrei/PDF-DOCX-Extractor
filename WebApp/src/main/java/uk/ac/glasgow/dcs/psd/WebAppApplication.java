@@ -1,5 +1,6 @@
 package uk.ac.glasgow.dcs.psd;
 
+
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -86,6 +90,27 @@ public class WebAppApplication {
         } else {
             return "You failed to upload because the file was empty.";
         }
+    }
+
+    @RequestMapping(value="/uploadFileDropbox", method=RequestMethod.POST)
+    @ResponseBody
+    public String handleFileUploadDropbox(@RequestParam("file") String file,
+                                          @RequestParam("fileName") String fileName) throws IOException {
+        URL website = new URL(file);
+        ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+        System.out.println(fileName);
+        String inputFileName = getFileLocation(fileName);
+        String outputFileName = inputFileName.substring(0,inputFileName.lastIndexOf("."));
+        FileOutputStream fos = new FileOutputStream(inputFileName);
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        fos.close();
+
+        ExtractDocx.extractTables(inputFileName, outputFileName);
+
+        File originalFile = new File(inputFileName);
+        originalFile.delete();
+
+        return "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
     }
 
     private String getFileLocation(String fileName) {
