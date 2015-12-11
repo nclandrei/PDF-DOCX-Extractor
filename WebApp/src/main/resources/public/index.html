@@ -232,20 +232,26 @@
             var button = Dropbox.createChooseButton({
                 // Required. Called when a user selects an item in the Chooser.
                 success: function(files) {
-                    $('#spinner').spin('default');
-                    $.ajax({
-                        type: "POST",
-                        url: "/uploadFileDropbox",
-                        data: { file: files[0].link,
-                            fileName: files[0].name },
-                        success: function (result) {
-                            $('#spinner').spin(false);
-                            location.href = result;
-                        },
-                        error: function (e) {
-                            alert('Failure ' + e.status);
-                        },
-                    });
+                    if (files[0].bytes <= 26214400) {
+                        $('#spinner').spin('default');
+                        $.ajax({
+                            type: "POST",
+                            url: "/uploadFileDropbox",
+                            data: {
+                                file: files[0].link,
+                                fileName: files[0].name
+                            },
+                            success: function (result) {
+                                $('#spinner').spin(false);
+                                location.href = result;
+                            },
+                            error: function (e) {
+                                alert('Failure ' + e.status);
+                            },
+                        });
+                    } else { alert(files[0].name +
+                            $([files[0].bytes]).map(function(){return " ("+(this/1024/1024).toFixed(2)+" MB)" })[0] +
+                        " is too big! Maximum file size is 25MB.")};
                 },
 
                 // Optional. Called when the user closes the dialog without selecting a file
