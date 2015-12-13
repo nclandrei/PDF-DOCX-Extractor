@@ -12,3 +12,14 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+div#dropZone {
+    background: #ff9800;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    opacity: 0.6;
+    visibility: hidden;
+}
