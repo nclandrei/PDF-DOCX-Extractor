@@ -8,6 +8,8 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/basic.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/dropzone.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<style>
 		input[type="file"] {
 			display: none;
@@ -214,8 +216,16 @@
 
 			// drag and drop
 			new Dropzone(document.body, {
-				url: "/uploadFile",
-				processData: false,
+                url: "/uploadFile",
+                maxFilesize: 25,
+                uploadMultiple: false,
+                maxFiles: 1,
+                acceptedFiles: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                accept: function(file, done) {
+                    $('#spinner').spin('default');
+                    done();
+                },
+                processData: false,
 				contentType: false,
 				previewsContainer: "#previews",
 				success: function (result) {
