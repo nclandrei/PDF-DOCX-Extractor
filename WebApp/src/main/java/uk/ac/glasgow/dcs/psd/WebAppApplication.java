@@ -78,11 +78,23 @@ public class WebAppApplication {
                                 new FileOutputStream(new File(getFileLocation(filename))));
                 stream.write(bytes);
                 stream.close();
-                String outputFileName = getFileLocation(filename.substring(0,filename.lastIndexOf(".")));
 
-                ExtractDocx.extractTables(getFileLocation(filename), outputFileName);
+                String extension = filename.substring(filename.lastIndexOf("."), filename.length());
+                String fileWithoutExtension = getFileLocation(filename.substring(0, filename.lastIndexOf(".")));
+
+
+                if(extension.compareTo(".docx") == 0) {
+                    ExtractDocx.extractTables(getFileLocation(filename), fileWithoutExtension);
+                }
+
+                if(extension.compareTo(".pdf") == 0){
+                    PDFTableExtraction.process(fileWithoutExtension);
+                }
+
+                //delete the original uploaded file
                 File originalFile = new File(getFileLocation(filename));
                 originalFile.delete();
+
 
                 return "/file/" + filename.substring(0,filename.lastIndexOf("."));
             } catch (Exception e) {

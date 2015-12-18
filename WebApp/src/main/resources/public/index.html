@@ -185,11 +185,11 @@
 			$('#file-upload').on('change', function () {
 				var myFile = $(this).val();
 				var ext = myFile.split('.').pop();
-				if (ext != "docx" && ext != "" && ext != null) {
+				if (ext != "docx" && ext != "pdf" && ext != null) {
 					//noinspection JSUnusedAssignment
 					myFile = $(this).val(null);
 					alert("Extension ." + ext + " is not supported."
-							+ " This tool does only work with Microsoft Office .docx documents!");
+							+ " This tool does only work with Microsoft Office .docx and .pdf documents!");
 				}
 			});
 
