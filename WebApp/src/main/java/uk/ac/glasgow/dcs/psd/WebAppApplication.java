@@ -111,14 +111,22 @@ public class WebAppApplication {
                                           @RequestParam("fileName") String fileName) throws IOException {
         URL website = new URL(file);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-        System.out.println(fileName);
         String inputFileName = getFileLocation(fileName);
         String outputFileName = inputFileName.substring(0,inputFileName.lastIndexOf("."));
         FileOutputStream fos = new FileOutputStream(inputFileName);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();
 
-        ExtractDocx.extractTables(inputFileName, outputFileName);
+        String extension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        String fileWithoutExtension = getFileLocation(fileName.substring(0, fileName.lastIndexOf(".")));
+
+        if(extension.compareTo(".docx") == 0) {
+            ExtractDocx.extractTables(getFileLocation(fileName), fileWithoutExtension);
+        }
+
+        if(extension.compareTo(".pdf") == 0){
+            PDFTableExtraction.process(fileWithoutExtension);
+        }
 
         File originalFile = new File(inputFileName);
         originalFile.delete();
