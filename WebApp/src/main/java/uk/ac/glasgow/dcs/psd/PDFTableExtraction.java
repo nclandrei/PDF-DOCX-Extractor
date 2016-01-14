@@ -21,15 +21,16 @@ public class PDFTableExtraction{
         StringBuilder tabulaPath = new StringBuilder();
         int counter = 0;
         for(int i = fileName.length() - 1; i >= 0; i--){
-            if(fileName.charAt(i) == '/'){
+			//ensures functionality on windows and linux
+            if(fileName.charAt(i) == '/' || fileName.charAt(i) == '\\'){
                 counter++;
             }
             if(counter == 4){
-                tabulaPath.append(fileName.substring(0, i));
+                tabulaPath.append(fileName.substring(0, i + 1));
                 break;
             }
         }
-        tabulaPath.append("/Tabula/tabula-0.8.0-jar-with-dependencies.jar ");
+        tabulaPath.append("tabula-0.8.0-jar-with-dependencies.jar ");
 
 
         StringBuilder sb = new StringBuilder();
