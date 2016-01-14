@@ -73,11 +73,15 @@ public class WebAppApplication {
             try {
                 byte[] bytes = file.getBytes();
                 String filename = file.getOriginalFilename();
+                filename = filename.replace(" ", "-");
                 BufferedOutputStream stream =
                         new BufferedOutputStream(
                                 new FileOutputStream(new File(getFileLocation(filename))));
+
                 stream.write(bytes);
                 stream.close();
+
+
 
                 String extension = filename.substring(filename.lastIndexOf("."), filename.length());
                 String fileWithoutExtension = getFileLocation(filename.substring(0, filename.lastIndexOf(".")));
@@ -88,6 +92,7 @@ public class WebAppApplication {
                 }
 
                 if(extension.compareTo(".pdf") == 0){
+                    System.out.printf("FILE: %s\n", fileWithoutExtension);
                     PDFTableExtraction.process(fileWithoutExtension);
                 }
 
