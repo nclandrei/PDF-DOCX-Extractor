@@ -114,6 +114,7 @@ public class WebAppApplication {
     @ResponseBody
     public String handleFileUploadDropbox(@RequestParam("file") String file,
                                           @RequestParam("fileName") String fileName) throws IOException {
+        fileName = fileName.replace(" ", "-");
         URL website = new URL(file);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         String inputFileName = getFileLocation(fileName);
