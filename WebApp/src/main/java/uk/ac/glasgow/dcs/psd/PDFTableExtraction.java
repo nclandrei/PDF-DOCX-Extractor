@@ -20,6 +20,7 @@ public class PDFTableExtraction{
         //finding the relative path to the tabula jar
         StringBuilder tabulaPath = new StringBuilder();
         int counter = 0;
+        tabulaPath.append("\"");
         for(int i = fileName.length() - 1; i >= 0; i--){
 			//ensures functionality on windows and linux
             if(fileName.charAt(i) == '/' || fileName.charAt(i) == '\\'){
@@ -30,13 +31,12 @@ public class PDFTableExtraction{
                 break;
             }
         }
-        tabulaPath.append("tabula-0.8.0-jar-with-dependencies.jar ");
-
+        tabulaPath.append("tabula-0.8.0-jar-with-dependencies.jar\" ");
 
         StringBuilder sb = new StringBuilder();
 		sb.append("java -jar ");
         sb.append(tabulaPath.toString());
-		sb.append(fileName + ".pdf ");
+		sb.append("\"" + fileName + ".pdf\" ");
 		sb.append("-i -pall -r -f JSON");
 
 		try{
@@ -93,7 +93,7 @@ public class PDFTableExtraction{
 			}
 
             //delete the used json
-            File jsonFile = new File(fileName + ".json");
+            File jsonFile = new File("\"" + fileName + ".json\"");
             jsonFile.delete();
 
 		} 
