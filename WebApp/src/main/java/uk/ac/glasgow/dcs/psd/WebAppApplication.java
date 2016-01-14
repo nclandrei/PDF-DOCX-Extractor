@@ -73,7 +73,6 @@ public class WebAppApplication {
             try {
                 byte[] bytes = file.getBytes();
                 String filename = file.getOriginalFilename();
-                filename = filename.replace(" ", "-");
                 BufferedOutputStream stream =
                         new BufferedOutputStream(
                                 new FileOutputStream(new File(getFileLocation(filename))));
@@ -81,18 +80,14 @@ public class WebAppApplication {
                 stream.write(bytes);
                 stream.close();
 
-
-
                 String extension = filename.substring(filename.lastIndexOf("."), filename.length());
                 String fileWithoutExtension = getFileLocation(filename.substring(0, filename.lastIndexOf(".")));
-
 
                 if(extension.compareTo(".docx") == 0) {
                     ExtractDocx.extractTables(getFileLocation(filename), fileWithoutExtension);
                 }
 
                 if(extension.compareTo(".pdf") == 0){
-                    System.out.printf("FILE: %s\n", fileWithoutExtension);
                     PDFTableExtraction.process(fileWithoutExtension);
                 }
 
@@ -114,7 +109,7 @@ public class WebAppApplication {
     @ResponseBody
     public String handleFileUploadDropbox(@RequestParam("file") String file,
                                           @RequestParam("fileName") String fileName) throws IOException {
-        fileName = fileName.replace(" ", "-");
+//        fileName = fileName.replace(" ", "-");
         URL website = new URL(file);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         String inputFileName = getFileLocation(fileName);

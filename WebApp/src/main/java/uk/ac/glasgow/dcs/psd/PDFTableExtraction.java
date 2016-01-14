@@ -33,16 +33,24 @@ public class PDFTableExtraction{
         tabulaPath.append("tabula-0.8.0-jar-with-dependencies.jar ");
 
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("java -jar ");
-        sb.append(tabulaPath.toString());
-        sb.append(fileName + ".pdf ");
-        sb.append("-i -pall -r -f JSON");
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("java -jar ");
+//        sb.append(tabulaPath.toString());
+//        sb.append("\"" + fileName + ".pdf\" ");
+//        sb.append("-i -pall -r -f JSON");
 
         try{
-            Process p = Runtime.getRuntime().exec(sb.toString());
+            Process p = Runtime.getRuntime().exec(new String[] {
+                    "java", "-jar", tabulaPath.toString(), fileName + ".pdf",
+                    "-i", "-pall", "-r", "-f", "JSON" });
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = "";
+            String line;
+//            to see p errors
+//            try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(p.getErrorStream()))) {
+//                while ((line = errorReader.readLine()) != null) {
+//                    System.out.println(line);
+//                }
+//            }
             try (BufferedWriter buffer = new BufferedWriter(new FileWriter( fileName + ".json"))){
                 while ((line = reader.readLine())!= null) {
                     buffer.write(line + "\n");
@@ -55,7 +63,6 @@ public class PDFTableExtraction{
         catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
     public static void processJSON(String fileName) {
