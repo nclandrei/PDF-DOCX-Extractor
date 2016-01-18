@@ -30,7 +30,7 @@ public class PDFTableExtraction{
                 break;
             }
         }
-        tabulaPath.append("tabula-0.8.0-jar-with-dependencies.jar ");
+        tabulaPath.append("tabula-0.8.0-jar-with-dependencies.jar");
 
 
 //        StringBuilder sb = new StringBuilder();
@@ -40,12 +40,20 @@ public class PDFTableExtraction{
 //        sb.append("-i -pall -r -f JSON");
 
         try{
-            Process p = Runtime.getRuntime().exec(new String[] {
-                    "java", "-jar", tabulaPath.toString(), fileName + ".pdf",
-                    "-i", "-pall", "-r", "-f", "JSON" });
+//            fuck this very specific never working exec thing
+//            Process p = Runtime.getRuntime().exec(new String[] {
+//                    "java", "-jar", tabulaPath.toString(), fileName + ".pdf",
+//                    "-i", "-pall", "-r", "-f", "JSON" });
+//            Process p = Runtime.getRuntime().exec(sb.toString());
+
+            // run ProcessBuilder instead
+            ProcessBuilder pb = new ProcessBuilder("java", "-jar",
+                    tabulaPath.toString(), fileName + ".pdf",
+                    "-i", "-pall", "-r", "-f", "JSON"); // jar params to output JSON
+            Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
-//            to see p errors
+//            use to get p errors
 //            try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(p.getErrorStream()))) {
 //                while ((line = errorReader.readLine()) != null) {
 //                    System.out.println(line);
