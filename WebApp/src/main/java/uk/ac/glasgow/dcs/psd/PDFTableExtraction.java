@@ -92,7 +92,7 @@ public class PDFTableExtraction{
                         if (text.compareTo(" ") == 0 || text.compareTo("") == 0 || text.length() > 100) {
                             break;
                         }
-                        sb.append(text + ",");
+                        sb.append("\"" +text + "\",");
                     }
                     if(sb.toString().compareTo("") == 0){
                         continue;
