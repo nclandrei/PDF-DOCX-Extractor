@@ -25,13 +25,12 @@
 			<li><a href="#">About</a></li>
 			<li><a href="#">Team</a></li>
 		</ul>
-		<!--
-              <ul id="nav-mobile" class="side-nav">
-                <li><a href="#">Team</a></li>
-              </ul>
-
-              <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-        -->
+		<ul id="nav-mobile" class="side-nav">
+			<li><a href="#" id="bug-report-button">Submit a bug report</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Team</a></li>
+		</ul>
+		<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 	</div>
 </nav>
 <div class="section no-pad-bot" id="index-banner">
@@ -135,26 +134,26 @@
 			<div class="row">
 				<div class="row">
 					<div class="input-field col s12">
-						<textarea style="height: 23px;" id="bug" name="bug" class="materialize-textarea" required></textarea>
-						<label class="" for="bug">What bugs have you encountered?</label>
+						<textarea style="height: 23px;" id="bug" name="bug" class="materialize-textarea validate" required></textarea>
+						<label class="" for="bug" data-error="wrong">What bugs have you encountered?</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s12">
-						<textarea style="height: 23px;" id="device" name="device" class="materialize-textarea" required></textarea>
+						<textarea style="height: 23px;" id="device" name="device" class="materialize-textarea validate" required></textarea>
 						<label class="" for="device">What device are you running?</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s12">
-						<textarea style="height: 23px;" id="name" name="name" class="materialize-textarea" required></textarea>
+						<textarea style="height: 23px;" id="name" name="name" class="materialize-textarea validate" required></textarea>
 						<label class="" for="name">Please provide your name and email</label>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button class="modal-action modal-close waves-effect waves-green btn-flat" type="submit" name="action" id="bug-report-submit">
+			<button class="waves-effect waves-green btn-flat submit" type="submit" value="Submit" id="bug-report-submit">
 				Submit
 			</button>
 		</div>
@@ -164,21 +163,30 @@
 <div id="spinner"></div>
 <!--  Scripts-->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="ismo0xlhjk13ve6"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
 <script src="js/materialize.js"></script>
 <script src="js/init.js"></script>
 <script src="js/spin.min.js"></script>
 <script src="js/dropzone.min.js"></script>
+<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="ismo0xlhjk13ve6"></script>
+
 <script>
 
 	$(document).ready(function () {
 
 		$('.modal-trigger').leanModal();
+
 		$('#bug-report-button').on('click', function () {
 			$('#modal1').openModal();
 		});
-		//$('#textarea1').val('New Text');
+
 		$('#textarea1').trigger('autoresize');
+
+        $('.button-collapse').sideNav({
+                closeOnClick: true
+            }
+        );
 
 		$('#file-upload').on('change', function () {
 			var myFile = $(this).val();
@@ -187,7 +195,7 @@
 				//noinspection JSUnusedAssignment
 				myFile = $(this).val(null);
 				alert("Extension ." + ext + " is not supported."
-						+ " This tool does only work with Microsoft Office .docx and .pdf documents!");
+						+ " This tool does work with Microsoft Office .docx and .pdf documents only!");
 			}
 		});
 
@@ -236,25 +244,36 @@
 			}
 		});
 
+        $('#bug-report').validate({
+            errorClass: 'invalid',
+            errorPlacement: function (error, element) {
+                element.next("label").attr("data-error", error.contents().text());
+            }
+        });
+
 		$('#bug-report').submit(function (e) {
 			e.preventDefault();
-			$('#spinner').spin('default');
-			var formData = new FormData(document.getElementById("bug-report"));
-			$.ajax({
-				type: "POST",
-				url: "/send-mail",
-				enctype: 'multipart/form-data',
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function (result) {
-					$('#spinner').spin(false);
-					alert(result);
-				},
-				error: function (e) {
-					alert('Failure ' + e.status);
-				}
-			});
+            var isvalidate=$("#bug-report").valid();
+            if(isvalidate) {
+                $('#modal1').closeModal();
+                $('#spinner').spin('default');
+                var formData = new FormData(document.getElementById("bug-report"));
+                $.ajax({
+                    type: "POST",
+                    url: "/send-mail",
+                    enctype: 'multipart/form-data',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        $('#spinner').spin(false);
+                        alert(result);
+                    },
+                    error: function (e) {
+                        alert('Failure ' + e.status);
+                    }
+                });
+            }
 		});
 
 		var button = Dropbox.createChooseButton({
