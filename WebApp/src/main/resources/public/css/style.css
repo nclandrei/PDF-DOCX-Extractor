@@ -47,7 +47,11 @@ color:#58595B;}
 }
 
 .btn-large.waves-effect.waves-light.orange{
-	background: #5B5B5B !important;
+	background: #69728C !important;
+}
+
+#submit-button{
+background: #43495C !important;
 }
 
 .material-icons.right{color:white !important;}
