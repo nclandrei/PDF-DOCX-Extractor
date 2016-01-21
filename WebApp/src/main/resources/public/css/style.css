@@ -23,3 +23,46 @@ div#dropZone {
     opacity: 0.6;
     visibility: hidden;
 }
+
+
+.orange-text, .material-icons{
+
+    color: #1B3A6A !important;
+}
+
+
+
+.light-blue.lighten-1, .orange{
+    //color: #4e914d !important;
+    background: #1B3A6A !important;
+}
+
+.btn-large.waves-effect.waves-light.orange{
+//color: #1B3A6A !important;
+}
+
+.material-icons.right{color:white !important;}
+
+#header-text {
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-style: normal;
+	font-weight: 300;
+	font-size: x-large;
+	color: #27ae60;
+	text-align: left;
+	margin-top: 2%;
+	margin-bottom: -1.5%;
+	margin-left: 4%;
+
+}
+#header-text2 {
+	margin-top: 1.8%;
+	margin-left: 4%;
+	margin-bottom: 0.5%;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	font-size: medium;
+}
+#header-img {
+	float: right;
+}
