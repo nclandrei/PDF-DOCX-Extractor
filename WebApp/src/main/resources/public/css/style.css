@@ -57,6 +57,5 @@ background: #43495C !important;
 .material-icons.right{color:white !important;}
 
 #header-img {
-	//float: right;
 	max-height:64px;
 }
