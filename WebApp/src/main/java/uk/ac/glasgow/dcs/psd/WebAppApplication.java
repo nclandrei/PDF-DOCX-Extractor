@@ -1,6 +1,9 @@
 package uk.ac.glasgow.dcs.psd;
 
 
+import com.google.common.hash.HashCode;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,9 +16,9 @@ import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Date;
 
 @Configuration
 @ComponentScan
@@ -26,15 +29,6 @@ public class WebAppApplication {
     @RequestMapping("/")
     String home() {
         return "/index.html";
-    }
-
-    @RequestMapping("/response")
-    @ResponseBody
-    public Map<String,Object> randomResult() {
-        Map<String,Object> model = new HashMap<>();
-        model.put("id", UUID.randomUUID().toString());
-        model.put("content", "Hello World!");
-        return model;
     }
 
     @RequestMapping(value = "/file/{fileID}", method = RequestMethod.GET)
@@ -63,7 +57,7 @@ public class WebAppApplication {
         os.close();
         is.close();
 
-        file.delete();
+//        file.delete();
     }
 
     @RequestMapping(value="/uploadFile", method=RequestMethod.POST)
@@ -83,6 +77,12 @@ public class WebAppApplication {
                 String extension = filename.substring(filename.lastIndexOf("."), filename.length());
                 String fileWithoutExtension = getFileLocation(filename.substring(0, filename.lastIndexOf(".")));
 
+                File originalFile = new File(getFileLocation(filename));
+
+                String sCurrentLine = getChecksum(filename, originalFile);
+
+                if (sCurrentLine != null) return sCurrentLine;
+
                 if(extension.compareTo(".docx") == 0) {
                     ExtractDocx.extractTables(getFileLocation(filename), fileWithoutExtension);
                 }
@@ -92,7 +92,6 @@ public class WebAppApplication {
                 }
 
                 //delete the original uploaded file
-                File originalFile = new File(getFileLocation(filename));
                 originalFile.delete();
 
 
@@ -105,11 +104,40 @@ public class WebAppApplication {
         }
     }
 
+    private String getChecksum(String filename, File originalFile) throws IOException {
+        HashCode hc = Files.hash(originalFile, Hashing.sha1());
+
+        return checkChecksum(filename, hc);
+    }
+
+    private String checkChecksum(String filename, HashCode hc) {
+        try (BufferedReader br = new BufferedReader(new FileReader("checksums.txt")))
+        {
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                if (sCurrentLine.contains(hc.toString())) {
+                    return "/file/" + sCurrentLine.substring(sCurrentLine.indexOf("FileName:")+9,
+                            sCurrentLine.indexOf(":FileName")).substring(0, filename.lastIndexOf("."));
+                }
+            }
+            addChecksumToFile(filename, hc);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void addChecksumToFile(String filename, HashCode hc) {
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("checksums.txt", true)))) {
+            out.println(hc + " FileName:" + filename + ":FileName " + new Date());
+        }catch (IOException e) {
+        }
+    }
+
     @RequestMapping(value="/uploadFileDropbox", method=RequestMethod.POST)
     @ResponseBody
     public String handleFileUploadDropbox(@RequestParam("file") String file,
                                           @RequestParam("fileName") String fileName) throws IOException {
-//        fileName = fileName.replace(" ", "-");
         URL website = new URL(file);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         String inputFileName = getFileLocation(fileName);
@@ -130,6 +158,10 @@ public class WebAppApplication {
         }
 
         File originalFile = new File(inputFileName);
+        String sCurrentLine = getChecksum(fileName, originalFile);
+
+        if (sCurrentLine != null) return sCurrentLine;
+
         originalFile.delete();
 
         return "/file/" + fileName.substring(0, fileName.lastIndexOf("."));

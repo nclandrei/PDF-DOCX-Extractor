@@ -8,18 +8,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import java.io.*;
 import java.util.LinkedList;
 
-
-/**
- * Created by richy734 on 09/12/15.
- */
 public class ExtractDocx {
-
-    /**
-     * Created by richy734 on 19/11/15.
-     */
-
-
-
     public static void extractTables(String input, String output) {
         LinkedList<LinkedList<String>> tables = getTables(input);
         File outFile = new File(output + ".csv");
