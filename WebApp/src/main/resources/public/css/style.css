@@ -74,6 +74,6 @@ color:#58595B;}
 	font-size: medium;
 }
 #header-img {
-	float: right;
+	//float: right;
 	max-height:64px;
 }
