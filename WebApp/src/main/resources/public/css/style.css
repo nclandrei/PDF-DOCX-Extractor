@@ -43,7 +43,8 @@ div#dropZone {
 
 .material-icons.right{color:white !important;}
 
-#header-text {
+#header-text
+{
 	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
 	font-style: normal;
 	font-weight: 300;
