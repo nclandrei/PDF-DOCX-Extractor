@@ -24,21 +24,30 @@ div#dropZone {
     visibility: hidden;
 }
 
+html{
+color:#58595B;}
 
-.orange-text, .material-icons{
+
+.material-icons{
 
     color: #1B3A6A !important;
 }
 
+.orange-text{
+	color: #4e914d !important;
+}
 
+.orange{
 
-.light-blue.lighten-1, .orange{
-    //color: #4e914d !important;
     background: #1B3A6A !important;
 }
 
-.btn-large.waves-effect.waves-light.orange{
-//color: #1B3A6A !important;
+.light-blue.lighten-1{
+	background: #1C4587 !important;
+}
+
+label.btn-large.waves-effect.waves-light.orange{
+	background: #5B5B5B !important;
 }
 
 .material-icons.right{color:white !important;}
@@ -51,13 +60,13 @@ div#dropZone {
 	font-size: x-large;
 	color: #27ae60;
 	text-align: left;
-	margin-top: 2%;
+
 	margin-bottom: -1.5%;
 	margin-left: 4%;
 
 }
 #header-text2 {
-	margin-top: 1.8%;
+	//margin-top: 1.8%;
 	margin-left: 4%;
 	margin-bottom: 0.5%;
 	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
@@ -66,4 +75,5 @@ div#dropZone {
 }
 #header-img {
 	float: right;
+	max-height:64px;
 }
