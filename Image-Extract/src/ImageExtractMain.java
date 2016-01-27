@@ -56,13 +56,13 @@ public class ImageExtractMain {
                 // writing it on disk and adding it to the list of paths
                 switch (pic.getPictureType()) {
                     case 6:
-                        File pngImage = new File("D:/Desktop/imageFromWord" + i + ".png");
+                        File pngImage = new File(getSrcDirectory() + "imageFromWord" + i + ".png");
                         ImageIO.write(imag, "png", pngImage);
                         srcFiles.add(pngImage.toString());
                         i++;
                         break;
                     case 5:
-                        File jpgImage = new File("D:/Desktop/imageFromWord" + i + ".jpg");
+                        File jpgImage = new File(getSrcDirectory() + "imageFromWord" + i + ".jpg");
                         ImageIO.write(imag, "jpg", jpgImage);
                         srcFiles.add(jpgImage.toString());
                         i++;
@@ -79,13 +79,21 @@ public class ImageExtractMain {
         }
     }
 
+    private static String getSrcDirectory() {
+        String dirPath = System.getProperty("user.dir") + System.getProperty("file.separator")
+                + "extractedFiles" + System.getProperty("file.separator");
+        File dir = new File(dirPath);
+        dir.mkdir();
+        return dirPath;
+    }
+
     public static void addImagesToArchive(List<String> srcFiles) {
         try {
             // initializing the zip archive
             byte[] BUFFER = new byte[1024];
             BufferedInputStream origin = null;
             FileOutputStream dest = new
-                    FileOutputStream("D:/Desktop/imagesArchive.zip");
+                    FileOutputStream(getSrcDirectory() + "imagesArchive.zip");
             ZipOutputStream out = new ZipOutputStream(dest);
             // looping through each image stored, adding it to the zip
             for (String image : srcFiles) {
