@@ -75,7 +75,7 @@ public class PDFTableExtraction{
                         if (text.compareTo(" ") == 0 || text.compareTo("") == 0 || text.length() > 100) {
                             break;
                         }
-                        sb.append("\"" +text + "\",");
+                        sb.append("\"").append(text).append("\",");
                     }
                     if(sb.toString().compareTo("") == 0){
                         continue;
@@ -92,16 +92,10 @@ public class PDFTableExtraction{
 
             //delete the used json
             File jsonFile = new File(fileName + ".json");
+            //noinspection ResultOfMethodCallIgnored
             jsonFile.delete();
 
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }

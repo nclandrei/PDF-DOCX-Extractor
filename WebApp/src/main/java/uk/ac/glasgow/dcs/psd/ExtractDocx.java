@@ -13,10 +13,12 @@ public class ExtractDocx {
         LinkedList<LinkedList<String>> tables = getTables(input);
         File outFile = new File(output + ".csv");
         try {
-            if(!outFile.exists()) outFile.createNewFile();
+            if(!outFile.exists()) //noinspection ResultOfMethodCallIgnored
+                outFile.createNewFile();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(outFile), "utf-8"));
 
+            assert tables != null;
             for(LinkedList<String> table: tables){
                 for(String row: table){
                     writer.write(row);
@@ -25,12 +27,12 @@ public class ExtractDocx {
                 writer.newLine();
             }
             writer.close();
-        }catch(Exception e){}
+        }catch(Exception ignored){}
 
     }
 
     public static LinkedList<LinkedList<String>> getTables(String fileName){
-        XWPFDocument testFile = null;
+        XWPFDocument testFile;
         try {
             testFile = new XWPFDocument(new FileInputStream(fileName));
         } catch (IOException e) {
@@ -42,7 +44,7 @@ public class ExtractDocx {
         LinkedList<LinkedList<String>> results = new LinkedList<>();
         String rowString;
         for(XWPFTable table: testFile.getTables()){
-            results.add(new LinkedList<String>());
+            results.add(new LinkedList<>());
             for(XWPFTableRow row:table.getRows()){
                 results.getLast().add("");
                 for(XWPFTableCell cell: row.getTableCells()){

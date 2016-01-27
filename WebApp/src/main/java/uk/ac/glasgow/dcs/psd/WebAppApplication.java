@@ -1,9 +1,6 @@
 package uk.ac.glasgow.dcs.psd;
 
-
-import com.google.common.hash.HashCode;
-import com.google.common.hash.Hashing;
-import com.google.common.io.Files;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,9 +13,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Date;
 
 @Configuration
 @ComponentScan
@@ -26,10 +20,14 @@ import java.util.Date;
 @Controller
 public class WebAppApplication {
 
+    @Value("${doChecksum}")
+    private boolean doChecksum;
+
+    @Value("${uploadToDropbox}")
+    private boolean uploadToDropbox;
+
     @RequestMapping("/")
-    String home() {
-        return "/index.html";
-    }
+    String home() { return "/index.html"; }
 
     @RequestMapping(value = "/file/{fileID}", method = RequestMethod.GET)
     public void getFile(
@@ -57,7 +55,8 @@ public class WebAppApplication {
         os.close();
         is.close();
 
-//        file.delete();
+        if(!doChecksum) //noinspection ResultOfMethodCallIgnored
+            file.delete();
     }
 
     @RequestMapping(value="/uploadFile", method=RequestMethod.POST)
@@ -66,25 +65,27 @@ public class WebAppApplication {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                String filename = file.getOriginalFilename();
+                String fileName = file.getOriginalFilename();
                 BufferedOutputStream stream =
                         new BufferedOutputStream(
-                                new FileOutputStream(new File(getFileLocation(filename))));
+                                new FileOutputStream(new File(getFileLocation(fileName))));
 
                 stream.write(bytes);
                 stream.close();
 
-                String extension = filename.substring(filename.lastIndexOf("."), filename.length());
-                String fileWithoutExtension = getFileLocation(filename.substring(0, filename.lastIndexOf(".")));
+                String extension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+                String fileWithoutExtension = getFileLocation(fileName.substring(0, fileName.lastIndexOf(".")));
 
-                File originalFile = new File(getFileLocation(filename));
+                File originalFile = new File(getFileLocation(fileName));
 
-                String sCurrentLine = getChecksum(filename, originalFile);
-
-                if (sCurrentLine != null) return sCurrentLine;
+                if (doChecksum) {
+                    String existingFile = ChecksumController.getChecksum(fileName,originalFile,uploadToDropbox);
+                    if (existingFile != null)
+                        return existingFile;
+                }
 
                 if(extension.compareTo(".docx") == 0) {
-                    ExtractDocx.extractTables(getFileLocation(filename), fileWithoutExtension);
+                    ExtractDocx.extractTables(getFileLocation(fileName), fileWithoutExtension);
                 }
 
                 if(extension.compareTo(".pdf") == 0){
@@ -92,45 +93,15 @@ public class WebAppApplication {
                 }
 
                 //delete the original uploaded file
+                //noinspection ResultOfMethodCallIgnored
                 originalFile.delete();
 
-
-                return "/file/" + filename.substring(0,filename.lastIndexOf("."));
+                return "/file/" + fileName.substring(0,fileName.lastIndexOf("."));
             } catch (Exception e) {
                 return "You failed to upload" + e.getMessage();
             }
         } else {
             return "You failed to upload because the file was empty.";
-        }
-    }
-
-    private String getChecksum(String filename, File originalFile) throws IOException {
-        HashCode hc = Files.hash(originalFile, Hashing.sha1());
-
-        return checkChecksum(filename, hc);
-    }
-
-    private String checkChecksum(String filename, HashCode hc) {
-        try (BufferedReader br = new BufferedReader(new FileReader("checksums.txt")))
-        {
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                if (sCurrentLine.contains(hc.toString())) {
-                    return "/file/" + sCurrentLine.substring(sCurrentLine.indexOf("FileName:")+9,
-                            sCurrentLine.indexOf(":FileName")).substring(0, filename.lastIndexOf("."));
-                }
-            }
-            addChecksumToFile(filename, hc);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void addChecksumToFile(String filename, HashCode hc) {
-        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("checksums.txt", true)))) {
-            out.println(hc + " FileName:" + filename + ":FileName " + new Date());
-        }catch (IOException e) {
         }
     }
 
@@ -141,13 +112,19 @@ public class WebAppApplication {
         URL website = new URL(file);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         String inputFileName = getFileLocation(fileName);
-        String outputFileName = inputFileName.substring(0,inputFileName.lastIndexOf("."));
         FileOutputStream fos = new FileOutputStream(inputFileName);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();
 
         String extension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         String fileWithoutExtension = getFileLocation(fileName.substring(0, fileName.lastIndexOf(".")));
+
+        File originalFile = new File(inputFileName);
+        if (doChecksum) {
+            String existingFile = ChecksumController.getChecksum(fileName,originalFile,uploadToDropbox);
+            if (existingFile != null)
+                return existingFile;
+        }
 
         if(extension.compareTo(".docx") == 0) {
             ExtractDocx.extractTables(getFileLocation(fileName), fileWithoutExtension);
@@ -157,11 +134,7 @@ public class WebAppApplication {
             PDFTableExtraction.process(fileWithoutExtension);
         }
 
-        File originalFile = new File(inputFileName);
-        String sCurrentLine = getChecksum(fileName, originalFile);
-
-        if (sCurrentLine != null) return sCurrentLine;
-
+        //noinspection ResultOfMethodCallIgnored
         originalFile.delete();
 
         return "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
