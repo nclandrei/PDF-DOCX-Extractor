@@ -34,6 +34,8 @@ public class ZipMaker {
 			FileOutputStream fos = new FileOutputStream(zipFile);
 
 			ZipOutputStream zos = new ZipOutputStream(fos);
+
+			String zipFolder = "";
 			
 			for (int i=0; i < srcFiles.size(); i++) {
 				
@@ -41,8 +43,13 @@ public class ZipMaker {
 
 				FileInputStream fis = new FileInputStream(srcFile);
 
+				//folder to place the extracted data - change here to place into alternative folders
+				if(srcFile.getName().endsWith(".txt")){
+					zipFolder = "text" + File.separator;
+				}
+
 				// begin writing a new ZIP entry, positions the stream to the start of the entry data
-				zos.putNextEntry(new ZipEntry(srcFile.getName()));
+				zos.putNextEntry(new ZipEntry(zipFolder + srcFile.getName()));
 				
 				int length;
 
