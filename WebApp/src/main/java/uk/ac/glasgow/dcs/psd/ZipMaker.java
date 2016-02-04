@@ -98,11 +98,8 @@ public class ZipMaker {
             if(file.list().length==0){
 
                 file.delete();
-                System.out.println("Directory is deleted : "
-                        + file.getAbsolutePath());
-
-            }else{
-
+            }
+            else{
                 //list all the directory contents
                 String files[] = file.list();
 
@@ -125,7 +122,6 @@ public class ZipMaker {
         }else{
             //if file, then delete it
             file.delete();
-            System.out.println("File is deleted : " + file.getAbsolutePath());
         }
     }
 

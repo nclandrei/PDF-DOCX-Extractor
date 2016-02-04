@@ -129,7 +129,6 @@ public class PDFTableExtraction{
     public static void extractImages (String fileName) {
         try {
             String sourceDir = fileName;// Paste pdf files in PDFCopy folder to read
-            String destinationDir = ".";
             File oldFile = new File(sourceDir);
             if (oldFile.exists()) {
                 PDDocument document = PDDocument.load(sourceDir + ".pdf");
