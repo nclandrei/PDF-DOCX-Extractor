@@ -39,6 +39,7 @@ public class ExtractDocx {
             e.printStackTrace();
         }
 
+        // we start extracting the images and adding them to the zip file
         try {
             //create file inputstream to read from a binary file
             FileInputStream is = new FileInputStream(input);

@@ -74,8 +74,6 @@ public class ImageExtractMain {
                 }
             }
             ZipDir zipper = new ZipDir(getSrcDirectory() + "/images", filesList);
-            zipper.getAllFiles();
-            zipper.writeZipFile();
             // adding images to archive then downloading it on disk
         }
         catch(Exception e) {
