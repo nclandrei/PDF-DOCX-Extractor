@@ -12,6 +12,13 @@ public class PDFTableExtraction{
     public static void process (String  fileName){
         generateJSON(fileName);
         processJSON(fileName);
+        ZipMaker.createZip(fileName);
+        try {
+            ZipMaker.delete(new File(fileName));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public static void generateJSON(String fileName){
@@ -105,7 +112,6 @@ public class PDFTableExtraction{
 
             //delete the used json
             File jsonFile = new File(fileName + ".json");
-            //noinspection ResultOfMethodCallIgnored
             jsonFile.delete();
         }
         catch (Exception e){
