@@ -6,7 +6,6 @@ import java.lang.StringBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class PDFTableExtraction{
 
@@ -58,17 +57,23 @@ public class PDFTableExtraction{
 
     public static void processJSON(String fileName) {
 
+        File outDir = new File(fileName);
+        outDir.mkdir();
+
         JSONParser parser = new JSONParser();
         StringBuilder sb = new StringBuilder();
 
-        try (BufferedWriter buffer = new BufferedWriter(new FileWriter (fileName + ".csv"))){
-            JSONArray array = (JSONArray) parser.parse(new FileReader (fileName + ".json"));
+        try {
+            JSONArray array = (JSONArray) parser.parse(new FileReader(fileName + ".json"));
+            int csvName = 0;
+
             for (Object obj : array) {
                 JSONObject table = (JSONObject) obj;
                 JSONArray cells = (JSONArray) table.get("data");
+
                 for (Object c : cells) {
                     JSONArray cellProperties = (JSONArray) c;
-                    sb = new StringBuilder();
+
                     for (Object p : cellProperties) {
                         JSONObject property = (JSONObject) p;
                         String text = (String) property.get("text");
@@ -77,16 +82,24 @@ public class PDFTableExtraction{
                         }
                         sb.append("\"").append(text).append("\",");
                     }
-                    if(sb.toString().compareTo("") == 0){
+
+                    if (sb.toString().compareTo("") == 0) {
                         continue;
                     }
-
-                    sb.deleteCharAt(sb.length()-1);
-                    buffer.write(sb.toString());
-                    buffer.write("\n");
+                    sb.append("\n");
                 }
-                if(sb.toString().compareTo("") != 0){
-                    buffer.write("\n");
+
+                if(!sb.toString().isEmpty()) {
+                    try (BufferedWriter buffer = new BufferedWriter(new FileWriter(fileName + File.separator + csvName + ".csv"))) {
+                        sb.deleteCharAt(sb.length() - 1);
+                        sb.deleteCharAt(sb.length() - 1);
+                        buffer.write(sb.toString());
+                        csvName++;
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    sb = new StringBuilder();
                 }
             }
 
@@ -94,8 +107,8 @@ public class PDFTableExtraction{
             File jsonFile = new File(fileName + ".json");
             //noinspection ResultOfMethodCallIgnored
             jsonFile.delete();
-
-        } catch (IOException | ParseException e) {
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
