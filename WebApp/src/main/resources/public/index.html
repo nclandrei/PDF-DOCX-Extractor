@@ -76,21 +76,10 @@
 					<i class="material-icons right">cloud</i>
 					<input id="file-upload" type="file" name="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
 				</label>
-				<button class="btn-large waves-effect waves-light orange" id="submit-button" type="submit" name="action" style="font-size:15px;margin-bottom:6px;">
+				<button class="btn-large waves-effect waves-light orange" id="submit-button" type="submit" name="action" style="font-size:15px;margin-bottom:6px;" disabled>
 					Submit
 					<i class="material-icons right">send</i>
 				</button>
-                <!--<div id="modal2" class="modal">-->
-                    <!--<div class="modal-content">-->
-                        <!--<h4>Modal Header</h4>-->
-                        <!--<p>A bunch of text</p>-->
-                    <!--</div>-->
-                    <!--<div class="modal-footer">-->
-                        <!--<a href="#!" class=" modal-close waves-effect waves-light btn">Cancel</a>-->
-                        <!--<a href="#!" class=" modal-action waves-effect waves-light btn orange">Agree</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-
                 <div id="modal2" class="modal modal-fixed-footer">
                     <div class="modal-content">
                         <h4>Before we begin...</h4>
@@ -281,7 +270,10 @@
 				myFile = $(this).val(null);
 				alert("Extension ." + ext + " is not supported."
 						+ " This tool does work with Microsoft Office .docx and .pdf documents only!");
-			}
+                $('#submit-button').attr("disabled", true);
+			} else {
+                $('#submit-button').attr("disabled", false);
+            }
 		});
 
 		$('#localUpload').submit(function (e) {
