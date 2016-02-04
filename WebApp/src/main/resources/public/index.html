@@ -44,12 +44,14 @@
 		<a id="logo-container" href="#" class="brand-logo"><img src="logo.png" alt="" id="header-img"><span style="font-family:'Lato'; position:relative; top:-24px; left:10px; font-weight:900; letter-spacing:-2px;"><span style="color:#333;">Crichton</span> <span style="color:#4F9149;">Institute</span></span></a>
 
 		<ul class="right hide-on-med-and-down">
-			<li><a href="#" id="bug-report-button">Submit a bug report</a></li>
+			<li><!--suppress XmlDuplicatedId -->
+                <a href="#" id="bug-report-button">Submit a bug report</a></li>
 			<li><a href="#">About</a></li>
 			<li><a href="#" id="team-button">Team</a></li>
 		</ul>
 		<ul id="nav-mobile" class="side-nav">
-			<li><a href="#" id="bug-report-button">Submit a bug report</a></li>
+			<li><!--suppress XmlDuplicatedId -->
+                <a href="#" id="bug-report-button">Submit a bug report</a></li>
 			<li><a href="#">About</a></li>
 			<li><a href="#">Team</a></li>
 		</ul>
@@ -78,6 +80,28 @@
 					Submit
 					<i class="material-icons right">send</i>
 				</button>
+                <!--<div id="modal2" class="modal">-->
+                    <!--<div class="modal-content">-->
+                        <!--<h4>Modal Header</h4>-->
+                        <!--<p>A bunch of text</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<a href="#!" class=" modal-close waves-effect waves-light btn">Cancel</a>-->
+                        <!--<a href="#!" class=" modal-action waves-effect waves-light btn orange">Agree</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div id="modal2" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <h4>Before we begin...</h4>
+                        <p>Please note that that .docx extraction is the preferred filetype for this tool</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class=" modal-action modal-close waves-effect waves-light btn">Cancel</a>
+                        <a id="agreeToUpload" href="#!" class=" modal-action modal-close waves-effect waves-light btn orange">Agree</a>
+                    </div>
+                </div>
+
 				<div id="dropbox">Click on "Upload file" or </div>
 			</form>
 		</div>
@@ -257,23 +281,26 @@
 
 		$('#localUpload').submit(function (e) {
 			e.preventDefault();
-			$('#spinner').spin('default');
 			var formData = new FormData(document.getElementById("localUpload"));
-			$.ajax({
-				type: "POST",
-				url: "/uploadFile",
-				enctype: 'multipart/form-data',
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function (result) {
-					$('#spinner').spin(false);
-					location.href = result;
-				},
-				error: function (e) {
-					alert('Failure ' + e.status);
-				}
-			});
+            $('#modal2').openModal();
+            $('#agreeToUpload').on('click', function () {
+                $('#spinner').spin('default');
+                $.ajax({
+                    type: "POST",
+                    url: "/uploadFile",
+                    enctype: 'multipart/form-data',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        $('#spinner').spin(false);
+                        location.href = result;
+                    },
+                    error: function (e) {
+                        alert('Failure ' + e.status);
+                    }
+                });
+            });
 		});
 
 		// drag and drop

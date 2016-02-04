@@ -24,5 +24,6 @@
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" name="Maven: com.dropbox.core:dropbox-core-sdk:2.0-beta-4" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.5.8" level="project" />
   </component>
 </module>
