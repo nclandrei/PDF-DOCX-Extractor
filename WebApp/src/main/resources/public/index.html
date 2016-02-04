@@ -46,7 +46,7 @@
 		<ul class="right hide-on-med-and-down">
 			<li><a href="#" id="bug-report-button">Submit a bug report</a></li>
 			<li><a href="#">About</a></li>
-			<li><a href="#">Team</a></li>
+			<li><a href="#" id="team-button">Team</a></li>
 		</ul>
 		<ul id="nav-mobile" class="side-nav">
 			<li><a href="#" id="bug-report-button">Submit a bug report</a></li>
@@ -182,6 +182,35 @@
 		</div>
 	</form>
 </div>
+<div id="modal3" class="modal">
+	<div class="modal-content">
+		<h4>Team X</h4>
+		<p>University of Glasgow</p>
+		<p style="float:left;">
+			<img src="http://placehold.it/100x100">
+			<span>Edvinas Simkus</span>
+		</p>
+		<p  style="float:left;">
+			<img src="http://placehold.it/100x100">
+			<span>Richard Pearson</span>
+		</p>
+		<p style="float:left;">
+			<img src="http://placehold.it/100x100">
+			<span>Andrei Nicolae</span>
+		</p>
+		<p style="float:left;">
+			<img src="http://placehold.it/100x100">
+			<span>Ivan Kyosev</span>
+		</p>
+		<p style="float:left;">
+			<img src="http://placehold.it/100x100">
+			<span>Ian Denev</span>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+	</div>
+</div>
 <div id="previews" class="dropzone-previews" hidden></div>
 <div id="spinner"></div>
 <!--  Scripts-->
@@ -202,6 +231,10 @@
 
 		$('#bug-report-button').on('click', function () {
 			$('#modal1').openModal();
+		});
+
+		$('#team-button').on('click', function () {
+			$('#modal3').openModal();
 		});
 
 		$('#textarea1').trigger('autoresize');
