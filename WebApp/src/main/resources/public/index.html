@@ -10,8 +10,7 @@
 	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 	<link rel="icon" href="favicon.ico" type="image/x-icon" />
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	--><style>
+	<style>
 		input[type="file"] {
 			display: none;
 		}
@@ -76,7 +75,7 @@
 					<i class="material-icons right">cloud</i>
 					<input id="file-upload" type="file" name="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
 				</label>
-				<button class="btn-large waves-effect waves-light orange" id="submit-button" type="submit" name="action" style="font-size:15px;margin-bottom:6px;" disabled>
+				<button data-target="modal2" class="btn modal-trigger btn-large waves-effect waves-light orange" id="submit-button" style="font-size:15px;margin-bottom:6px;" disabled>
 					Submit
 					<i class="material-icons right">send</i>
 				</button>
@@ -86,8 +85,8 @@
                         <p>Please note that that .docx extraction is the preferred filetype for this tool</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class=" modal-action modal-close waves-effect waves-light btn">Cancel</a>
-                        <a id="agreeToUpload" href="#!" class=" modal-action modal-close waves-effect waves-light btn orange">Agree</a>
+                        <a href="#" class=" modal-action modal-close waves-effect waves-light btn">Cancel</a>
+                        <button id="agreeToUpload" class=" modal-action modal-close waves-effect waves-light btn orange" type="submit" name="action">Agree</button>
                     </div>
                 </div>
 
@@ -217,7 +216,7 @@
 		<div>
 			<img src="http://placehold.it/110x110">
 			<span>Ivan Kyosev</span>
-			<span>Procreation Manager</span>
+			<span>Procedure Manager</span>
 		</div>
 		<div>
 			<img src="http://placehold.it/110x110">
@@ -268,7 +267,7 @@
 			if (ext != "docx" && ext != "pdf" && ext != null) {
 				//noinspection JSUnusedAssignment
 				myFile = $(this).val(null);
-				alert("Extension ." + ext + " is not supported."
+                alert("Extension ." + ext + " is not supported."
 						+ " This tool does work with Microsoft Office .docx and .pdf documents only!");
                 $('#submit-button').attr("disabled", true);
 			} else {
@@ -278,25 +277,23 @@
 
 		$('#localUpload').submit(function (e) {
 			e.preventDefault();
-			var formData = new FormData(document.getElementById("localUpload"));
-            $('#modal2').openModal();
-            $('#agreeToUpload').on('click', function () {
-                $('#spinner').spin('default');
-                $.ajax({
-                    type: "POST",
-                    url: "/uploadFile",
-                    enctype: 'multipart/form-data',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (result) {
-                        $('#spinner').spin(false);
-                        location.href = result;
-                    },
-                    error: function (e) {
-                        alert('Failure ' + e.status);
-                    }
-                });
+            $('#spinner').spin('default');
+            var formData = new FormData(document.getElementById("localUpload"));
+            $.ajax({
+                type: "POST",
+                url: "/uploadFile",
+                enctype: 'multipart/form-data',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    console.log("inside ajax");
+                    $('#spinner').spin(false);
+                    location.href = result;
+                },
+                error: function (e) {
+                    alert('Failure ' + e.status);
+                }
             });
 		});
 
