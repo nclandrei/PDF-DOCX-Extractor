@@ -9,9 +9,11 @@
 .icon-block {
   padding: 0 15px;
 }
+
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
 div#dropZone {
     background: #ff9800;
     position: fixed;
@@ -25,11 +27,10 @@ div#dropZone {
 }
 
 html{
-color:#58595B;}
-
+    color:#58595B;
+}
 
 .material-icons{
-
     color: #5B5B5B !important;
 }
 
@@ -38,7 +39,6 @@ color:#58595B;}
 }
 
 .orange{
-
     background: #1B3A6A !important;
 }
 
@@ -51,10 +51,12 @@ color:#58595B;}
 }
 
 #submit-button{
-//background: #43495C !important;
+    //background: #43495C !important;
 }
 
-.material-icons.right{color:white !important;}
+.material-icons.right{
+    color:white !important;
+}
 
 #header-img {
 	max-height:64px;
