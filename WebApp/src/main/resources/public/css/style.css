@@ -72,3 +72,12 @@ html{
     float:left;
     margin: 0 40px;
 }
+
+#modal3 div div.modal-footer{
+    float:none;
+    margin: none;
+}
+
+#modal3 img {
+    border-radius:100px;
+}
