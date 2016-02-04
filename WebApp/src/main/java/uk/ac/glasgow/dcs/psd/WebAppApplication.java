@@ -34,7 +34,7 @@ public class WebAppApplication {
             @PathVariable("fileID") String fileName,
             HttpServletResponse response) throws IOException {
 
-        String src = getFileLocation(fileName+".csv");
+        String src = getFileLocation(fileName+".zip");
 
         File file = new File(src);
         InputStream is = new FileInputStream(file);

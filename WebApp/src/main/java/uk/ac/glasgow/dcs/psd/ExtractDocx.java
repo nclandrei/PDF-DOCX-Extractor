@@ -11,24 +11,75 @@ import java.util.LinkedList;
 public class ExtractDocx {
     public static void extractTables(String input, String output) {
         LinkedList<LinkedList<String>> tables = getTables(input);
-        File outFile = new File(output + ".csv");
-        try {
-            if(!outFile.exists()) //noinspection ResultOfMethodCallIgnored
-                outFile.createNewFile();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(outFile), "utf-8"));
+        int counter = 0;
+        File directory = new File(output);
 
+        try {
+            directory.mkdir();
             assert tables != null;
             for(LinkedList<String> table: tables){
+                File outFile = new File(output + File.separator + counter + ".csv");
+                if(!outFile.exists()) //noinspection ResultOfMethodCallIgnored
+                    outFile.createNewFile();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(outFile), "utf-8"));
                 for(String row: table){
                     writer.write(row);
                     writer.newLine();
                 }
-                writer.newLine();
+                writer.close();
+                counter++;
             }
-            writer.close();
+
         }catch(Exception ignored){}
 
+        ZipMaker.createZip(output);
+        try{
+            delete(directory);
+        }catch( Exception e){
+            //pass
+        }
+
+    }
+
+    public static void delete(File file)
+            throws IOException{
+
+        if(file.isDirectory()){
+
+            //directory is empty, then delete it
+            if(file.list().length==0){
+
+                file.delete();
+                System.out.println("Directory is deleted : "
+                        + file.getAbsolutePath());
+
+            }else{
+
+                //list all the directory contents
+                String files[] = file.list();
+
+                for (String temp : files) {
+                    //construct the file structure
+                    File fileDelete = new File(file, temp);
+
+                    //recursive delete
+                    delete(fileDelete);
+                }
+
+                //check the directory again, if empty then delete it
+                if(file.list().length==0){
+                    file.delete();
+                    System.out.println("Directory is deleted : "
+                            + file.getAbsolutePath());
+                }
+            }
+
+        }else{
+            //if file, then delete it
+            file.delete();
+            System.out.println("File is deleted : " + file.getAbsolutePath());
+        }
     }
 
     public static LinkedList<LinkedList<String>> getTables(String fileName){
