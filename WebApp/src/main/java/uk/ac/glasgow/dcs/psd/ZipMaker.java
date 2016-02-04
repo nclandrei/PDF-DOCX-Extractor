@@ -27,7 +27,9 @@ public class ZipMaker {
 
         for(int i = 0; i < listOfFiles.length; i++){
             //change this to .csv or other
-            if(listOfFiles[i].getName().endsWith(".csv")){
+            if(listOfFiles[i].getName().endsWith(".csv")
+                    || listOfFiles[i].getName().endsWith(".png")
+                    || listOfFiles[i].getName().endsWith(".jpg")){
                 srcFiles.add(listOfFiles[i]);
             }
         }
@@ -52,6 +54,9 @@ public class ZipMaker {
                 //folder to place the extracted data - change here to place into alternative folders
                 if(srcFile.getName().endsWith(".csv")){
                     zipFolder = "csv" + File.separator;
+                }
+                else if(srcFile.getName().endsWith(".png") || srcFile.getName().endsWith(".jpg")) {
+                    zipFolder = "images" + File.separator;
                 }
 
                 // begin writing a new ZIP entry, positions the stream to the start of the entry data

@@ -85,7 +85,7 @@ public class WebAppApplication {
                 }
 
                 if(extension.compareTo(".docx") == 0) {
-                    ExtractDocx.extractTables(getFileLocation(fileName), fileWithoutExtension);
+                    ExtractDocx.extractTablesAndImages(getFileLocation(fileName), fileWithoutExtension);
                 }
 
                 if(extension.compareTo(".pdf") == 0){
@@ -127,7 +127,7 @@ public class WebAppApplication {
         }
 
         if(extension.compareTo(".docx") == 0) {
-            ExtractDocx.extractTables(getFileLocation(fileName), fileWithoutExtension);
+            ExtractDocx.extractTablesAndImages(getFileLocation(fileName), fileWithoutExtension);
         }
 
         if(extension.compareTo(".pdf") == 0){

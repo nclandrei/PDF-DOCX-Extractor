@@ -1,21 +1,22 @@
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFPictureData;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class ImageExtractMain {
+
     public static void main(String[] args) {
         selectWord();
     }
-
     //allow office word file selection for extracting
     public static void selectWord() {
         JFileChooser chooser = new JFileChooser();
@@ -45,7 +46,8 @@ public class ImageExtractMain {
             //traverse through the list and write each image to a file
             Iterator<XWPFPictureData> iterator=piclist.iterator();
             // list of strings containing the paths to the images
-            List<String> srcFiles = new ArrayList<String>();
+            List<File> filesList = new ArrayList<File>();
+            createDir();
 
             int i=0;
             while(iterator.hasNext()){
@@ -56,23 +58,25 @@ public class ImageExtractMain {
                 // writing it on disk and adding it to the list of paths
                 switch (pic.getPictureType()) {
                     case 6:
-                        File pngImage = new File(getSrcDirectory() + "imageFromWord" + i + ".png");
+                        File pngImage = new File(getSrcDirectory() + "/images/imageFromWord" + i + ".png");
                         ImageIO.write(imag, "png", pngImage);
-                        srcFiles.add(pngImage.toString());
                         i++;
+                        filesList.add(pngImage);
                         break;
                     case 5:
-                        File jpgImage = new File(getSrcDirectory() + "imageFromWord" + i + ".jpg");
+                        File jpgImage = new File(getSrcDirectory() + "/images/imageFromWord" + i + ".jpg");
                         ImageIO.write(imag, "jpg", jpgImage);
-                        srcFiles.add(jpgImage.toString());
                         i++;
+                        filesList.add(jpgImage);
                         break;
                     default:
                         break;
                 }
             }
+            ZipDir zipper = new ZipDir(getSrcDirectory() + "/images", filesList);
+            zipper.getAllFiles();
+            zipper.writeZipFile();
             // adding images to archive then downloading it on disk
-            addImagesToArchive(srcFiles);
         }
         catch(Exception e) {
             System.exit(-1);
@@ -87,30 +91,15 @@ public class ImageExtractMain {
         return dirPath;
     }
 
-    public static void addImagesToArchive(List<String> srcFiles) {
-        try {
-            // initializing the zip archive
-            byte[] BUFFER = new byte[1024];
-            BufferedInputStream origin = null;
-            FileOutputStream dest = new
-                    FileOutputStream(getSrcDirectory() + "imagesArchive.zip");
-            ZipOutputStream out = new ZipOutputStream(dest);
-            // looping through each image stored, adding it to the zip
-            for (String image : srcFiles) {
-                File srcFile = new File(image);
-                FileInputStream fis = new FileInputStream(srcFile);
-                out.putNextEntry(new ZipEntry(srcFile.getName()));
-                int length;
-                while ((length = fis.read(BUFFER)) > 0) {
-                    out.write(BUFFER, 0, length);
-                }
-                out.closeEntry();
-                fis.close();
+    public static void createDir () {
+        File file = new File(getSrcDirectory() + "/images");
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                System.out.println("Dir was created!");
             }
-            out.close();
-        }
-        catch (IOException e) {
-            System.out.println("Error creating zip file: " + e);
+            else {
+                System.out.println("Failed to create dir!");
+            }
         }
     }
 }
