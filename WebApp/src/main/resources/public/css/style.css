@@ -62,3 +62,11 @@ html{
 	max-height:64px;
 	padding: 4px;
 }
+
+#modal3 div p img{
+    display:block;
+
+}
+#modal3 div p span{
+    margin: 0 20px;
+}
