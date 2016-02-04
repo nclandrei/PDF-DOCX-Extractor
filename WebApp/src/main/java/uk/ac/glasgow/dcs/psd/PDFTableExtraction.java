@@ -1,17 +1,23 @@
 package uk.ac.glasgow.dcs.psd;
 
-import java.io.*;
-import java.lang.StringBuilder;
-
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import java.io.*;
+import java.util.List;
+import java.util.Map;
 
 public class PDFTableExtraction{
 
     public static void process (String  fileName){
         generateJSON(fileName);
         processJSON(fileName);
+        extractImages(fileName);
         ZipMaker.createZip(fileName);
         try {
             ZipMaker.delete(new File(fileName));
@@ -97,7 +103,8 @@ public class PDFTableExtraction{
                 }
 
                 if(!sb.toString().isEmpty()) {
-                    try (BufferedWriter buffer = new BufferedWriter(new FileWriter(fileName + File.separator + csvName + ".csv"))) {
+                    try (BufferedWriter buffer = new BufferedWriter(new FileWriter(fileName +
+                            File.separator + "table" + csvName + ".csv"))) {
                         sb.deleteCharAt(sb.length() - 1);
                         sb.deleteCharAt(sb.length() - 1);
                         buffer.write(sb.toString());
@@ -115,6 +122,40 @@ public class PDFTableExtraction{
             jsonFile.delete();
         }
         catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void extractImages (String fileName) {
+        try {
+            String sourceDir = fileName;// Paste pdf files in PDFCopy folder to read
+            String destinationDir = ".";
+            File oldFile = new File(sourceDir);
+            if (oldFile.exists()) {
+                PDDocument document = PDDocument.load(sourceDir + ".pdf");
+
+                List<PDPage> list = document.getDocumentCatalog().getAllPages();
+
+                String imageName = "image";
+                int totalImages = 1;
+                for (PDPage page : list) {
+                    PDResources pdResources = page.getResources();
+
+                    Map pageImages = pdResources.getImages();
+                    if (pageImages != null) {
+
+                        for (Object o : pageImages.keySet()) {
+                            String key = (String) o;
+                            PDXObjectImage pdxObjectImage = (PDXObjectImage) pageImages.get(key);
+                            pdxObjectImage.write2file(fileName + File.separator + imageName + totalImages);
+                            totalImages++;
+                        }
+                    }
+                }
+            } else {
+                System.err.println("File does not exist");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
