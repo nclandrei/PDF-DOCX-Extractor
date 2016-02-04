@@ -63,10 +63,12 @@ html{
 	padding: 4px;
 }
 
-#modal3 div p img{
+#modal3 div div span{
     display:block;
+    text-align:center;
 
 }
-#modal3 div p span{
-    margin: 0 20px;
+#modal3 div div{
+    float:left;
+    margin: 0 40px;
 }
