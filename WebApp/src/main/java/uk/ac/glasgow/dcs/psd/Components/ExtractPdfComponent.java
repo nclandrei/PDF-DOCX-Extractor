@@ -196,8 +196,6 @@ public class ExtractPdfComponent {
                         }
                     }
                 }
-
-                document.close();
             } else {
                 System.err.println("File does not exist");
             }

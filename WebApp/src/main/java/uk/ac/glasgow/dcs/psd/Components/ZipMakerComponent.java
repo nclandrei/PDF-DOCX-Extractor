@@ -102,6 +102,7 @@ public class ZipMakerComponent {
 
             zos.closeEntry();
             fis.close();
+            fos.close();
 
             // close the ZipOutputStream
             zos.close();
