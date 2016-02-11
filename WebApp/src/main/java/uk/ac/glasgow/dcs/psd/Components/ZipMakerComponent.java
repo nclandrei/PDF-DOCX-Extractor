@@ -24,15 +24,14 @@ public class ZipMakerComponent {
     /**
      * Method which creates the archive, args being the name of the zip
      * passed from one of the extractors
-     * @param args
+     *
+     * @param local the name of the folder to be zipped
      */
-    public static void createZip(String args) {
+    public static void createZip(String local) {
 
-        if(args.equals(null)){
+        if(local.equals(null)){
             return;
         }
-
-        String local =  args;
 
         String zipFile = local + ".zip";
 
