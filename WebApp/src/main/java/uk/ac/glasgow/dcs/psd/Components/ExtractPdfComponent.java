@@ -1,4 +1,4 @@
-package uk.ac.glasgow.dcs.psd;
+package uk.ac.glasgow.dcs.psd.Components;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -7,9 +7,9 @@ import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Component;
 import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
 import uk.ac.glasgow.dcs.psd.Components.ZipMakerComponent;
-
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,8 @@ import java.util.Map;
  * both of them is returned.
  */
 
-public class PDFTableExtraction{
+@Component
+public class ExtractPdfComponent {
 
     /**
      * <h1>Extract Tables and Images from a pdf</h1>

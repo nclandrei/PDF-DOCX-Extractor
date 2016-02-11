@@ -1,14 +1,13 @@
 package uk.ac.glasgow.dcs.psd.Controllers;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uk.ac.glasgow.dcs.psd.Components.ChecksumComponent;
 import uk.ac.glasgow.dcs.psd.Components.ExtractDocxComponent;
 import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
-import uk.ac.glasgow.dcs.psd.PDFTableExtraction;
+import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -55,7 +54,7 @@ public class UploadDownloadController {
                 }
 
                 if(extension.compareTo(".pdf") == 0){
-                    PDFTableExtraction.process(fileWithoutExtension);
+                    ExtractPdfComponent.process(fileWithoutExtension);
                 }
 
                 //delete the original uploaded file
@@ -97,7 +96,7 @@ public class UploadDownloadController {
         }
 
         if(extension.compareTo(".pdf") == 0){
-            PDFTableExtraction.process(fileWithoutExtension);
+            ExtractPdfComponent.process(fileWithoutExtension);
         }
 
         //noinspection ResultOfMethodCallIgnored
