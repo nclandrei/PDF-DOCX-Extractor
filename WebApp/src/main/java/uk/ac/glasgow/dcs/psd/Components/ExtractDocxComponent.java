@@ -91,6 +91,7 @@ public class ExtractDocxComponent {
                         break;
                 }
             }
+            is.close();
         }
         catch (IOException e) {
             e.printStackTrace();
