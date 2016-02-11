@@ -69,7 +69,7 @@ html{
 
 }
 #modal3 div div{
-    //float:left;
+    //float:left;64
     //margin: 0 40px;
 }
 
@@ -106,4 +106,16 @@ html{
 
 .button-collapse i {
     color: #333 !important;
+}
+
+nav {height: 64px;}
+
+@media only screen and (max-width: 600px) {
+    #logo-text {
+        display: none;
+    }
+    #header-img{
+        left: 18px;
+        position: relative;
+    }
 }
