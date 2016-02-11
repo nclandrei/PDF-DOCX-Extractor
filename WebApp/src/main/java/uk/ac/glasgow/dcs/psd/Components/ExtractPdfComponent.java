@@ -8,8 +8,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Component;
-import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
-import uk.ac.glasgow.dcs.psd.Components.ZipMakerComponent;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -158,8 +156,7 @@ public class ExtractPdfComponent {
             }
 
             //delete the used json
-            File jsonFile = new File(fileName + ".json");
-            jsonFile.delete();
+            HelperComponent.delete(new File(fileName + ".json"));
         }
         catch (Exception e){
             e.printStackTrace();
