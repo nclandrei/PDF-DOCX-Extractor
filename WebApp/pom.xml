@@ -5,7 +5,7 @@
 
 	<groupId>uk.ac.glasgow.dcs.psd</groupId>
 	<artifactId>WebApp</artifactId>
-	<version>3.0-MILESTONE</version>
+	<version>4.0-MILESTONE</version>
 	<packaging>jar</packaging>
 
 	<name>WebApp</name>
