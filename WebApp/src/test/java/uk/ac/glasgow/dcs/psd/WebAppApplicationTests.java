@@ -13,6 +13,7 @@ public class WebAppApplicationTests {
 
 	@Test
 	public void contextLoads() {
+        assert(true);
 	}
 
 }
