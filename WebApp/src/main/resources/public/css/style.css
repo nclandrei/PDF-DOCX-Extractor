@@ -81,3 +81,8 @@ html{
 #modal3 img {
     border-radius:100px;
 }
+
+.teamAvatar {
+    display: block;
+    margin: auto;
+}
