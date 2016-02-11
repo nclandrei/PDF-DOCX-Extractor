@@ -75,6 +75,20 @@ public class ZipMaker {
 
             }
 
+            // adding the README file explaining to the user
+            // the inside of the archive
+            File readmeFile = new File("./README.txt");
+            FileInputStream fis = new FileInputStream(readmeFile);
+            zos.putNextEntry(new ZipEntry(readmeFile.getName()));
+
+            int length;
+            while ((length = fis.read(buffer)) > 0) {
+                zos.write(buffer, 0, length);
+            }
+
+            zos.closeEntry();
+            fis.close();
+
             // close the ZipOutputStream
             zos.close();
 
@@ -90,16 +104,15 @@ public class ZipMaker {
 
     //delete the original folder
     public static void delete(File file)
-            throws IOException{
+            throws IOException {
 
-        if(file.isDirectory()){
+        if (file.isDirectory()) {
 
             //directory is empty, then delete it
-            if(file.list().length==0){
+            if (file.list().length == 0) {
 
                 file.delete();
-            }
-            else{
+            } else {
                 //list all the directory contents
                 String files[] = file.list();
 
@@ -112,17 +125,16 @@ public class ZipMaker {
                 }
 
                 //check the directory again, if empty then delete it
-                if(file.list().length==0){
+                if (file.list().length == 0) {
                     file.delete();
                     System.out.println("Directory is deleted : "
                             + file.getAbsolutePath());
                 }
             }
 
-        }else{
+        } else {
             //if file, then delete it
             file.delete();
         }
     }
-
 }
