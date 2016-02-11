@@ -69,8 +69,8 @@ html{
 
 }
 #modal3 div div{
-    float:left;
-    margin: 0 40px;
+    //float:left;
+    //margin: 0 40px;
 }
 
 #modal3 div div.modal-footer{
