@@ -90,3 +90,20 @@ html{
 #modal2 h6, #modal2 ol, #modal2 ul{
     text-align:left;
 }
+
+#logo-text{
+    font-family:'Lato';
+    position:relative;
+    top:-24px;
+    //left:10px;
+    font-weight:900;
+    letter-spacing:-2px;
+}
+
+#logo-container .col{
+    padding:0;
+}
+
+.button-collapse i {
+    color: #333 !important;
+}
