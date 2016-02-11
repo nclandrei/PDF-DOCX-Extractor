@@ -11,6 +11,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ExtractDocx {
+
+
+    /**
+     * <h1>Extract Tables and Images from a docx</h1>
+     *
+     * Extracts the tables from a given docx, creates a directory named after "output"
+     * containing two subdirectories named "csv" and "images", containing csvs of all
+     * the tables in the docx, and each of the images found in the docx respectively.
+     *
+     *
+     * @param input the file name for the docx to extract the tables from
+     * @param output the name of the directory that will contain all of the csv's and images
+     */
     public static void extractTablesAndImages (String input, String output) {
         LinkedList<LinkedList<String>> tables = getTables(input);
         int counter = 0;
@@ -41,7 +54,7 @@ public class ExtractDocx {
 
         // we start extracting the images and adding them to the zip file
         try {
-            //create file inputstream to read from a binary file
+            //create file input stream to read from a binary file
             FileInputStream is = new FileInputStream(input);
             //create office word 2007+ document object to wrap the word file
             XWPFDocument docx = new XWPFDocument(is);
@@ -89,10 +102,20 @@ public class ExtractDocx {
         catch( Exception e){
             e.printStackTrace();
         }
-
     }
 
-    public static LinkedList<LinkedList<String>> getTables(String fileName){
+
+    /**
+     * <h1>Get Tables from a docx</h1>
+     * Returns a Linked List of tables from a docx, which are each in turn a Linked
+     * List of rows, each row is a comma-separated String of all the entries in that row.
+     *
+     * @param fileName  the docx file to extract the tables from
+     * @return          a Linked List of rows, which are in turn a Linked List of
+     *                  cells in a table each contains a String
+     * @see             LinkedList
+     */
+    private static LinkedList<LinkedList<String>> getTables(String fileName){
         XWPFDocument testFile;
         try {
             testFile = new XWPFDocument(new FileInputStream(fileName));
@@ -105,19 +128,31 @@ public class ExtractDocx {
         LinkedList<LinkedList<String>> results = new LinkedList<>();
         String rowString;
         for(XWPFTable table: testFile.getTables()){
+            //iterate through each table in the docx
             results.add(new LinkedList<>());
             for(XWPFTableRow row:table.getRows()){
+                //iterate through each row in the table
                 results.getLast().add("");
                 for(XWPFTableCell cell: row.getTableCells()){
+                    //iterate through each cell in the table
                     if(!cell.getText().equals(" ") && !cell.getText().equals("")) {
+                        //if the cell is not empty
+
                         rowString = results.getLast().getLast();
+                        //get the current String for this row
+
                         if(rowString.equals("")){
                             rowString += "\"" + cell.getText() + "\"";
+                            //if this is the first entry in this row, add a "
                         }else{
                             rowString += ",\"" + cell.getText()+"\"";
+                            //otherwise put a comma before the entry, and add
+                            // it to the rowString
                         }
                         if(!rowString.equals("\n"))
                             results.getLast().set(results.getLast().size()-1, rowString);
+                            //if the rowString is not just a newline, update the entry
+                            //in the Linked List of rows
                     }
                 }
             }
