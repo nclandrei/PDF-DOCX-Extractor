@@ -86,3 +86,7 @@ html{
     display: block;
     margin: auto;
 }
+
+#modal2 h6, #modal2 ol, #modal2 ul{
+    text-align:left;
+}
