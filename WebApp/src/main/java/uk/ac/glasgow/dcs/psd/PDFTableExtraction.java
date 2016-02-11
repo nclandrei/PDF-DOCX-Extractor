@@ -14,7 +14,26 @@ import java.io.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class provides an API for extracting information from tables
+ * into CSVs as well as extracting the images.
+ * The CSVs and images are then placed into seperate folders and a zip with
+ * both of them is returned.
+ */
+
 public class PDFTableExtraction{
+
+    /**
+     * <h1>Extract Tables and Images from a pdf</h1>
+     *
+     * The process function combines the functionallity of a number of helper functions
+     * that make use of the Tabula jar to generate a JSON file and convert that into a CSV.
+     * The Image extraction tool is then used to provide all of the images from the pdf.
+     * The resulting CSVs and images are then placed into a zip using the ZipMaker utility
+     * and the original files are deleted.
+     *
+     * @param fileName the file name for the pdf to extract the tables from (without the extension)
+     */
 
     public static void process (String  fileName){
         generateJSON(fileName);
@@ -29,7 +48,16 @@ public class PDFTableExtraction{
         }
     }
 
-    public static void generateJSON(String fileName){
+    /**
+     * <h1>Generates a JSON with the Table data</h1>
+     *
+     * generateJSON makes use of the Tabula jar to generate a JSON file
+     * with all the data from the tables in the PDF
+     *
+     * @param fileName the file name for the pdf to extract the tables from (without the extension)
+     */
+
+    private static void generateJSON(String fileName){
 
         //finding the relative path to the tabula jar
         StringBuilder tabulaPath = new StringBuilder();
@@ -70,7 +98,16 @@ public class PDFTableExtraction{
         }
     }
 
-    public static void processJSON(String fileName) {
+    /**
+     *  <h1>Generates CSVs from a JSON</h1>
+     *
+     *  processJSON makes use of a json file to generate a folder
+     *  of CSVs where each csv holds the extracted information for one table
+     *
+     * @param fileName the file name of the JSON file used for processing (without the extension)
+     */
+
+    private static void processJSON(String fileName) {
 
         File outDir = new File(fileName);
         outDir.mkdir();
@@ -128,7 +165,15 @@ public class PDFTableExtraction{
         }
     }
 
-    public static void extractImages (String fileName) {
+    /**
+     * <h1>Extract images from a pdf document<h1/>
+     *
+     * extarctImages provides the images in a PDF as standalone files
+     *
+     * @param fileName the file name for the pdf to extract the tables from (without the extension)
+     */
+
+    private static void extractImages (String fileName) {
         try {
             String sourceDir = fileName;// Paste pdf files in PDFCopy folder to read
             File oldFile = new File(sourceDir);
