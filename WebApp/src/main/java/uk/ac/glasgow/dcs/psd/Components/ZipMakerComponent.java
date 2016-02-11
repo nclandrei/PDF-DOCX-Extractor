@@ -48,14 +48,11 @@ public class ZipMakerComponent {
             }
         }
 
-        try {
+        try (FileOutputStream fos = new FileOutputStream(zipFile);
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
 
             // create byte buffer
             byte[] buffer = new byte[1024];
-
-            FileOutputStream fos = new FileOutputStream(zipFile);
-
-            ZipOutputStream zos = new ZipOutputStream(fos);
 
             String zipFolder = "";
 
@@ -102,11 +99,6 @@ public class ZipMakerComponent {
 
             zos.closeEntry();
             fis.close();
-            fos.close();
-
-            // close the ZipOutputStream
-            zos.close();
-
         }
         catch (IOException ioe) {
             System.out.println("Error creating zip file: " + ioe);
