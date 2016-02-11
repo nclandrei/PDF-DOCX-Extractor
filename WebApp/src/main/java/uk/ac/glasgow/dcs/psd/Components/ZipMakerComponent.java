@@ -78,6 +78,20 @@ public class ZipMakerComponent {
 
             }
 
+            // adding the README file explaining to the user
+            // the inside of the archive
+            File readmeFile = new File("./README.txt");
+            FileInputStream fis = new FileInputStream(readmeFile);
+            zos.putNextEntry(new ZipEntry(readmeFile.getName()));
+
+            int length;
+            while ((length = fis.read(buffer)) > 0) {
+                zos.write(buffer, 0, length);
+            }
+
+            zos.closeEntry();
+            fis.close();
+
             // close the ZipOutputStream
             zos.close();
 
@@ -88,5 +102,6 @@ public class ZipMakerComponent {
         }
 
         return;
+
     }
 }
