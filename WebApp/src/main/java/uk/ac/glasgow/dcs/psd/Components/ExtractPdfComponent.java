@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * This class provides an API for extracting information from tables
  * into CSVs as well as extracting the images.
- * The CSVs and images are then placed into seperate folders and a zip with
+ * The CSVs and images are then placed into separate folders and a zip with
  * both of them is returned.
  */
 
@@ -25,7 +25,7 @@ public class ExtractPdfComponent {
     /**
      * <h1>Extract Tables and Images from a pdf</h1>
      *
-     * The process function combines the functionallity of a number of helper functions
+     * The process function combines the functionality of a number of helper functions
      * that make use of the Tabula jar to generate a JSON file and convert that into a CSV.
      * The Image extraction tool is then used to provide all of the images from the pdf.
      * The resulting CSVs and images are then placed into a zip using the ZipMaker utility
@@ -166,7 +166,7 @@ public class ExtractPdfComponent {
     /**
      * <h1>Extract images from a pdf document<h1/>
      *
-     * extarctImages provides the images in a PDF as standalone files
+     * extractImages provides the images in a PDF as standalone files
      *
      * @param fileName the file name for the pdf to extract the tables from (without the extension)
      */

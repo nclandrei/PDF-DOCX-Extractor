@@ -4,6 +4,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * Configuration for static content in directories and their sub-directories:
+ * /resources/static/
+ * /resources/public/
+ */
+
 @Configuration
 public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
 

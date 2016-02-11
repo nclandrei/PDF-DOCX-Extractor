@@ -15,11 +15,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+/**
+ * Component for Dropbox integration.
+ * Uploading and getting metadata is allowed.
+ */
+
 @Component
 public class DropboxComponent {
 
+    /**
+     * <h1>Upload file to Dropbox</h1>
+     * Allows to upload a file to Dropbox.
+     * Returns uploaded file id or null if failed to upload.
+     *
+     * @param file          File to upload
+     * @param fileName      filename to upload
+     * @param DropboxPath   path to save to inside dropbox
+     * @return              String ID of the uploaded file or null if failed
+     */
     public static String dropboxUpload(File file, String fileName, String DropboxPath) {
-        String argAuthFile = "dropbox.auth";
+        String argAuthFile = "dropbox.auth";        // path of dropbox authentication token
         String localPath = file.getAbsolutePath();
         String dropboxPath = DropboxPath + fileName;
 
@@ -67,6 +82,14 @@ public class DropboxComponent {
         return metadata.id;
     }
 
+    /**
+     * <h1>Get download link from Dropbox</h1>
+     * @NotYetImplemented
+     * Returns a Dropbox sharable link.
+     *
+     * @param fileName      filename to upload
+     * @return              String link of a file or null if failed
+     */
     private static String dropboxDownload(String fileName) {
         String argAuthFile = "dropbox.auth";
         String filePath = "/Apps/team-project/" + fileName;
