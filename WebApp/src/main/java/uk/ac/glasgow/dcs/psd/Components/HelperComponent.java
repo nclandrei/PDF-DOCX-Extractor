@@ -5,9 +5,16 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Helper class designed to provide util methods to other components
+ */
 @Component
 public class HelperComponent {
-
+    /**
+     * Deletes the directory created with tables, images and README file
+     * @param file
+     * @throws IOException
+     */
     public static void delete(File file)
             throws IOException {
 
@@ -44,6 +51,12 @@ public class HelperComponent {
         }
     }
 
+    /**
+     * Method that returns the full path of a file provided
+     * as a parameter
+     * @param fileName
+     * @return
+     */
     public static String getFileLocation(String fileName) {
         String separator = System.getProperty("file.separator");
         return (System.getProperty("user.dir") + separator) +

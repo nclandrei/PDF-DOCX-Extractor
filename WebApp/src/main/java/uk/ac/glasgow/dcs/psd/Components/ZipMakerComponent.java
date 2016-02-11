@@ -11,9 +11,21 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+
+/**
+ * Class that creates a zip archive containing 2 folders, "csv" and "images",
+ * and a README file explaining to the user what data is inside. It parses all the files
+ * received from one of the PDF or DOCX extractors and adds these entries to the zip.
+ */
+
 @Component
 public class ZipMakerComponent {
 
+    /**
+     * Method which creates the archive, args being the name of the zip
+     * passed from one of the extractors
+     * @param args
+     */
     public static void createZip(String args) {
 
         if(args.equals(null)){
