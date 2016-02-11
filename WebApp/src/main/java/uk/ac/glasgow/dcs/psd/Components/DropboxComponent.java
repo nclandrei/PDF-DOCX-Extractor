@@ -1,4 +1,4 @@
-package uk.ac.glasgow.dcs.psd;
+package uk.ac.glasgow.dcs.psd.Components;
 
 import com.dropbox.core.DbxAuthInfo;
 import com.dropbox.core.DbxException;
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 @Component
-public class DropboxController {
+public class DropboxComponent {
 
     public static String dropboxUpload(File file, String fileName, String DropboxPath) {
         String argAuthFile = "dropbox.auth";

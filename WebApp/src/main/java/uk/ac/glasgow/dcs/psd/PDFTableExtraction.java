@@ -7,6 +7,8 @@ import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
+import uk.ac.glasgow.dcs.psd.Components.ZipMakerComponent;
 
 import java.io.*;
 import java.util.List;
@@ -18,9 +20,9 @@ public class PDFTableExtraction{
         generateJSON(fileName);
         processJSON(fileName);
         extractImages(fileName);
-        ZipMaker.createZip(fileName);
+        ZipMakerComponent.createZip(fileName);
         try {
-            ZipMaker.delete(new File(fileName));
+            HelperComponent.delete(new File(fileName));
         }
         catch(IOException e){
             e.printStackTrace();

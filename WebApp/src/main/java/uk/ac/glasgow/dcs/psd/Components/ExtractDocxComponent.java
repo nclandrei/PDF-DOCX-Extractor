@@ -1,6 +1,7 @@
-package uk.ac.glasgow.dcs.psd;
+package uk.ac.glasgow.dcs.psd.Components;
 
 import org.apache.poi.xwpf.usermodel.*;
+import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -10,7 +11,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ExtractDocx {
+@Component
+public class ExtractDocxComponent {
 
 
     /**
@@ -94,10 +96,10 @@ public class ExtractDocx {
             e.printStackTrace();
         }
 
-        ZipMaker.createZip(output);
+        ZipMakerComponent.createZip(output);
 
         try{
-            ZipMaker.delete(directory);
+            HelperComponent.delete(directory);
         }
         catch( Exception e){
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package uk.ac.glasgow.dcs.psd;
+package uk.ac.glasgow.dcs.psd.Components;
 
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.Date;
 
 @Component
-public class ChecksumController {
+public class ChecksumComponent {
 
     public static String getChecksum(String filename, File originalFile, boolean dropbox) throws IOException {
         HashCode hc = Files.hash(originalFile, Hashing.sha1());
@@ -35,7 +35,7 @@ public class ChecksumController {
 
     private static void addChecksumToFile(File originalFile, String filename, HashCode hc, boolean dropbox) {
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("checksums.txt", true)))) {
-            if (dropbox) out.println(hc + " " + DropboxController.dropboxUpload(originalFile, filename, "/Apps/team-project/") + ":id FileName:"
+            if (dropbox) out.println(hc + " " + DropboxComponent.dropboxUpload(originalFile, filename, "/Apps/team-project/") + ":id FileName:"
                     + filename + ":FileName " + new Date());
             else out.println(hc + " FileName:" + filename + ":FileName " + new Date());
         }catch (IOException ignored) {

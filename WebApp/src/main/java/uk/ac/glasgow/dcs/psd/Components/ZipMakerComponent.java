@@ -1,4 +1,6 @@
-package uk.ac.glasgow.dcs.psd;
+package uk.ac.glasgow.dcs.psd.Components;
+
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +11,8 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class ZipMaker {
+@Component
+public class ZipMakerComponent {
 
     public static void createZip(String args) {
 
@@ -75,20 +78,6 @@ public class ZipMaker {
 
             }
 
-            // adding the README file explaining to the user
-            // the inside of the archive
-            File readmeFile = new File("./README.txt");
-            FileInputStream fis = new FileInputStream(readmeFile);
-            zos.putNextEntry(new ZipEntry(readmeFile.getName()));
-
-            int length;
-            while ((length = fis.read(buffer)) > 0) {
-                zos.write(buffer, 0, length);
-            }
-
-            zos.closeEntry();
-            fis.close();
-
             // close the ZipOutputStream
             zos.close();
 
@@ -99,42 +88,5 @@ public class ZipMaker {
         }
 
         return;
-
-    }
-
-    //delete the original folder
-    public static void delete(File file)
-            throws IOException {
-
-        if (file.isDirectory()) {
-
-            //directory is empty, then delete it
-            if (file.list().length == 0) {
-
-                file.delete();
-            } else {
-                //list all the directory contents
-                String files[] = file.list();
-
-                for (String temp : files) {
-                    //construct the file structure
-                    File fileDelete = new File(file, temp);
-
-                    //recursive delete
-                    delete(fileDelete);
-                }
-
-                //check the directory again, if empty then delete it
-                if (file.list().length == 0) {
-                    file.delete();
-                    System.out.println("Directory is deleted : "
-                            + file.getAbsolutePath());
-                }
-            }
-
-        } else {
-            //if file, then delete it
-            file.delete();
-        }
     }
 }

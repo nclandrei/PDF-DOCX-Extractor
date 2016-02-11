@@ -1,4 +1,4 @@
-package uk.ac.glasgow.dcs.psd;
+package uk.ac.glasgow.dcs.psd.Components;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

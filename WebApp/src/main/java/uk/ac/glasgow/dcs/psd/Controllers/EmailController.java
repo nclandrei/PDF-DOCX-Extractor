@@ -1,9 +1,10 @@
-package uk.ac.glasgow.dcs.psd;
+package uk.ac.glasgow.dcs.psd.Controllers;
 
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import uk.ac.glasgow.dcs.psd.Components.SmtpMailSender;
 
 @RestController
 public class EmailController {
