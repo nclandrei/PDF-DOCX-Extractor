@@ -115,7 +115,8 @@ public class ExtractPdfComponent {
         StringBuilder sb = new StringBuilder();
 
         try {
-            JSONArray array = (JSONArray) parser.parse(new FileReader(fileName + ".json"));
+        	FileReader fr = new FileReader(fileName + ".json");
+            JSONArray array = (JSONArray) parser.parse(fr);
             int csvName = 0;
 
             for (Object obj : array) {
@@ -155,6 +156,7 @@ public class ExtractPdfComponent {
                 }
             }
 
+            fr.close();
             //delete the used json
             HelperComponent.delete(new File(fileName + ".json"));
         }
