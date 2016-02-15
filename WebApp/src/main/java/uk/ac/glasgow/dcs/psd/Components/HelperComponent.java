@@ -49,7 +49,6 @@ public class HelperComponent {
             //if file, then delete it
             file.delete();
         }
-        System.gc();
     }
 
     /**
