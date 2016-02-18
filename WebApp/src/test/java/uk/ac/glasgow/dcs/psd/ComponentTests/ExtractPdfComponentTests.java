@@ -30,6 +30,12 @@ public class ExtractPdfComponentTests {
             cArg[0] = String.class;
             Method processJSON = pdfExtract.getDeclaredMethod("processJSON", cArg);
             processJSON.setAccessible(true);
+
+
+
+
+
+
             assertTrue(true);
         }
         catch (NoSuchMethodException e) {
