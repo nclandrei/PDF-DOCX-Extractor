@@ -8,25 +8,41 @@ import uk.ac.glasgow.dcs.psd.Components.ChecksumComponent;
 import uk.ac.glasgow.dcs.psd.Components.ExtractDocxComponent;
 import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
 import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
+/**
+ * Controller responsible to manage
+ * uploads and downloads from post/get
+ * requests.
+ */
 @Controller
 public class UploadDownloadController {
 
+    /**
+     * Property to indicate whether or not
+     * use checksum method
+     */
     @Value("${doChecksum}")
     private boolean doChecksum;
 
+    /**
+     * Property to indicate whether or not
+     * upload files to dropbox
+     */
     @Value("${uploadToDropbox}")
     private boolean uploadToDropbox;
 
-    @Value("${downloadFromDropbox}")
-    private boolean downloadFromDropbox;
-
+    /**
+     * <h1>Upload file</h1>
+     * Allows to upload files for process
+     *
+     * @param file          file to upload
+     * @return              path to created zip or error
+     */
     @RequestMapping(value="/uploadFile", method= RequestMethod.POST)
     @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile file){
@@ -73,6 +89,14 @@ public class UploadDownloadController {
         }
     }
 
+    /**
+     * <h1>Upload file using Dropbox</h1>
+     * Allows to upload files for process
+     * using Dropbox integration
+     *
+     * @param file          file to upload
+     * @return              path to created zip or error
+     */
     @RequestMapping(value="/uploadFileDropbox", method=RequestMethod.POST)
     @ResponseBody
     public String handleFileUploadDropbox(@RequestParam("file") String file,
@@ -108,6 +132,13 @@ public class UploadDownloadController {
         return "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
     }
 
+    /**
+     * <h1>Download file</h1>
+     * Allows to download processed files
+     *
+     * @param fileName      filename to download
+     * @return              path to file or error
+     */
     @RequestMapping(value = "/file/{fileID}", method = RequestMethod.GET)
     public void getFile(
             @PathVariable("fileID") String fileName,
