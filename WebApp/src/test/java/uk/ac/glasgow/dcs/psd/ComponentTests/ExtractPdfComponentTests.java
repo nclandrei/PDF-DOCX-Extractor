@@ -1,21 +1,21 @@
 package uk.ac.glasgow.dcs.psd.ComponentTests;
 
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.Assert;
+import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
+
+import java.lang.reflect.Method;
+
 
 public class ExtractPdfComponentTests {
 
-    String fileName;
+    Class pdfExtract;
 
     @Before
     public void setUp(){
-        fileName = "TestResources/test.docx";
+        pdfExtract = ExtractPdfComponent.class;
     }
 
 
@@ -24,7 +24,19 @@ public class ExtractPdfComponentTests {
 
 
     @Test
-    public void getTablesTest(){
+    public void generateJSONTest(){
+        try{
+            Class[] cArg = new Class[1];
+            cArg[0] = String.class;
+            Method processJSON = pdfExtract.getDeclaredMethod("processJSON", cArg);
+            processJSON.setAccessible(true);
+            Assert.assertTrue(true);
+        }
+        catch (NoSuchMethodException e) {
+            System.err.println("No such method");
+            e.printStackTrace();
+            System.exit(1);
+        }
 
     }
 }
