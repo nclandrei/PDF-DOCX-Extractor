@@ -37,6 +37,13 @@ public class UploadDownloadController {
     private boolean uploadToDropbox;
 
     /**
+     * Property to indicate whether or not
+     * upload files to dropbox
+     */
+    @Value("${uploadToDropbox}")
+    private boolean downloadFromDropbox;
+
+    /**
      * <h1>Upload file</h1>
      * Allows to upload files for process
      *
