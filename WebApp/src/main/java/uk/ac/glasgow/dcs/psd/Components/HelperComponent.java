@@ -22,7 +22,6 @@ public class HelperComponent {
 
             //directory is empty, then delete it
             if(file.list().length==0){
-
                 file.delete();
             }
             else{

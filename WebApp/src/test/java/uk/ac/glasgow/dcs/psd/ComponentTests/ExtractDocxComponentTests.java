@@ -42,7 +42,6 @@ public class ExtractDocxComponentTests {
 
     @Test
     public void extractTablesTest(){
-        System.out.printf("\n\n\n\n");
         BufferedReader testReader = null;
         BufferedReader zipReader = null;
 
