@@ -75,7 +75,7 @@ public class ExtractPdfComponent {
 
         try{
             // run ProcessBuilder instead
-            ProcessBuilder pb = new ProcessBuilder("java", "-jar",
+            ProcessBuilder pb = new ProcessBuilder("java", "-jar", "-Xms50m", "-Xmx200m", "-XX:+UseParallelGC",
                     tabulaPath.toString(), fileName + ".pdf",
                     "-i", "-pall", "-r", "-f", "JSON"); // jar params to output JSON
             Process p = pb.start();
