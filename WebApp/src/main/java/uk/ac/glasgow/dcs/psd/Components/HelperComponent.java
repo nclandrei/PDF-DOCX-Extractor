@@ -62,4 +62,27 @@ public class HelperComponent {
                 String.format("src%smain%sresources%sstatic%suploads%s%s",
                         separator, separator, separator, separator, separator,fileName);
     }
+
+    /**
+     * Method that recursively searches for a file within a directory.
+     * @param name The name of the file that is being searched for.
+     * @param file The name of the file we are searching inside
+     * @return The absolute path of the searched for file
+     */
+    public static String findFile(String name,File file){
+        String absolutePath = null;
+        File[] list = file.listFiles();
+        if(list!=null) {
+            for (File fil : list) {
+                if (fil.isDirectory()) {
+                    absolutePath = findFile(name, fil);
+                    if(absolutePath != null) break;
+                }
+                else if (name.equals(fil.getName())) {
+                    return fil.getAbsolutePath();
+                }
+            }
+        }
+        return absolutePath;
+    }
 }

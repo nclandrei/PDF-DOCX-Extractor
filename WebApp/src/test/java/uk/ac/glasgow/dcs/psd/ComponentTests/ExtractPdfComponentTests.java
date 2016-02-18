@@ -83,5 +83,20 @@ public class ExtractPdfComponentTests {
 
     }
 
+    @Test
+    public void generateJSONTest(){
+        try{
+            Class[] cArg = new Class[1];
+            cArg[0] = String.class;
+            Method processJSON = pdfExtract.getDeclaredMethod("generateJSON", cArg);
+            processJSON.setAccessible(true);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+    }
+
 
 }
