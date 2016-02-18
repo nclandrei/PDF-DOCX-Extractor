@@ -22,14 +22,17 @@ public class ChecksumComponent {
      *
      * @param filename      file to get checksum of
      * @param originalFile  original File to get checksum of
-     * @param dropbox       option to use dropbox
+     * @param dropboxUpload     option to upload file to dropbox
+     * @param dropboxDownload   option to download file from dropbox
      * @return              String link to download file or null if no file exist
      */
-    public static String getChecksum(String filename, File originalFile,
-                                     boolean dropbox) throws IOException {
+    public static String getChecksum(String filename,
+                                     File originalFile,
+                                     boolean dropboxUpload,
+                                     boolean dropboxDownload) throws IOException {
         HashCode hc = Files.hash(originalFile, Hashing.sha1());
 
-        return checkChecksum(filename, originalFile, hc, dropbox);
+        return checkChecksum(filename, originalFile, hc, dropboxUpload, dropboxDownload);
     }
 
     /**
@@ -39,23 +42,29 @@ public class ChecksumComponent {
      *
      * @param filename      file to get checksum of
      * @param originalFile  original File to get checksum of
-     * @param dropbox       option to use dropbox
+     * @param dropboxUpload     option to upload file to dropbox
+     * @param dropboxDownload   option to download file from dropbox
      * @param hc            hashcode of checksum
      * @return              String link to download file or null if no file exist
      */
     private static String checkChecksum(String filename,
                                         File originalFile,
-                                        HashCode hc, boolean dropbox) {
+                                        HashCode hc,
+                                        boolean dropboxUpload,
+                                        boolean dropboxDownload) {
         try (BufferedReader br = new BufferedReader(new FileReader("checksums.txt")))
         {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 if (sCurrentLine.contains(hc.toString())) {
+                    if(dropboxDownload) {
+                        return DropboxComponent.dropboxDownload(filename);
+                    }
                     return "/file/" + sCurrentLine.substring(sCurrentLine.indexOf("FileName:")+9,
                             sCurrentLine.indexOf(":FileName")).substring(0, filename.lastIndexOf("."));
                 }
             }
-            addChecksumToFile(filename, originalFile, hc, dropbox);
+            addChecksumToFile(filename, originalFile, hc, dropboxUpload);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,16 +76,17 @@ public class ChecksumComponent {
      * If checksum is not in checksums file
      * add it
      *
-     * @param filename      file to get checksum of
-     * @param originalFile  original File to get checksum of
-     * @param dropbox       option to use dropbox
-     * @param hc            hashcode of checksum
+     * @param filename          file to get checksum of
+     * @param originalFile      original File to get checksum of
+     * @param dropboxUpload     option to upload file to dropbox
+     * @param hc                hashcode of checksum
      */
     private static void addChecksumToFile(String filename,
                                           File originalFile,
-                                          HashCode hc, boolean dropbox) {
+                                          HashCode hc,
+                                          boolean dropboxUpload) {
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("checksums.txt", true)))) {
-            if (dropbox) out.println(hc + " " + DropboxComponent.dropboxUpload(originalFile, filename, "/Apps/team-project/") + ":id FileName:"
+            if (dropboxUpload) out.println(hc + " " + DropboxComponent.dropboxUpload(originalFile, filename, "/Apps/team-project/") + ":id FileName:"
                     + filename + ":FileName " + new Date());
             else out.println(hc + " FileName:" + filename + ":FileName " + new Date());
         }catch (IOException ignored) {}

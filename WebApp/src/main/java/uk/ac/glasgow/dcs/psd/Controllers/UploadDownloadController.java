@@ -24,6 +24,9 @@ public class UploadDownloadController {
     @Value("${uploadToDropbox}")
     private boolean uploadToDropbox;
 
+    @Value("${downloadFromDropbox}")
+    private boolean downloadFromDropbox;
+
     @RequestMapping(value="/uploadFile", method= RequestMethod.POST)
     @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile file){
@@ -44,7 +47,7 @@ public class UploadDownloadController {
                 File originalFile = new File(HelperComponent.getFileLocation(fileName));
 
                 if (doChecksum) {
-                    String existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox);
+                    String existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
                     if (existingFile != null)
                         return existingFile;
                 }
@@ -86,7 +89,7 @@ public class UploadDownloadController {
 
         File originalFile = new File(inputFileName);
         if (doChecksum) {
-            String existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox);
+            String existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
             if (existingFile != null)
                 return existingFile;
         }

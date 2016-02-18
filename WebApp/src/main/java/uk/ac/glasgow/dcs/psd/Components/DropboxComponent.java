@@ -4,6 +4,8 @@ import com.dropbox.core.DbxAuthInfo;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.json.JsonReader;
+import com.dropbox.core.v1.DbxClientV1;
+import com.dropbox.core.v1.DbxUrlWithExpiration;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.DbxFiles;
 import com.dropbox.core.v2.DbxPathV2;
@@ -84,13 +86,12 @@ public class DropboxComponent {
 
     /**
      * <h1>Get download link from Dropbox</h1>
-     * @NotYetImplemented
-     * Returns a Dropbox sharable link.
+     * Returns a Dropbox direct link to the file.
      *
-     * @param fileName      filename to upload
+     * @param fileName      filename to download
      * @return              String link of a file or null if failed
      */
-    private static String dropboxDownload(String fileName) {
+    public static String dropboxDownload(String fileName) {
         String argAuthFile = "dropbox.auth";
         String filePath = "/Apps/team-project/" + fileName;
 
@@ -98,20 +99,23 @@ public class DropboxComponent {
         DbxAuthInfo authInfo;
         try {
             authInfo = DbxAuthInfo.Reader.readFromFile(argAuthFile);
-        }
-        catch (JsonReader.FileLoadException ex) {
+        } catch (JsonReader.FileLoadException ex) {
             System.err.println("Error loading <auth-file>: " + ex.getMessage());
             return null;
         }
 
-        // Create a DbxClientV2
+        // Create a DbxClientV1
         String userLocale = Locale.getDefault().toString();
         DbxRequestConfig requestConfig = new DbxRequestConfig("Uploading-csv", userLocale);
-        DbxClientV2 dbxClient = new DbxClientV2(requestConfig, authInfo.accessToken, authInfo.host);
+        DbxClientV1 dbxClient = new DbxClientV1(requestConfig, authInfo.accessToken, authInfo.host);
+        DbxUrlWithExpiration linkDirect = null;
+        try {
+            linkDirect = dbxClient.createTemporaryDirectUrl(filePath);
+        } catch (DbxException e) {
+            e.printStackTrace();
+        }
 
-        DbxSharing.GetSharedLinksArg getSharedLinksArg = new DbxSharing.GetSharedLinksArg(filePath);
-        DbxSharing.CreateSharedLinkArg link = new DbxSharing.CreateSharedLinkArg(filePath, true, DbxSharing.PendingUploadMode.file);
-        return link.toString();
+        return linkDirect.url;
     }
 
 }

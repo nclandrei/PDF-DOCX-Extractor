@@ -11,6 +11,24 @@
 	<name>WebApp</name>
 	<description>PSD Team project Web application for PDF/DOC extraction</description>
 
+    <contributors>
+        <contributor>
+            <name>Andrei Nicolae</name>
+        </contributor>
+        <contributor>
+            <name>Edvinas Simkus</name>
+        </contributor>
+        <contributor>
+            <name>Richard Pearson</name>
+        </contributor>
+        <contributor>
+            <name>Ivan Kyosev</name>
+        </contributor>
+        <contributor>
+            <name>Ian Denev</name>
+        </contributor>
+    </contributors>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -19,6 +37,7 @@
 	</parent>
 
 	<properties>
+		<main.basedir>${basedir}/../..</main.basedir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 	</properties>
@@ -36,22 +55,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>angularjs</artifactId>
-			<version>1.3.8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jasmine</artifactId>
-			<version>2.0.0</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -85,18 +96,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat6-maven-plugin</artifactId>
-                <version>2.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-            </plugin>
 		</plugins>
 	</build>
-	
-
 </project>
