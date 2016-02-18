@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
+web:    java $JAVA_OPTS -Dserver.port=$PORT java_opts="-Xms100m -Xmx450m -XX:+UseParallelGC" -jar target/*.jar
