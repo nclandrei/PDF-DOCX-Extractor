@@ -3,7 +3,7 @@ package uk.ac.glasgow.dcs.psd.ComponentTests;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
 
 import java.lang.reflect.Method;
@@ -30,7 +30,7 @@ public class ExtractPdfComponentTests {
             cArg[0] = String.class;
             Method processJSON = pdfExtract.getDeclaredMethod("processJSON", cArg);
             processJSON.setAccessible(true);
-            Assert.assertTrue(true);
+            assertTrue(true);
         }
         catch (NoSuchMethodException e) {
             System.err.println("No such method");
