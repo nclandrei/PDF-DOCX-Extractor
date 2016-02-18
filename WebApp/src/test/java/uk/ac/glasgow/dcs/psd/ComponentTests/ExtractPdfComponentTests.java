@@ -83,6 +83,7 @@ public class ExtractPdfComponentTests {
 
     }
 
+    /*
     @Test
     public void generateJSONTest(){
         try{
@@ -97,6 +98,6 @@ public class ExtractPdfComponentTests {
         }
 
     }
-
+    */
 
 }
