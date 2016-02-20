@@ -1,5 +1,9 @@
 package uk.ac.glasgow.dcs.psd.Components;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.ParseException;
+import technology.tabula.CommandLineApp;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;
@@ -50,7 +54,7 @@ public class ExtractPdfComponent {
     /**
      * <h1>Generates a JSON with the Table data</h1>
      *
-     * generateJSON makes use of the Tabula jar to generate a JSON file
+     * generateJSON makes use of Tabula to generate a JSON file
      * with all the data from the tables in the PDF
      *
      * @param fileName the file name for the pdf to extract the tables from (without the extension)
@@ -58,43 +62,24 @@ public class ExtractPdfComponent {
 
     private static void generateJSON(String fileName){
 
-        //finding the relative path to the tabula jar
-        StringBuilder tabulaPath = new StringBuilder();
-        int counter = 0;
-        for(int i = fileName.length() - 1; i >= 0; i--){
-            //ensures functionality on windows and linux
-            if(fileName.charAt(i) == '/' || fileName.charAt(i) == '\\'){
-                counter++;
-            }
-            if(counter == 4){
-                tabulaPath.append(fileName.substring(0, i + 1));
-                break;
-            }
-        }
-        tabulaPath.append("tabula-0.8.0-jar-with-dependencies.jar");
+        String pdfFile = fileName + ".pdf";
+        String jsonFile = fileName + ".json";
+        String [] tabulaArgs = {pdfFile, "-i", "-pall", "-r", "-f", "JSON"};
 
-        try{
-            // run ProcessBuilder instead
-            ProcessBuilder pb = new ProcessBuilder("java", "-jar", "-Xms50m", "-Xmx200m", "-XX:+UseParallelGC",
-                    tabulaPath.toString(), fileName + ".pdf",
-                    "-i", "-pall", "-r", "-f", "JSON"); // jar params to output JSON
-            Process p = pb.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
+        GnuParser parser = new GnuParser();
+        try {
+            PrintStream ps = new PrintStream(new File(jsonFile));
+            CommandLine exp = parser.parse(CommandLineApp.buildOptions(), tabulaArgs);
+            if(exp.getArgs().length != 1) {
+                throw new ParseException("Need one filename\nTry --help for help");
+            }
+            (new CommandLineApp(ps)).extractTables(exp);
+            ps.flush();
+            ps.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
 
-            try (BufferedWriter buffer = new BufferedWriter(new FileWriter( fileName + ".json"))){
-                while ((line = reader.readLine())!= null) {
-                    buffer.write(line + "\n");
-                }
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-            p.destroy();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
     /**
