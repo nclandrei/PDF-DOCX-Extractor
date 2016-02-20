@@ -83,21 +83,45 @@ public class ExtractPdfComponentTests {
 
     }
 
-    /*
+
     @Test
     public void generateJSONTest(){
         try{
             Class[] cArg = new Class[1];
             cArg[0] = String.class;
-            Method processJSON = pdfExtract.getDeclaredMethod("generateJSON", cArg);
-            processJSON.setAccessible(true);
+            Method generateJSON = pdfExtract.getDeclaredMethod("generateJSON", cArg);
+            generateJSON.setAccessible(true);
+            generateJSON.invoke(null ,jsonFileWithoutExtension + "0");
         }
         catch(Exception e){
             e.printStackTrace();
             System.exit(1);
         }
 
+        String resultString;
+        String oracleString;
+        boolean comparison = true;
+        try(BufferedReader resultReader = new BufferedReader(new FileReader(jsonFileWithoutExtension + ".json"));
+            BufferedReader oracleReader = new BufferedReader(new FileReader(jsonFileWithoutExtension + "0.json"))){
+
+            while((resultString = resultReader.readLine()) != null && (oracleString = oracleReader.readLine()) != null){
+                if(!resultString.equals(oracleString)){
+                    comparison = false;
+                    break;
+                }
+            }
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+        (new File(jsonFileWithoutExtension + "0.json")).delete();
+
+        assertTrue(comparison);
+
     }
-    */
 
 }
