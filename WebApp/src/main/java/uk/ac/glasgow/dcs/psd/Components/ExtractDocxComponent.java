@@ -53,7 +53,7 @@ public class ExtractDocxComponent {
                 counter++;
             }
 
-        }   catch(Exception e) {
+        }catch(Exception e) {
             e.printStackTrace();
             return;
         }

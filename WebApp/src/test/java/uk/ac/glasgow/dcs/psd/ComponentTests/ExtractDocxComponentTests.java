@@ -17,15 +17,17 @@ public class ExtractDocxComponentTests {
     String fileName;
     String output;
     String testCsv;
+    String directory;
 
     @Before
     public void setUp(){
 
-        String directory = System.getProperty("user.dir");
+        directory = System.getProperty("user.dir");
         directory += "/src/test/java/uk/ac/glasgow/dcs/psd";
         fileName = directory + "/Resources/test.docx";
         output = directory + "/Resources/test";
         testCsv = directory + "/Resources/test.csv";
+
 
     }
 
@@ -85,15 +87,29 @@ public class ExtractDocxComponentTests {
 
 
     @Test
-    public void extractTablesInputDoesNotExistTest(){
+    public void extractTablesInputFileDoesNotExistTest(){
         ExtractDocxComponent.extractTablesAndImages("does/not/exist.docx", output);
         assertFalse((new File(output)).exists());
     }
 
 
     @Test
-    public void extractTablesFileNotFoundExceptionTest(){
-        ExtractDocxComponent.extractTablesAndImages("does/not/exist.docx", output);
-        assertFalse((new File(output)).exists());
+    public void extractTableAndImageTest() {
+        ExtractDocxComponent.extractTablesAndImages(directory+"/Resources/testImage.docx", output);
+        int imageCount = 0;
+        try {
+            ZipFile zip = new ZipFile(output + ".zip");
+            Enumeration<? extends ZipEntry> entries = zip.entries();
+            ZipEntry entry;
+            while (entries.hasMoreElements()) {
+                entry = entries.nextElement();
+                if (entry.getName().endsWith(".png") || entry.getName().endsWith(".jpg")) {
+                    imageCount++;
+                }
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        assertTrue(imageCount==53);
     }
 }
