@@ -110,6 +110,8 @@ public class ExtractDocxComponentTests {
         } catch (IOException e){
             e.printStackTrace();
         }
+        // Magic number, yes it is horrible, but the testImage.docx contains 53 images.
+        // 52 are .png 1 is .jpg
         assertTrue(imageCount==53);
     }
 }
