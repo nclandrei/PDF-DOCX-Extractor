@@ -10,6 +10,9 @@ import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 
 public class ExtractPdfComponentTests {
@@ -18,8 +21,16 @@ public class ExtractPdfComponentTests {
     String directory;
     String jsonFileWithoutExtension;
 
+    private PrintStream originalOut;
+    private ByteArrayOutputStream collectedOut;
+
     @Before
     public void setUp(){
+        //disable System.out to prevent tabula component from doing debug printing
+        originalOut = System.out;
+        collectedOut = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(collectedOut));
+
         pdfExtract = ExtractPdfComponent.class;
         directory = System.getProperty("user.dir");
         directory += "/src/test/java/uk/ac/glasgow/dcs/psd";
@@ -28,7 +39,9 @@ public class ExtractPdfComponentTests {
 
 
     @After
-    public void tearDown(){}
+    public void tearDown(){
+        System.setOut(originalOut);
+    }
 
 
     //uses a sample json to generate a folder with the extracted table
@@ -122,6 +135,52 @@ public class ExtractPdfComponentTests {
 
         assertTrue(comparison);
 
+    }
+
+    @Test
+    public void processTest(){
+        String pdfWithoutExtension = directory + "/Resources/sample70";
+        ExtractPdfComponent.process(pdfWithoutExtension);
+        boolean success = true;
+
+        BufferedReader testReader = null;
+        BufferedReader zipReader = null;
+        try {
+            testReader = new BufferedReader(new FileReader(directory + "/Resources/table0.csv"));
+        }catch (FileNotFoundException e){
+            System.err.printf("table0.csv file was not found\n");
+            e.printStackTrace();
+            assertTrue(false);
+        }
+
+        try {
+            ZipFile zip = new ZipFile(pdfWithoutExtension + ".zip");
+            Enumeration<? extends ZipEntry> entries = zip.entries();
+            while(entries.hasMoreElements()){
+                ZipEntry entry = entries.nextElement();
+                if (entry.getName().endsWith(".csv")) {
+                    zipReader = new BufferedReader(new InputStreamReader(zip.getInputStream(entry)));
+                    String testLine;
+                    while ((testLine = testReader.readLine()) != null) {
+                        String zipLine = zipReader.readLine();
+                        if(!testLine.equals(zipLine)){
+                            success = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            zipReader.close();
+            testReader.close();
+            (new File(pdfWithoutExtension + ".zip")).delete();
+        }
+        catch (IOException e){
+            System.err.printf("Error opening zip file %s\n", pdfWithoutExtension);
+            e.printStackTrace();
+            success = false;
+        }
+
+        assertTrue(success);
     }
 
 }
