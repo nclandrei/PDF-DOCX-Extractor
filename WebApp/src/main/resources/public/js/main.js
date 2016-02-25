@@ -1,5 +1,10 @@
 $(document).ready(function () {
 
+    function testfunct1(){
+        return "Hello world!";
+    }
+
+
     $('.modal-trigger').leanModal();
 
     $('#bug-report-button').on('click', function () {

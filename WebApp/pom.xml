@@ -121,6 +121,10 @@
 						</goals>
 					</execution>
 				</executions>
+				<!-- keep the configuration out of the execution so that the bdd goal has access to it -->
+				<configuration>
+					<!-- configuration properties will go here -->
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
