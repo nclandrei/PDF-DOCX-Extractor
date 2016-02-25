@@ -31,10 +31,14 @@ public class ExtractDocxComponent {
         int counter = 0;
         File directory = new File(output);
 
+        if (tables == null){
+            System.out.printf("ERROR: No Tables found for file: %s\n", input);
+            return;
+        }
+
         // creating the directory and adding all the csv file to the output directory
         try {
             directory.mkdir();
-            assert tables != null;
             for(LinkedList<String> table: tables){
                 File outFile = new File(output + File.separator + "table" + counter + ".csv");
                 if(!outFile.exists()) //noinspection ResultOfMethodCallIgnored
@@ -49,9 +53,9 @@ public class ExtractDocxComponent {
                 counter++;
             }
 
-        }
-        catch(Exception e) {
+        }   catch(Exception e) {
             e.printStackTrace();
+            return;
         }
 
         // we start extracting the images and adding them to the zip file
@@ -95,6 +99,7 @@ public class ExtractDocxComponent {
         }
         catch (IOException e) {
             e.printStackTrace();
+            return;
         }
 
         ZipMakerComponent.createZip(output);
@@ -104,6 +109,7 @@ public class ExtractDocxComponent {
         }
         catch( Exception e){
             e.printStackTrace();
+            return;
         }
     }
 

@@ -82,4 +82,18 @@ public class ExtractDocxComponentTests {
 
 
     }
+
+
+    @Test
+    public void extractTablesInputDoesNotExistTest(){
+        ExtractDocxComponent.extractTablesAndImages("does/not/exist.docx", output);
+        assertFalse((new File(output)).exists());
+    }
+
+
+    @Test
+    public void extractTablesFileNotFoundExceptionTest(){
+        ExtractDocxComponent.extractTablesAndImages("does/not/exist.docx", output);
+        assertFalse((new File(output)).exists());
+    }
 }

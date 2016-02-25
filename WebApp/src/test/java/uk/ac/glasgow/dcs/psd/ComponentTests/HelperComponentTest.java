@@ -105,4 +105,15 @@ public class HelperComponentTest {
         }
         assertFalse(deleteFile.exists());
     }
+
+    @Test
+    public void getFileLocationTest(){
+        String testFileName = ".git plzzz";
+        String actualLocation = System.getProperty("user.dir");
+        actualLocation += "/src/main/resources/static/uploads/.git plzzz";
+
+        assertEquals(actualLocation, HelperComponent.getFileLocation(testFileName));
+
+    }
+
 }
