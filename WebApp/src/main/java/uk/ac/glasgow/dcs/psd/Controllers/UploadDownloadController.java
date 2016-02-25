@@ -1,13 +1,12 @@
 package uk.ac.glasgow.dcs.psd.Controllers;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import uk.ac.glasgow.dcs.psd.Components.ChecksumComponent;
-import uk.ac.glasgow.dcs.psd.Components.ExtractDocxComponent;
-import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
-import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
+import uk.ac.glasgow.dcs.psd.Components.*;
+import uk.ac.glasgow.dcs.psd.Models.DownloadZip;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
@@ -19,7 +18,7 @@ import java.nio.channels.ReadableByteChannel;
  * uploads and downloads from post/get
  * requests.
  */
-@Controller
+@RestController
 public class UploadDownloadController {
 
     /**
@@ -52,7 +51,7 @@ public class UploadDownloadController {
      */
     @RequestMapping(value="/uploadFile", method= RequestMethod.POST)
     @ResponseBody
-    public String handleFileUpload(@RequestParam("file") MultipartFile file){
+    public DownloadZip handleFileUpload(@RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
@@ -72,7 +71,7 @@ public class UploadDownloadController {
                 if (doChecksum) {
                     String existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
                     if (existingFile != null)
-                        return existingFile;
+                        return new DownloadZip(1,null,null,0); // @todo change this
                 }
 
                 if(extension.compareTo(".docx") == 0) {
@@ -87,12 +86,14 @@ public class UploadDownloadController {
                 //noinspection ResultOfMethodCallIgnored
                 originalFile.delete();
 
-                return "/file/" + fileName.substring(0,fileName.lastIndexOf("."));
+                return new DownloadZip(1, "/file/"+fileName.substring(0,fileName.lastIndexOf(".")),null,0);
+//                return "/file/" + fileName.substring(0,fileName.lastIndexOf("."));
             } catch (Exception e) {
-                return "You failed to upload" + e.getMessage();
+                return new DownloadZip(0,null,null,0); // @todo change this
             }
         } else {
-            return "You failed to upload because the file was empty.";
+            return new DownloadZip(0,null,null,0); // @todo change this
+//            return "You failed to upload because the file was empty.";
         }
     }
 

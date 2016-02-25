@@ -70,14 +70,6 @@
     <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:1.8.11" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.8.11" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../Resources/tabula/tabula-0.8.0-jar-with-dependencies.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Maven: uk.ac.glasgow.dcs.psd:tabula:0.8.0" level="project" />
   </component>
 </module>

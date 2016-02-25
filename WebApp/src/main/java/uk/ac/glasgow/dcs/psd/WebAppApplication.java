@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @Configuration
 @ComponentScan(basePackages = {
         "uk.ac.glasgow.dcs.psd.Components",
-        "uk.ac.glasgow.dcs.psd.Controllers"})
+        "uk.ac.glasgow.dcs.psd.Controllers",
+        "uk.ac.glasgow.dcs.psd.Models",})
 @EnableAutoConfiguration
 @Controller
 public class WebAppApplication {
