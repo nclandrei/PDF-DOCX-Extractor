@@ -110,7 +110,8 @@ public class HelperComponentTest {
     public void getFileLocationTest(){
         String testFileName = ".git plzzz";
         String actualLocation = System.getProperty("user.dir");
-        actualLocation += "/src/main/resources/static/uploads/.git plzzz";
+        String seperator = System.getProperty("file.separator");
+        actualLocation += String.format("%ssrc%smain%sresources%sstatic%suploads%s.git plzzz",seperator,seperator,seperator,seperator,seperator,seperator);
 
         assertEquals(actualLocation, HelperComponent.getFileLocation(testFileName));
 
