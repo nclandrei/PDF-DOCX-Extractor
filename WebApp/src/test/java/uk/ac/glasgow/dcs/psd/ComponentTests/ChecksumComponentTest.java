@@ -72,7 +72,7 @@ public class ChecksumComponentTest {
     @Test
     public void getChecksumTest(){
         try {
-            ChecksumComponent.getChecksum(testFile, new File(testFile+".txt"), false, false);
+            ChecksumComponent.getChecksum(testFile+".txt", new File(testFile+".txt"), false, false);
         }catch(IOException e){
             e.printStackTrace();
             System.out.printf("ERROR: File %s not found\n", testFile);
