@@ -20,9 +20,32 @@ public class ExtractPdfComponentTests {
     Class pdfExtract;
     String directory;
     String jsonFileWithoutExtension;
-
     private PrintStream originalOut;
     private ByteArrayOutputStream collectedOut;
+
+    private boolean compareFiles(String file1, String file2){
+
+        String resultString;
+        String oracleString;
+        boolean comparison = true;
+        try(BufferedReader resultReader = new BufferedReader(new FileReader(file1));
+            BufferedReader oracleReader = new BufferedReader(new FileReader(file2))){
+
+            while((resultString = resultReader.readLine()) != null && (oracleString = oracleReader.readLine()) != null){
+                if(!resultString.equals(oracleString)){
+                    comparison = false;
+                    break;
+                }
+            }
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return comparison;
+    }
 
     @Before
     public void setUp(){
@@ -68,25 +91,7 @@ public class ExtractPdfComponentTests {
             System.exit(1);
         }
 
-        String resultString;
-        String oracleString;
-        boolean comparison = true;
-        try(BufferedReader resultReader = new BufferedReader(new FileReader(newJsonLoc + "/table0.csv"));
-            BufferedReader oracleReader = new BufferedReader(new FileReader(directory + "/Resources/table0.csv"))){
-
-            while((resultString = resultReader.readLine()) != null && (oracleString = oracleReader.readLine()) != null){
-                if(!resultString.equals(oracleString)){
-                    comparison = false;
-                    break;
-                }
-            }
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        boolean comparison = compareFiles(newJsonLoc + "/table0.csv", directory + "/Resources/table0.csv");
 
         //delete the newly created files
         (new File(newJsonLoc + "/table0.csv")).delete();
@@ -111,25 +116,7 @@ public class ExtractPdfComponentTests {
             System.exit(1);
         }
 
-        String resultString;
-        String oracleString;
-        boolean comparison = true;
-        try(BufferedReader resultReader = new BufferedReader(new FileReader(jsonFileWithoutExtension + ".json"));
-            BufferedReader oracleReader = new BufferedReader(new FileReader(jsonFileWithoutExtension + "0.json"))){
-
-            while((resultString = resultReader.readLine()) != null && (oracleString = oracleReader.readLine()) != null){
-                if(!resultString.equals(oracleString)){
-                    comparison = false;
-                    break;
-                }
-            }
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        boolean comparison = compareFiles(jsonFileWithoutExtension + ".json", jsonFileWithoutExtension + "0.json");
 
         (new File(jsonFileWithoutExtension + "0.json")).delete();
 
