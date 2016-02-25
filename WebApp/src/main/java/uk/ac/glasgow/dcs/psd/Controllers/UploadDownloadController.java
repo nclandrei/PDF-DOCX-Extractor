@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uk.ac.glasgow.dcs.psd.Components.*;
 import uk.ac.glasgow.dcs.psd.Models.DownloadZip;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;

@@ -36,6 +36,14 @@
 		<relativePath/>
 	</parent>
 
+	<repositories>
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/repo</url>
+		</repository>
+	</repositories>
+
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,11 +98,11 @@
             <artifactId>pdfbox</artifactId>
             <version>1.8.11</version>
         </dependency>
-		<dependency>
-			<groupId>uk.ac.glasgow.dcs.psd</groupId>
-			<artifactId>tabula</artifactId>
+        <dependency>
+            <groupId>uk.ac.glasgow.dcs.psd</groupId>
+            <artifactId>tabula</artifactId>
             <version>0.8.0</version>
-		</dependency>
+        </dependency>
 	</dependencies>
     <build>
 		<plugins>
