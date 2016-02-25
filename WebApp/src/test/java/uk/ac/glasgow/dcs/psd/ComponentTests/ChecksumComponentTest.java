@@ -15,6 +15,9 @@ public class ChecksumComponentTest {
     String directory;
     String checksumsFileName;
     String testFile;
+    String test1Check = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
+    String test2Check = "109f4b3c50d7b0df729d299bc6f8e9ef9066971f";
+    String test3Check = "3ebfa301dc59196f18593c45e519287a23297589";
 
 
     @BeforeClass
@@ -22,14 +25,14 @@ public class ChecksumComponentTest {
         String checksumsFileName = "checksums.txt";
         File oldFile = new File(checksumsFileName);
         File newFile = new File(checksumsFileName+"-saved");
-        System.out.println("Moving checksums.txt file away");
+        System.out.printf("\nMoving checksums.txt file away\n");
 
         oldFile.renameTo(newFile);
     }
 
     @AfterClass
     public static void afterClass(){
-        System.out.println("Moving checksums.txt file back");
+        System.out.printf("\nMoving checksums.txt file back\n");
         String checksumsFileName = "checksums.txt";
         File oldFile = new File(checksumsFileName);
         File newFile = new File(checksumsFileName+"-saved");
@@ -41,7 +44,7 @@ public class ChecksumComponentTest {
     public void setUp(){
         directory = System.getProperty("user.dir");
         checksumsFileName = "checksums.txt";
-        testFile = directory + "/src/test/java/uk/ac/glasgow/dcs/psd/Resources/testChecksum.txt";
+        testFile = directory + "/src/test/java/uk/ac/glasgow/dcs/psd/Resources/testChecksum";
         File checksumsFile = new File(checksumsFileName);
         if(!checksumsFile.exists()){
             try {
@@ -69,7 +72,7 @@ public class ChecksumComponentTest {
     @Test
     public void getChecksumTest(){
         try {
-            ChecksumComponent.getChecksum(testFile, new File(testFile), false, false);
+            ChecksumComponent.getChecksum(testFile, new File(testFile+".txt"), false, false);
         }catch(IOException e){
             e.printStackTrace();
             System.out.printf("ERROR: File %s not found\n", testFile);
@@ -95,11 +98,13 @@ public class ChecksumComponentTest {
 
     }
 
-/*
+
     @Test
-    public void checkChecksumTest(){
+    public void multipleAddChecksumTest(){
         try {
-            ChecksumComponent.getChecksum(testFile, new File(testFile), false, false);
+            ChecksumComponent.getChecksum(testFile+".txt", new File(testFile+".txt"), false, false);
+            ChecksumComponent.getChecksum(testFile+"2.txt", new File(testFile+"2.txt"), false, false);
+            ChecksumComponent.getChecksum(testFile+"3.txt", new File(testFile+"3.txt"), false, false);
         }catch(IOException e){
             e.printStackTrace();
             System.out.printf("ERROR: File %s not found\n", testFile);
@@ -111,8 +116,12 @@ public class ChecksumComponentTest {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File(checksumsFileName)));
             String line = reader.readLine();
-            assertTrue(line.contains("da39a3ee5e6b4b0d3255bfef95601890afd80709"));
-            assertTrue(line.contains(testFile));
+            while(line!=null) {
+                assertTrue(line.contains(test1Check) || line.contains(test2Check) || line.contains(test3Check));
+                assertTrue(line.contains(testFile + ".txt") || line.contains(testFile + "2.txt") ||
+                        line.contains(testFile + "3.txt"));
+                line = reader.readLine();
+            }
 
         }catch(FileNotFoundException e){
             e.printStackTrace();
@@ -124,5 +133,4 @@ public class ChecksumComponentTest {
         }
 
     }
-*/
 }
