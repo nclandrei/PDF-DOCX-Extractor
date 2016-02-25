@@ -44,7 +44,8 @@ public class ChecksumComponentTest {
     public void setUp(){
         directory = System.getProperty("user.dir");
         checksumsFileName = "checksums.txt";
-        testFile = directory + "/src/test/java/uk/ac/glasgow/dcs/psd/Resources/testChecksum";
+        String separator = System.getProperty("file.separator");
+        testFile = directory + String.format("%ssrc%stest%sjava%suk%sac%sglasgow%sdcs%spsd%sResources%stestChecksum",separator,separator,separator,separator,separator,separator,separator,separator,separator,separator);
         File checksumsFile = new File(checksumsFileName);
         if(!checksumsFile.exists()){
             try {
