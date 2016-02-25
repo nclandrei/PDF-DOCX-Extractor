@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
+import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -65,7 +66,6 @@ public class ExtractPdfComponentTests {
     public void tearDown(){
         System.setOut(originalOut);
     }
-
 
     //uses a sample json to generate a folder with the extracted table
     //and compare that against a pre-made table
@@ -165,6 +165,39 @@ public class ExtractPdfComponentTests {
             System.err.printf("Error opening zip file %s\n", pdfWithoutExtension);
             e.printStackTrace();
             success = false;
+        }
+
+        assertTrue(success);
+    }
+
+    @Test
+    public void extractImagesTest(){
+
+        String imageDir = directory + "/Resources/images";
+
+        try {
+            Class[] cArg = new Class[1];
+            cArg[0] = String.class;
+            Method extractImages = pdfExtract.getDeclaredMethod("extractImages", cArg);
+            extractImages.setAccessible(true);
+            extractImages.invoke(null, imageDir);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        File image1 = new File(imageDir + "/image1.png");
+        File image2 = new File(imageDir + "/image2.png");
+        File image3 = new File(imageDir + "/image3.jpg");
+
+        boolean success = image1.exists() && image2.exists() && image3.exists();
+
+        try{
+            HelperComponent.delete(new File(imageDir));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
 
         assertTrue(success);

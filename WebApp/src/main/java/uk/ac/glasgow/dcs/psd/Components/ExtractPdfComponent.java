@@ -160,33 +160,34 @@ public class ExtractPdfComponent {
 
     private static void extractImages (String fileName) {
         try {
-            String sourceDir = fileName;// Paste pdf files in PDFCopy folder to read
-            File oldFile = new File(sourceDir);
-            if (oldFile.exists()) {
-                PDDocument document = PDDocument.load(sourceDir + ".pdf");
+            String sourceDir = fileName;
 
-                List<PDPage> list = document.getDocumentCatalog().getAllPages();
+            //safety for tabula function
+            File outDir = new File(sourceDir);
+            if(!outDir.exists()){
+                outDir.mkdir();
+            }
 
-                String imageName = "image";
-                int totalImages = 1;
-                for (PDPage page : list) {
-                    PDResources pdResources = page.getResources();
+            PDDocument document = PDDocument.load(sourceDir + ".pdf");
+            List<PDPage> list = document.getDocumentCatalog().getAllPages();
 
-                    Map pageImages = pdResources.getImages();
-                    if (pageImages != null) {
+            String imageName = "image";
+            int totalImages = 1;
+            for (PDPage page : list) {
+                PDResources pdResources = page.getResources();
 
-                        for (Object o : pageImages.keySet()) {
-                            String key = (String) o;
-                            PDXObjectImage pdxObjectImage = (PDXObjectImage) pageImages.get(key);
-                            pdxObjectImage.write2file(fileName + File.separator + imageName + totalImages);
-                            totalImages++;
-                        }
+                Map pageImages = pdResources.getImages();
+                if (pageImages != null) {
+
+                    for (Object o : pageImages.keySet()) {
+                        String key = (String) o;
+                        PDXObjectImage pdxObjectImage = (PDXObjectImage) pageImages.get(key);
+                        pdxObjectImage.write2file(fileName + File.separator + imageName + totalImages);
+                        totalImages++;
                     }
                 }
-                document.close();
-            } else {
-                System.err.println("File does not exist");
             }
+            document.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
