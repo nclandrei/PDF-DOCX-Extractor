@@ -29,7 +29,7 @@ public class ZipMakerComponent {
      */
     public static void createZip(String local) {
 
-        if(local.equals(null)){
+        if(local == null) {
             return;
         }
 
