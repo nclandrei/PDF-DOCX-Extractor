@@ -83,6 +83,9 @@ public class ExtractPdfComponentTests {
     @Test
     public void processJSONTest(){
 
+        File workFolder = new File(directory + "/ResourcesTests/");
+        workFolder.mkdir();
+
         String newJsonLoc = directory + "/ResourcesTests/sample7";
         File sourceJson = new File(jsonFileWithoutExtension + ".json");
         File copyJson = new File(directory + "/ResourcesTests/sample7.json");
@@ -107,6 +110,7 @@ public class ExtractPdfComponentTests {
         //delete the newly created files
         (new File(newJsonLoc + "/table0.csv")).delete();
         (new File(newJsonLoc)).delete();
+        workFolder.delete();
 
         assertTrue(comparison && !copyJson.exists());
 
