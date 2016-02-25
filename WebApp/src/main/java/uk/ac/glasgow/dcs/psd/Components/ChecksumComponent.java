@@ -4,6 +4,8 @@ import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import org.springframework.stereotype.Component;
+import uk.ac.glasgow.dcs.psd.Models.DownloadZip;
+
 import java.io.*;
 import java.util.Date;
 
@@ -26,10 +28,10 @@ public class ChecksumComponent {
      * @param dropboxDownload   option to download file from dropbox
      * @return              String link to download file or null if no file exist
      */
-    public static String getChecksum(String filename,
-                                     File originalFile,
-                                     boolean dropboxUpload,
-                                     boolean dropboxDownload) throws IOException {
+    public static DownloadZip getChecksum(String filename,
+                                          File originalFile,
+                                          boolean dropboxUpload,
+                                          boolean dropboxDownload) throws IOException {
         HashCode hc = Files.hash(originalFile, Hashing.sha1());
 
         return checkChecksum(filename, originalFile, hc, dropboxUpload, dropboxDownload);
@@ -47,7 +49,7 @@ public class ChecksumComponent {
      * @param hc            hashcode of checksum
      * @return              String link to download file or null if no file exist
      */
-    private static String checkChecksum(String filename,
+    private static DownloadZip checkChecksum(String filename,
                                         File originalFile,
                                         HashCode hc,
                                         boolean dropboxUpload,
@@ -60,8 +62,9 @@ public class ChecksumComponent {
                     if(dropboxDownload) {
                         return DropboxComponent.dropboxDownload(filename);
                     }
-                    return "/file/" + sCurrentLine.substring(sCurrentLine.indexOf("FileName:")+9,
+                    String href = "/file/" + sCurrentLine.substring(sCurrentLine.indexOf("FileName:")+9,
                             sCurrentLine.indexOf(":FileName")).substring(0, filename.lastIndexOf("."));
+                    return new DownloadZip(1,href,filename,0,"Upload and Conversion was successful");
                 }
             }
             addChecksumToFile(filename, originalFile, hc, dropboxUpload);

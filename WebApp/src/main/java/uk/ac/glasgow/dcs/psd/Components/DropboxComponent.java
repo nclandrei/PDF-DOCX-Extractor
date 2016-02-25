@@ -11,6 +11,8 @@ import com.dropbox.core.v2.DbxFiles;
 import com.dropbox.core.v2.DbxPathV2;
 import com.dropbox.core.v2.DbxSharing;
 import org.springframework.stereotype.Component;
+import uk.ac.glasgow.dcs.psd.Models.DownloadZip;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -91,7 +93,7 @@ public class DropboxComponent {
      * @param fileName      filename to download
      * @return              String link of a file or null if failed
      */
-    public static String dropboxDownload(String fileName) {
+    public static DownloadZip dropboxDownload(String fileName) {
         String argAuthFile = "dropbox.auth";
         String filePath = "/Apps/team-project/" + fileName;
 
@@ -115,7 +117,7 @@ public class DropboxComponent {
             e.printStackTrace();
         }
 
-        return linkDirect.url;
+        return new DownloadZip(1,linkDirect.url,fileName,0,"Upload and Conversion was successful");
     }
 
 }

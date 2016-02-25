@@ -67,9 +67,9 @@ public class UploadDownloadController {
                 File originalFile = new File(HelperComponent.getFileLocation(fileName));
 
                 if (doChecksum) {
-                    String existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
+                    DownloadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
                     if (existingFile != null)
-                        return new DownloadZip(1,null,null,0); // @todo change this
+                        return existingFile;
                 }
 
                 if(extension.compareTo(".docx") == 0) {
@@ -82,15 +82,16 @@ public class UploadDownloadController {
 
                 //delete the original uploaded file
                 //noinspection ResultOfMethodCallIgnored
-                originalFile.delete();
+                HelperComponent.delete(originalFile);
 
-                return new DownloadZip(1, "/file/"+fileName.substring(0,fileName.lastIndexOf(".")),null,0);
+                String href = "/file/"+fileName.substring(0,fileName.lastIndexOf("."));
+                return new DownloadZip(1, href, fileName,0, "Upload and Conversion was successful");
 //                return "/file/" + fileName.substring(0,fileName.lastIndexOf("."));
             } catch (Exception e) {
-                return new DownloadZip(0,null,null,0); // @todo change this
+                return new DownloadZip(0,null,null,0,"Upload and Conversion was not successful"); // @todo change this
             }
         } else {
-            return new DownloadZip(0,null,null,0); // @todo change this
+            return new DownloadZip(0,null,null,0, "Upload and Conversion was not successful"); // @todo change this
 //            return "You failed to upload because the file was empty.";
         }
     }
@@ -105,37 +106,42 @@ public class UploadDownloadController {
      */
     @RequestMapping(value="/uploadFileDropbox", method=RequestMethod.POST)
     @ResponseBody
-    public String handleFileUploadDropbox(@RequestParam("file") String file,
+    public DownloadZip handleFileUploadDropbox(@RequestParam("file") String file,
                                           @RequestParam("fileName") String fileName) throws IOException {
-        URL website = new URL(file);
-        ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-        String inputFileName = HelperComponent.getFileLocation(fileName);
-        FileOutputStream fos = new FileOutputStream(inputFileName);
-        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-        fos.close();
+        try {
+            URL website = new URL(file);
+            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+            String inputFileName = HelperComponent.getFileLocation(fileName);
+            FileOutputStream fos = new FileOutputStream(inputFileName);
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            fos.close();
 
-        String extension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        String fileWithoutExtension = HelperComponent.getFileLocation(fileName.substring(0, fileName.lastIndexOf(".")));
+            String extension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+            String fileWithoutExtension = HelperComponent.getFileLocation(fileName.substring(0, fileName.lastIndexOf(".")));
 
-        File originalFile = new File(inputFileName);
-        if (doChecksum) {
-            String existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
-            if (existingFile != null)
-                return existingFile;
+            File originalFile = new File(inputFileName);
+            if (doChecksum) {
+                DownloadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
+                if (existingFile != null)
+                    return existingFile;
+            }
+
+            if(extension.compareTo(".docx") == 0) {
+                ExtractDocxComponent.extractTablesAndImages(HelperComponent.getFileLocation(fileName), fileWithoutExtension);
+            }
+
+            if(extension.compareTo(".pdf") == 0){
+                ExtractPdfComponent.process(fileWithoutExtension);
+            }
+
+            //noinspection ResultOfMethodCallIgnored
+            originalFile.delete();
+            String href = "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
+
+            return new DownloadZip(1, href, fileName,0, "Upload and Conversion was successful");
+        } catch (Exception e) {
+            return new DownloadZip(0, null, null, 0, "Upload and Conversion was not successful"); // @todo change this
         }
-
-        if(extension.compareTo(".docx") == 0) {
-            ExtractDocxComponent.extractTablesAndImages(HelperComponent.getFileLocation(fileName), fileWithoutExtension);
-        }
-
-        if(extension.compareTo(".pdf") == 0){
-            ExtractPdfComponent.process(fileWithoutExtension);
-        }
-
-        //noinspection ResultOfMethodCallIgnored
-        originalFile.delete();
-
-        return "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
     }
 
     /**

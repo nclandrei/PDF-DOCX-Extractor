@@ -50,7 +50,9 @@ $(document).ready(function () {
             success: function (result) {
                 console.log("inside ajax");
                 $('#spinner').spin(false);
-                location.href = result;
+                if(result.status != 1){
+                    alert(result.message);
+                } else { location.href = result.href; }
             },
             error: function (e) {
                 alert('Failure ' + e.status);
