@@ -121,9 +121,13 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- keep the configuration out of the execution so that the bdd goal has access to it -->
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
 				<configuration>
-					<!-- configuration properties will go here -->
+					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 		</plugins>
