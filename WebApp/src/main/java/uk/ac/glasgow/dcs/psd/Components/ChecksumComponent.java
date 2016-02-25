@@ -4,7 +4,7 @@ import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import org.springframework.stereotype.Component;
-import uk.ac.glasgow.dcs.psd.Models.DownloadZip;
+import uk.ac.glasgow.dcs.psd.Models.UploadZip;
 
 import java.io.*;
 import java.util.Date;
@@ -28,10 +28,10 @@ public class ChecksumComponent {
      * @param dropboxDownload   option to download file from dropbox
      * @return              String link to download file or null if no file exist
      */
-    public static DownloadZip getChecksum(String filename,
-                                          File originalFile,
-                                          boolean dropboxUpload,
-                                          boolean dropboxDownload) throws IOException {
+    public static UploadZip getChecksum(String filename,
+                                        File originalFile,
+                                        boolean dropboxUpload,
+                                        boolean dropboxDownload) throws IOException {
         HashCode hc = Files.hash(originalFile, Hashing.sha1());
 
         return checkChecksum(filename, originalFile, hc, dropboxUpload, dropboxDownload);
@@ -49,11 +49,11 @@ public class ChecksumComponent {
      * @param hc            hashcode of checksum
      * @return              String link to download file or null if no file exist
      */
-    private static DownloadZip checkChecksum(String filename,
-                                        File originalFile,
-                                        HashCode hc,
-                                        boolean dropboxUpload,
-                                        boolean dropboxDownload) {
+    private static UploadZip checkChecksum(String filename,
+                                           File originalFile,
+                                           HashCode hc,
+                                           boolean dropboxUpload,
+                                           boolean dropboxDownload) {
         try (BufferedReader br = new BufferedReader(new FileReader("checksums.txt")))
         {
             String sCurrentLine;
@@ -64,7 +64,7 @@ public class ChecksumComponent {
                     }
                     String href = "/file/" + sCurrentLine.substring(sCurrentLine.indexOf("FileName:")+9,
                             sCurrentLine.indexOf(":FileName")).substring(0, filename.lastIndexOf("."));
-                    return new DownloadZip(1,href,filename,0,"Upload and Conversion was successful");
+                    return new UploadZip(1,href,filename,0,"Upload and Conversion was successful");
                 }
             }
             addChecksumToFile(filename, originalFile, hc, dropboxUpload);

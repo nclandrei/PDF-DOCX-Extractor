@@ -3,17 +3,8 @@ package uk.ac.glasgow.dcs.psd.Controllers;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-<<<<<<< HEAD
-import uk.ac.glasgow.dcs.psd.Components.ChecksumComponent;
-import uk.ac.glasgow.dcs.psd.Components.ExtractDocxComponent;
-import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
-import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
-=======
 import uk.ac.glasgow.dcs.psd.Components.*;
-import uk.ac.glasgow.dcs.psd.Models.DownloadZip;
-
-import javax.servlet.http.HttpServletRequest;
->>>>>>> 7ee7e9880b90b4d4771b12d10ab7471d380d0518
+import uk.ac.glasgow.dcs.psd.Models.UploadZip;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
@@ -25,11 +16,7 @@ import java.nio.channels.ReadableByteChannel;
  * uploads and downloads from post/get
  * requests.
  */
-<<<<<<< HEAD
-@Controller
-=======
 @RestController
->>>>>>> 7ee7e9880b90b4d4771b12d10ab7471d380d0518
 public class UploadDownloadController {
 
     /**
@@ -62,7 +49,7 @@ public class UploadDownloadController {
      */
     @RequestMapping(value="/uploadFile", method= RequestMethod.POST)
     @ResponseBody
-    public DownloadZip handleFileUpload(@RequestParam("file") MultipartFile file){
+    public UploadZip handleFileUpload(@RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
@@ -80,9 +67,9 @@ public class UploadDownloadController {
                 File originalFile = new File(HelperComponent.getFileLocation(fileName));
 
                 if (doChecksum) {
-                    DownloadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
+                    UploadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
                     if (existingFile != null)
-                        return new DownloadZip(1,null,null,0); // @todo change this
+                        return existingFile;
                 }
 
                 if(extension.compareTo(".docx") == 0) {
@@ -97,13 +84,14 @@ public class UploadDownloadController {
                 //noinspection ResultOfMethodCallIgnored
                 HelperComponent.delete(originalFile);
 
-                return new DownloadZip(1, "/file/"+fileName.substring(0,fileName.lastIndexOf(".")),null,0);
+                String href = "/file/"+fileName.substring(0,fileName.lastIndexOf("."));
+                return new UploadZip(1, href, fileName,0, "Upload and Conversion was successful");
 //                return "/file/" + fileName.substring(0,fileName.lastIndexOf("."));
             } catch (Exception e) {
-                return new DownloadZip(0,null,null,0); // @todo change this
+                return new UploadZip(0,null,null,0,"Upload and Conversion was not successful"); // @todo change this
             }
         } else {
-            return new DownloadZip(0,null,null,0); // @todo change this
+            return new UploadZip(0,null,null,0, "Upload and Conversion was not successful"); // @todo change this
 //            return "You failed to upload because the file was empty.";
         }
     }
@@ -118,8 +106,8 @@ public class UploadDownloadController {
      */
     @RequestMapping(value="/uploadFileDropbox", method=RequestMethod.POST)
     @ResponseBody
-    public DownloadZip handleFileUploadDropbox(@RequestParam("file") String file,
-                                          @RequestParam("fileName") String fileName) throws IOException {
+    public UploadZip handleFileUploadDropbox(@RequestParam("file") String file,
+                                             @RequestParam("fileName") String fileName) throws IOException {
         try {
             URL website = new URL(file);
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -133,7 +121,7 @@ public class UploadDownloadController {
 
             File originalFile = new File(inputFileName);
             if (doChecksum) {
-                DownloadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
+                UploadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
                 if (existingFile != null)
                     return existingFile;
             }
@@ -150,9 +138,9 @@ public class UploadDownloadController {
             originalFile.delete();
             String href = "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
 
-            return new DownloadZip(1, href, fileName,0, "Upload and Conversion was successful");
+            return new UploadZip(1, href, fileName,0, "Upload and Conversion was successful");
         } catch (Exception e) {
-            return new DownloadZip(0, null, null, 0, "Upload and Conversion was not successful"); // @todo change this
+            return new UploadZip(0, null, null, 0, "Upload and Conversion was not successful"); // @todo change this
         }
     }
 
