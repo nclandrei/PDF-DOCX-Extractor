@@ -24,8 +24,15 @@ public class ExtractPdfComponentTests {
     private PrintStream originalOut;
     private ByteArrayOutputStream collectedOut;
 
-    private boolean compareFiles(String file1, String file2){
 
+    /**
+     * <h1>Compare the contents of two files</h1>
+     *
+     * @param file1 input file 1
+     * @param file2 input file 2
+     * @return true if the files have the same content, false otherwise
+     */
+    private boolean compareFiles(String file1, String file2){
         String resultString;
         String oracleString;
         boolean comparison = true;
@@ -67,8 +74,12 @@ public class ExtractPdfComponentTests {
         System.setOut(originalOut);
     }
 
-    //uses a sample json to generate a folder with the extracted table
-    //and compare that against a pre-made table
+    /**
+     * <h1>Tests the operation of processJSON</h1>
+     *
+     * This function uses a sample json to generate a folder with the extracted table
+     * and compare that against a pre-made table.
+      */
     @Test
     public void processJSONTest(){
 
@@ -101,7 +112,12 @@ public class ExtractPdfComponentTests {
 
     }
 
-
+    /**
+     * <h1>Tests the operation of generateJSON</h1>
+     *
+     * This function uses a sample pdf to generate an extracted json
+     * and compare that against a pre-made json.
+     */
     @Test
     public void generateJSONTest(){
         try{
@@ -124,6 +140,13 @@ public class ExtractPdfComponentTests {
 
     }
 
+    /**
+     * <h1>Tests the operation of main process functio</h1>
+     *
+     * This function uses a sample pdf to generate a zip
+     * and compare its contents against a pre-made csv which represents
+     * the only table in the sample pdf.
+     */
     @Test
     public void processTest(){
         String pdfWithoutExtension = directory + "/Resources/sample70";
@@ -170,6 +193,12 @@ public class ExtractPdfComponentTests {
         assertTrue(success);
     }
 
+    /**
+     * <h1>Tests the operation of extractImages</h1>
+     *
+     * This function uses a sample pdf to extract three images
+     * and then checks that they are all present.
+     */
     @Test
     public void extractImagesTest(){
 
