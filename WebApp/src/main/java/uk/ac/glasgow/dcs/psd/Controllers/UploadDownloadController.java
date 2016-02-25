@@ -3,8 +3,17 @@ package uk.ac.glasgow.dcs.psd.Controllers;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+<<<<<<< HEAD
+import uk.ac.glasgow.dcs.psd.Components.ChecksumComponent;
+import uk.ac.glasgow.dcs.psd.Components.ExtractDocxComponent;
+import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
+import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
+=======
 import uk.ac.glasgow.dcs.psd.Components.*;
 import uk.ac.glasgow.dcs.psd.Models.DownloadZip;
+
+import javax.servlet.http.HttpServletRequest;
+>>>>>>> 7ee7e9880b90b4d4771b12d10ab7471d380d0518
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
@@ -16,7 +25,11 @@ import java.nio.channels.ReadableByteChannel;
  * uploads and downloads from post/get
  * requests.
  */
+<<<<<<< HEAD
+@Controller
+=======
 @RestController
+>>>>>>> 7ee7e9880b90b4d4771b12d10ab7471d380d0518
 public class UploadDownloadController {
 
     /**
@@ -69,7 +82,7 @@ public class UploadDownloadController {
                 if (doChecksum) {
                     DownloadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
                     if (existingFile != null)
-                        return existingFile;
+                        return new DownloadZip(1,null,null,0); // @todo change this
                 }
 
                 if(extension.compareTo(".docx") == 0) {
@@ -84,14 +97,13 @@ public class UploadDownloadController {
                 //noinspection ResultOfMethodCallIgnored
                 HelperComponent.delete(originalFile);
 
-                String href = "/file/"+fileName.substring(0,fileName.lastIndexOf("."));
-                return new DownloadZip(1, href, fileName,0, "Upload and Conversion was successful");
+                return new DownloadZip(1, "/file/"+fileName.substring(0,fileName.lastIndexOf(".")),null,0);
 //                return "/file/" + fileName.substring(0,fileName.lastIndexOf("."));
             } catch (Exception e) {
-                return new DownloadZip(0,null,null,0,"Upload and Conversion was not successful"); // @todo change this
+                return new DownloadZip(0,null,null,0); // @todo change this
             }
         } else {
-            return new DownloadZip(0,null,null,0, "Upload and Conversion was not successful"); // @todo change this
+            return new DownloadZip(0,null,null,0); // @todo change this
 //            return "You failed to upload because the file was empty.";
         }
     }

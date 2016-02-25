@@ -5,23 +5,14 @@ public class DownloadZip {
     String href;
     String filename;
     int fileSize;
-    String message;
 
-    public DownloadZip(int status, String href, String filename, int fileSize, String message) {
+    public DownloadZip(int status, String href, String filename, int fileSize) {
         this.status = status;
         this.href = href;
         this.filename = filename;
         this.fileSize = fileSize;
-        this.message = message;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
     public int getStatus() {
         return status;
     }
