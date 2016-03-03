@@ -12,9 +12,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Component;
-import java.io.*;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.BufferedWriter;
 
 /**
  * This class provides an API for extracting information from tables
@@ -28,7 +33,7 @@ public class ExtractPdfComponent {
 
     /**
      * <h1>Extract Tables and Images from a pdf</h1>
-     *
+     * <p>
      * The process function combines the functionality of a number of helper functions
      * that make use of the Tabula jar to generate a JSON file and convert that into a CSV.
      * The Image extraction tool is then used to provide all of the images from the pdf.
@@ -38,39 +43,38 @@ public class ExtractPdfComponent {
      * @param fileName the file name for the pdf to extract the tables from (without the extension)
      */
 
-    public static void process (String  fileName){
+    public static void process(String fileName) {
         generateJSON(fileName);
         processJSON(fileName);
         extractImages(fileName);
         ZipMakerComponent.createZip(fileName);
         try {
             HelperComponent.delete(new File(fileName));
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * <h1>Generates a JSON with the Table data</h1>
-     *
+     * <p>
      * generateJSON makes use of Tabula to generate a JSON file
      * with all the data from the tables in the PDF
      *
      * @param fileName the file name for the pdf to extract the tables from (without the extension)
      */
 
-    private static void generateJSON(String fileName){
+    private static void generateJSON(String fileName) {
 
         String pdfFile = fileName + ".pdf";
         String jsonFile = fileName + ".json";
-        String [] tabulaArgs = {pdfFile, "-i", "-pall", "-r", "-f", "JSON"};
+        String[] tabulaArgs = {pdfFile, "-i", "-pall", "-r", "-f", "JSON"};
 
         GnuParser parser = new GnuParser();
         try {
             PrintStream ps = new PrintStream(new File(jsonFile));
             CommandLine exp = parser.parse(CommandLineApp.buildOptions(), tabulaArgs);
-            if(exp.getArgs().length != 1) {
+            if (exp.getArgs().length != 1) {
                 throw new ParseException("Need one filename\nTry --help for help");
             }
             (new CommandLineApp(ps)).extractTables(exp);
@@ -83,10 +87,10 @@ public class ExtractPdfComponent {
     }
 
     /**
-     *  <h1>Generates CSVs from a JSON</h1>
-     *
-     *  processJSON makes use of a json file to generate a folder
-     *  of CSVs where each csv holds the extracted information for one table
+     * <h1>Generates CSVs from a JSON</h1>
+     * <p>
+     * processJSON makes use of a json file to generate a folder
+     * of CSVs where each csv holds the extracted information for one table
      *
      * @param fileName the file name of the JSON file used for processing (without the extension)
      */
@@ -100,7 +104,7 @@ public class ExtractPdfComponent {
         StringBuilder sb = new StringBuilder();
 
         try {
-        	FileReader fr = new FileReader(fileName + ".json");
+            FileReader fr = new FileReader(fileName + ".json");
             JSONArray array = (JSONArray) parser.parse(fr);
             int csvName = 0;
 
@@ -126,15 +130,14 @@ public class ExtractPdfComponent {
                     sb.append("\n");
                 }
 
-                if(!sb.toString().isEmpty()) {
+                if (!sb.toString().isEmpty()) {
                     try (BufferedWriter buffer = new BufferedWriter(new FileWriter(fileName +
                             File.separator + "table" + csvName + ".csv"))) {
                         sb.deleteCharAt(sb.length() - 1);
                         sb.deleteCharAt(sb.length() - 1);
                         buffer.write(sb.toString());
                         csvName++;
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     sb = new StringBuilder();
@@ -144,27 +147,26 @@ public class ExtractPdfComponent {
             fr.close();
             //delete the used json
             HelperComponent.delete(new File(fileName + ".json"));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * <h1>Extract images from a pdf document<h1/>
-     *
+     * <p>
      * extractImages provides the images in a PDF as standalone files
      *
      * @param fileName the file name for the pdf to extract the tables from (without the extension)
      */
 
-    private static void extractImages (String fileName) {
+    private static void extractImages(String fileName) {
         try {
             String sourceDir = fileName;
 
             //safety for tabula function
             File outDir = new File(sourceDir);
-            if(!outDir.exists()){
+            if (!outDir.exists()) {
                 outDir.mkdir();
             }
 
