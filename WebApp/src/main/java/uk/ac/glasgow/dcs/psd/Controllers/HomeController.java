@@ -3,6 +3,10 @@ package uk.ac.glasgow.dcs.psd.Controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller responsible for links
+ * inside home page.
+ */
 @Controller
 public class HomeController {
 
@@ -15,6 +19,4 @@ public class HomeController {
     @RequestMapping("/")
     String home() { return "/index.html"; }
 
-    @RequestMapping("/test")
-    String test() { return "/qunit/qunit_setup.html"; }
 }

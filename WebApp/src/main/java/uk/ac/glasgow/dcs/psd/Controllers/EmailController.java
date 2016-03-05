@@ -28,8 +28,8 @@ public class EmailController {
 	@RequestMapping(value="/send-mail", method= RequestMethod.POST)
     @ResponseBody
 	public String sendMail(@RequestParam("bug") String bug,
-                           @RequestParam("device") String device,
-                           @RequestParam("name") String name) throws MessagingException {
+								  @RequestParam("device") String device,
+								  @RequestParam("name") String name) throws MessagingException {
 		smtpMailSender.send("guteamx.contact@gmail.com", "Bug report on " + device + " by " + name,
                 bug);
 

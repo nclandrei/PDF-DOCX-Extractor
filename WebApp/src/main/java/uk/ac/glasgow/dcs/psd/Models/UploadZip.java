@@ -22,6 +22,7 @@ public class UploadZip {
     public void setMessage(String message) {
         this.message = message;
     }
+
     public int getStatus() {
         return status;
     }
