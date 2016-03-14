@@ -3,7 +3,9 @@ package uk.ac.glasgow.dcs.psd.ComponentTests;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
 
 import java.io.File;
@@ -17,7 +19,7 @@ public class HelperComponentTest {
     String fileInDirName;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         String resourcesDir = System.getProperty("user.dir");
         resourcesDir += "/src/test/java/uk/ac/glasgow/dcs/psd/Resources/";
         fileName = resourcesDir + "testDeleteFile.txt";
@@ -27,30 +29,30 @@ public class HelperComponentTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         File file = new File(fileName);
         try {
-            if(!file.exists())
+            if (!file.exists())
                 file.createNewFile();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.printf("ERROR: Could not create file: %s\n", fileName);
             e.printStackTrace();
         }
 
         file = new File(emptyDirName);
-        if(!file.exists()) {
-            if(!file.mkdir())
+        if (!file.exists()) {
+            if (!file.mkdir())
                 System.out.printf("ERROR: Could not create directory: %s\n", emptyDirName);
         }
 
         file = new File(nonEmptyDirName);
-        if(!file.exists()) {
-            if(!file.mkdir())
+        if (!file.exists()) {
+            if (!file.mkdir())
                 System.out.printf("ERROR: Could not create directory: %s\n", nonEmptyDirName);
             file = new File(fileInDirName);
-            try{
+            try {
                 file.createNewFile();
-            }catch(IOException e){
+            } catch (IOException e) {
                 System.out.printf("ERROR: Could not create file: %s\n", fileInDirName);
                 e.printStackTrace();
             }
@@ -58,36 +60,36 @@ public class HelperComponentTest {
     }
 
     @Test
-    public void deleteFileTest(){
+    public void deleteFileTest() {
         File deleteFile = new File(fileName);
         try {
             HelperComponent.delete(deleteFile);
-        }catch (IOException e){
-            System.out.printf("ERROR: Failed to delete %s\n",fileName);
+        } catch (IOException e) {
+            System.out.printf("ERROR: Failed to delete %s\n", fileName);
             e.printStackTrace();
         }
         assertFalse(deleteFile.exists());
     }
 
     @Test
-    public void deleteEmptyDirectoryTest(){
+    public void deleteEmptyDirectoryTest() {
         File deleteFile = new File(emptyDirName);
         try {
             HelperComponent.delete(deleteFile);
-        }catch (IOException e){
-            System.out.printf("ERROR: Failed to delete %s\n",emptyDirName);
+        } catch (IOException e) {
+            System.out.printf("ERROR: Failed to delete %s\n", emptyDirName);
             e.printStackTrace();
         }
         assertFalse(deleteFile.exists());
     }
 
     @Test
-    public void deleteNonEmptyDirectoryTest(){
+    public void deleteNonEmptyDirectoryTest() {
         File deleteFile = new File(nonEmptyDirName);
         try {
             HelperComponent.delete(deleteFile);
-        }catch (IOException e){
-            System.out.printf("ERROR: Failed to delete %s\n",nonEmptyDirName);
+        } catch (IOException e) {
+            System.out.printf("ERROR: Failed to delete %s\n", nonEmptyDirName);
             e.printStackTrace();
         }
         assertFalse(deleteFile.exists());
@@ -95,23 +97,23 @@ public class HelperComponentTest {
 
 
     @Test
-    public void deleteFileInDirTest(){
+    public void deleteFileInDirTest() {
         File deleteFile = new File(fileInDirName);
         try {
             HelperComponent.delete(deleteFile);
-        }catch (IOException e){
-            System.out.printf("ERROR: Failed to delete %s\n",fileInDirName);
+        } catch (IOException e) {
+            System.out.printf("ERROR: Failed to delete %s\n", fileInDirName);
             e.printStackTrace();
         }
         assertFalse(deleteFile.exists());
     }
 
     @Test
-    public void getFileLocationTest(){
+    public void getFileLocationTest() {
         String testFileName = ".git plzzz";
         String actualLocation = System.getProperty("user.dir");
         String seperator = System.getProperty("file.separator");
-        actualLocation += String.format("%ssrc%smain%sresources%sstatic%suploads%s.git plzzz",seperator,seperator,seperator,seperator,seperator,seperator);
+        actualLocation += String.format("%ssrc%smain%sresources%sstatic%suploads%s.git plzzz", seperator, seperator, seperator, seperator, seperator, seperator);
 
         assertEquals(actualLocation, HelperComponent.getFileLocation(testFileName));
 
