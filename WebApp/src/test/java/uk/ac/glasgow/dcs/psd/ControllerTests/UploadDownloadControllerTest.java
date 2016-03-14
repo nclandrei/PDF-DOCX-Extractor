@@ -47,7 +47,7 @@ public class UploadDownloadControllerTest {
         String directoryMain = directoryTest;
         directoryTest += "/src/test/java/uk/ac/glasgow/dcs/psd";
         directoryMain += "/src/main/";
-        String resourcesTestZip = directoryTest + "/Resources/test.zip";
+        String resourcesTestZip = directoryTest + "/Resources/testGetFile.zip";
         publicResourcesTestZip += directoryMain + "resources/static/uploads/test.zip";
         try {
             Files.copy(new File(resourcesTestZip).toPath(),
@@ -62,7 +62,7 @@ public class UploadDownloadControllerTest {
     @After
     public void tearDown(){
         // remove test.zip
-//        new File(publicResourcesTestZip).delete();
+        new File(publicResourcesTestZip).delete();
     }
 
     /**
