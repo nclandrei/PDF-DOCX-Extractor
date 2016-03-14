@@ -18,12 +18,14 @@ public class ExtractDocxComponent {
     /**
      * <h1>Extract Tables and Images from a docx</h1>
      * <p>
-     * Extracts the tables from a given docx, creates a directory named after "output"
-     * containing two subdirectories named "csv" and "images", containing csvs of all
-     * the tables in the docx, and each of the images found in the docx respectively.
+     * Extracts the tables from a given docx, creates a directory named after
+     * "output" containing two subdirectories named "csv" and "images",
+     * containing csvs of all the tables in the docx, and each of the images
+     * found in the docx respectively.
      *
      * @param input  the file name for the docx to extract the tables from
-     * @param output the name of the directory that will contain all of the csv's and images
+     * @param output the name of the directory that will contain all of the
+     *               csv's and images
      */
     public static void extractTablesAndImages(String input, String output) {
         LinkedList<LinkedList<String>> tables = getTables(input);
@@ -35,15 +37,18 @@ public class ExtractDocxComponent {
             return;
         }
 
-        // creating the directory and adding all the csv file to the output directory
+        // creating the directory and adding all the csv file to the output
+        // directory
         try {
             directory.mkdir();
             for (LinkedList<String> table : tables) {
-                File outFile = new File(output + File.separator + "table" + counter + ".csv");
+                File outFile = new File(
+                        output + File.separator + "table" + counter + ".csv");
                 if (!outFile.exists()) //noinspection ResultOfMethodCallIgnored
                     outFile.createNewFile();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(outFile), "utf-8"));
+                BufferedWriter writer =
+                        new BufferedWriter(new OutputStreamWriter(
+                                new FileOutputStream(outFile), "utf-8"));
                 for (String row : table) {
                     writer.write(row);
                     writer.newLine();
@@ -63,7 +68,8 @@ public class ExtractDocxComponent {
             FileInputStream is = new FileInputStream(input);
             //create office word 2007+ document object to wrap the word file
             XWPFDocument docx = new XWPFDocument(is);
-            //get all images from the document and store them in the list piclist
+            //get all images from the document and store them in the list
+            // piclist
             List<XWPFPictureData> piclist = docx.getAllPictures();
             //traverse through the list and write each image to a file
             Iterator<XWPFPictureData> iterator = piclist.iterator();
@@ -74,18 +80,22 @@ public class ExtractDocxComponent {
             while (iterator.hasNext()) {
                 XWPFPictureData pic = iterator.next();
                 byte[] bytepic = pic.getData();
-                BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
-                // parsing through each image, checking if type is either PNG or JPEG, then
-                // writing it on disk and adding it to the list of paths
+                BufferedImage imag =
+                        ImageIO.read(new ByteArrayInputStream(bytepic));
+                // parsing through each image, checking if type is either PNG or
+                // JPEG, the writing it on disk and adding it to the list of
+                // paths
                 switch (pic.getPictureType()) {
                     case 6:
-                        File pngImage = new File(output + File.separator + "image" + i + ".png");
+                        File pngImage = new File(
+                                output + File.separator + "image" + i + ".png");
                         ImageIO.write(imag, "png", pngImage);
                         i++;
                         filesList.add(pngImage);
                         break;
                     case 5:
-                        File jpgImage = new File(output + File.separator + "image" + i + ".jpg");
+                        File jpgImage = new File(
+                                output + File.separator + "image" + i + ".jpg");
                         ImageIO.write(imag, "jpg", jpgImage);
                         i++;
                         filesList.add(jpgImage);
@@ -112,13 +122,13 @@ public class ExtractDocxComponent {
 
 
     /**
-     * <h1>Get Tables from a docx</h1>
-     * Returns a Linked List of tables from a docx, which are each in turn a Linked
-     * List of rows, each row is a comma-separated String of all the entries in that row.
+     * <h1>Get Tables from a docx</h1> Returns a Linked List of tables from a
+     * docx, which are each in turn a Linked List of rows, each row is a
+     * comma-separated String of all the entries in that row.
      *
      * @param fileName the docx file to extract the tables from
-     * @return a Linked List of rows, which are in turn a Linked List of
-     * cells in a table each contains a String
+     * @return a Linked List of rows, which are in turn a Linked List of cells
+     * in a table each contains a String
      * @see LinkedList
      */
     private static LinkedList<LinkedList<String>> getTables(String fileName) {
@@ -141,7 +151,8 @@ public class ExtractDocxComponent {
                 results.getLast().add("");
                 for (XWPFTableCell cell : row.getTableCells()) {
                     //iterate through each cell in the table
-                    if (!cell.getText().equals(" ") && !cell.getText().equals("")) {
+                    if (!cell.getText().equals(" ") &&
+                            !cell.getText().equals("")) {
                         //if the cell is not empty
 
                         rowString = results.getLast().getLast();
@@ -156,9 +167,10 @@ public class ExtractDocxComponent {
                             // it to the rowString
                         }
                         if (!rowString.equals("\n"))
-                            results.getLast().set(results.getLast().size() - 1, rowString);
-                        //if the rowString is not just a newline, update the entry
-                        //in the Linked List of rows
+                            results.getLast().set(results.getLast().size() - 1,
+                                    rowString);
+                        // if the rowString is not just a newline, update the
+                        // entry in the Linked List of rows
                     }
                 }
             }
