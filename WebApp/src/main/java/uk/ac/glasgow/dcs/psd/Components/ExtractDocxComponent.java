@@ -11,6 +11,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class acts as an API to extract tables of information and images from
+ * DOCX files, putting them into a Zipped archive, with two folders 'csv' and
+ * 'images'.
+ */
+
 @Component
 public class ExtractDocxComponent {
 
