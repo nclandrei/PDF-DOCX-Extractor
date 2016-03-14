@@ -29,7 +29,7 @@ public class ZipMakerComponent {
      */
     public static void createZip(String local) {
 
-        if(local == null) {
+        if (local == null) {
             return;
         }
 
@@ -37,13 +37,13 @@ public class ZipMakerComponent {
 
         File folder = new File(local);
         File[] listOfFiles = folder.listFiles();
-        List <File> srcFiles = new ArrayList <>();
+        List<File> srcFiles = new ArrayList<>();
 
-        for(int i = 0; i < listOfFiles.length; i++){
+        for (int i = 0; i < listOfFiles.length; i++) {
             //change this to .csv or other
-            if(listOfFiles[i].getName().endsWith(".csv")
+            if (listOfFiles[i].getName().endsWith(".csv")
                     || listOfFiles[i].getName().endsWith(".png")
-                    || listOfFiles[i].getName().endsWith(".jpg")){
+                    || listOfFiles[i].getName().endsWith(".jpg")) {
                 srcFiles.add(listOfFiles[i]);
             }
         }
@@ -56,17 +56,16 @@ public class ZipMakerComponent {
 
             String zipFolder = "";
 
-            for (int i=0; i < srcFiles.size(); i++) {
+            for (int i = 0; i < srcFiles.size(); i++) {
 
                 File srcFile = srcFiles.get(i);
 
                 FileInputStream fis = new FileInputStream(srcFile);
 
                 //folder to place the extracted data - change here to place into alternative folders
-                if(srcFile.getName().endsWith(".csv")){
+                if (srcFile.getName().endsWith(".csv")) {
                     zipFolder = "csv" + File.separator;
-                }
-                else if(srcFile.getName().endsWith(".png") || srcFile.getName().endsWith(".jpg")) {
+                } else if (srcFile.getName().endsWith(".png") || srcFile.getName().endsWith(".jpg")) {
                     zipFolder = "images" + File.separator;
                 }
 
@@ -99,8 +98,7 @@ public class ZipMakerComponent {
 
             zos.closeEntry();
             fis.close();
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             System.out.println("Error creating zip file: " + ioe);
             return;
         }
