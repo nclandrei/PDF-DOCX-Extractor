@@ -7,7 +7,8 @@ public class UploadZip {
     int fileSize;
     String message;
 
-    public UploadZip(int status, String href, String filename, int fileSize, String message) {
+    public UploadZip(int status, String href, String filename, int fileSize,
+                     String message) {
         this.status = status;
         this.href = href;
         this.filename = filename;
