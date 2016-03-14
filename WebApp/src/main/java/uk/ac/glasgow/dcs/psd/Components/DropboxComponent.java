@@ -30,15 +30,13 @@ public class DropboxComponent {
      * <h1>Upload file to Dropbox</h1> Allows to upload a file to Dropbox.
      * Returns uploaded file id or null if failed to upload.
      *
-     * @param file        File to upload
-     * @param fileName    filename to upload
-     * @param DropboxPath path to save to inside dropbox
-     * @return String ID of the uploaded file or null if failed
+     * @param file          File to upload
+     * @param fileName      filename to upload
+     * @param DropboxPath   path to save to inside dropbox
+     * @param argAuthFile   path of Dropbox authentication token
+     * @return              String ID of the uploaded file or null if failed
      */
-    public static String dropboxUpload(File file, String fileName,
-                                       String DropboxPath) {
-        String argAuthFile =
-                "dropbox.auth";        // path of dropbox authentication token
+    public static String dropboxUpload(File file, String argAuthFile, String fileName, String DropboxPath) {
         String localPath = file.getAbsolutePath();
         String dropboxPath = DropboxPath + fileName;
 
@@ -96,9 +94,8 @@ public class DropboxComponent {
      * @param fileName filename to download
      * @return String link of a file or null if failed
      */
-    public static UploadZip dropboxDownload(String fileName) {
-        String argAuthFile = "dropbox.auth";
-        String filePath = "/Apps/team-project/" + fileName;
+    public static UploadZip dropboxDownload(String fileName, String argAuthFile, String filePath) {
+        filePath += fileName;
 
         // Read auth info file.
         DbxAuthInfo authInfo;

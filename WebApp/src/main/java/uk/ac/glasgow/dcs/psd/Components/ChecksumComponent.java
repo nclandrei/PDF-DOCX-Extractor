@@ -63,7 +63,7 @@ public class ChecksumComponent {
             while ((sCurrentLine = br.readLine()) != null) {
                 if (sCurrentLine.contains(hc.toString())) {
                     if (dropboxDownload) {
-                        return DropboxComponent.dropboxDownload(filename);
+                        return DropboxComponent.dropboxDownload(filename, "dropbox.auth", "/Apps/team-project/");
                     }
                     String href = "/file/" + sCurrentLine.substring(
                             sCurrentLine.indexOf("FileName:") + 9,
@@ -99,7 +99,7 @@ public class ChecksumComponent {
         ) {
             if (dropboxUpload)
                 out.println(hc + " " + DropboxComponent.dropboxUpload(
-                        originalFile, filename, "/Apps/team-project/")
+                        originalFile, "dropbox.auth", filename, "/Apps/team-project/")
                         + ":id FileName:" + filename + ":FileName " + new Date()
                 );
             else
