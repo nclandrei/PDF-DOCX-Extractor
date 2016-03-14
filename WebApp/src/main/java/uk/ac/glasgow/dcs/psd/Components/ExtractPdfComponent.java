@@ -124,9 +124,9 @@ public class ExtractPdfComponent {
                     for (Object p : cellProperties) {
                         JSONObject property = (JSONObject) p;
                         String text = (String) property.get("text");
-                        if (text.compareTo(" ") == 0 ||
-                                text.compareTo("") == 0 ||
-                                text.length() > 100) {
+                        if (text.compareTo(" ") == 0
+                                || text.compareTo("") == 0
+                                || text.length() > 100) {
                             break;
                         }
                         sb.append("\"").append(text).append("\",");
@@ -140,9 +140,9 @@ public class ExtractPdfComponent {
 
                 if (!sb.toString().isEmpty()) {
                     try (BufferedWriter buffer = new BufferedWriter(
-                            new FileWriter(fileName +
-                                    File.separator + "table" + csvName +
-                                    ".csv"))) {
+                            new FileWriter(fileName
+                                    + File.separator + "table" + csvName
+                                    + ".csv"))) {
                         sb.deleteCharAt(sb.length() - 1);
                         sb.deleteCharAt(sb.length() - 1);
                         buffer.write(sb.toString());
@@ -197,8 +197,8 @@ public class ExtractPdfComponent {
                         PDXObjectImage pdxObjectImage =
                                 (PDXObjectImage) pageImages.get(key);
                         pdxObjectImage.write2file(
-                                fileName + File.separator + imageName +
-                                        totalImages);
+                                fileName + File.separator + imageName
+                                        + totalImages);
                         totalImages++;
                     }
                 }
