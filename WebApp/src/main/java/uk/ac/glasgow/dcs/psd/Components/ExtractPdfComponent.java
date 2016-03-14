@@ -45,7 +45,7 @@ public class ExtractPdfComponent {
      *                 (without the extension)
      */
 
-    public static void process(String fileName) {
+    public static void process(final String fileName) {
         generateJSON(fileName);
         processJSON(fileName);
         extractImages(fileName);
@@ -67,7 +67,7 @@ public class ExtractPdfComponent {
      *                 (without the extension)
      */
 
-    private static void generateJSON(String fileName) {
+    private static void generateJSON(final String fileName) {
 
         String pdfFile = fileName + ".pdf";
         String jsonFile = fileName + ".json";
@@ -101,7 +101,7 @@ public class ExtractPdfComponent {
      *                 (without the extension)
      */
 
-    private static void processJSON(String fileName) {
+    private static void processJSON(final String fileName) {
 
         File outDir = new File(fileName);
         outDir.mkdir();
@@ -171,11 +171,11 @@ public class ExtractPdfComponent {
      *                 (without the extension)
      */
 
-    private static void extractImages(String fileName) {
+    private static void extractImages(final String fileName) {
         try {
             String sourceDir = fileName;
 
-            //safety for tabula function
+            // safety for tabula function
             File outDir = new File(sourceDir);
             if (!outDir.exists()) {
                 outDir.mkdir();
