@@ -19,25 +19,26 @@ import java.io.InputStream;
 import java.util.Locale;
 
 /**
- * Component for Dropbox integration.
- * Uploading and getting metadata is allowed.
+ * Component for Dropbox integration. Uploading and getting metadata is
+ * allowed.
  */
 
 @Component
 public class DropboxComponent {
 
     /**
-     * <h1>Upload file to Dropbox</h1>
-     * Allows to upload a file to Dropbox.
+     * <h1>Upload file to Dropbox</h1> Allows to upload a file to Dropbox.
      * Returns uploaded file id or null if failed to upload.
      *
-     * @param file          File to upload
-     * @param fileName      filename to upload
-     * @param DropboxPath   path to save to inside dropbox
-     * @return              String ID of the uploaded file or null if failed
+     * @param file        File to upload
+     * @param fileName    filename to upload
+     * @param DropboxPath path to save to inside dropbox
+     * @return String ID of the uploaded file or null if failed
      */
-    public static String dropboxUpload(File file, String fileName, String DropboxPath) {
-        String argAuthFile = "dropbox.auth";        // path of dropbox authentication token
+    public static String dropboxUpload(File file, String fileName,
+                                       String DropboxPath) {
+        String argAuthFile =
+                "dropbox.auth";        // path of dropbox authentication token
         String localPath = file.getAbsolutePath();
         String dropboxPath = DropboxPath + fileName;
 
@@ -45,8 +46,7 @@ public class DropboxComponent {
         DbxAuthInfo authInfo;
         try {
             authInfo = DbxAuthInfo.Reader.readFromFile(argAuthFile);
-        }
-        catch (JsonReader.FileLoadException ex) {
+        } catch (JsonReader.FileLoadException ex) {
             System.err.println("Error loading <auth-file>: " + ex.getMessage());
             return null;
         }
@@ -59,8 +59,11 @@ public class DropboxComponent {
 
         // Create a DbxClientV2
         String userLocale = Locale.getDefault().toString();
-        DbxRequestConfig requestConfig = new DbxRequestConfig("Uploading-csv", userLocale);
-        DbxClientV2 dbxClient = new DbxClientV2(requestConfig, authInfo.accessToken, authInfo.host);
+        DbxRequestConfig requestConfig =
+                new DbxRequestConfig("Uploading-csv", userLocale);
+        DbxClientV2 dbxClient =
+                new DbxClientV2(requestConfig, authInfo.accessToken,
+                        authInfo.host);
 
         // Make the API call to upload the file.
         DbxFiles.FileMetadata metadata;
@@ -68,17 +71,18 @@ public class DropboxComponent {
             try (InputStream in = new FileInputStream(localPath)) {
                 metadata = dbxClient.files.uploadBuilder(dropboxPath).run(in);
             }
-        }
-        catch (DbxFiles.UploadException ex) {
-            System.out.println("Error uploading to Dropbox: " + ex.getMessage());
+        } catch (DbxFiles.UploadException ex) {
+            System.out
+                    .println("Error uploading to Dropbox: " + ex.getMessage());
             return null;
-        }
-        catch (DbxException ex) {
-            System.out.println("Error uploading to Dropbox: " + ex.getMessage());
+        } catch (DbxException ex) {
+            System.out
+                    .println("Error uploading to Dropbox: " + ex.getMessage());
             return null;
-        }
-        catch (IOException ex) {
-            System.out.println("Error reading from file \"" + localPath + "\": " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println(
+                    "Error reading from file \"" + localPath + "\": " + ex
+                            .getMessage());
             return null;
         }
 
@@ -86,11 +90,11 @@ public class DropboxComponent {
     }
 
     /**
-     * <h1>Get download link from Dropbox</h1>
-     * Returns a Dropbox direct link to the file.
+     * <h1>Get download link from Dropbox</h1> Returns a Dropbox direct link to
+     * the file.
      *
-     * @param fileName      filename to download
-     * @return              String link of a file or null if failed
+     * @param fileName filename to download
+     * @return String link of a file or null if failed
      */
     public static UploadZip dropboxDownload(String fileName) {
         String argAuthFile = "dropbox.auth";
@@ -107,8 +111,11 @@ public class DropboxComponent {
 
         // Create a DbxClientV1
         String userLocale = Locale.getDefault().toString();
-        DbxRequestConfig requestConfig = new DbxRequestConfig("Uploading-csv", userLocale);
-        DbxClientV1 dbxClient = new DbxClientV1(requestConfig, authInfo.accessToken, authInfo.host);
+        DbxRequestConfig requestConfig =
+                new DbxRequestConfig("Uploading-csv", userLocale);
+        DbxClientV1 dbxClient =
+                new DbxClientV1(requestConfig, authInfo.accessToken,
+                        authInfo.host);
         DbxUrlWithExpiration linkDirect = null;
         try {
             linkDirect = dbxClient.createTemporaryDirectUrl(filePath);
@@ -116,7 +123,8 @@ public class DropboxComponent {
             e.printStackTrace();
         }
 
-        return new UploadZip(1,linkDirect.url,fileName,0,"Upload and Conversion was successful");
+        return new UploadZip(1, linkDirect.url, fileName, 0,
+                "Upload and Conversion was successful");
     }
 
 }
