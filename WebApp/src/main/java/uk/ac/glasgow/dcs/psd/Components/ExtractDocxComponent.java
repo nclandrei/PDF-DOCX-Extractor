@@ -33,7 +33,8 @@ public class ExtractDocxComponent {
      * @param output the name of the directory that will contain all of the
      *               csv's and images
      */
-    public static void extractTablesAndImages(String input, String output) {
+    public static void extractTablesAndImages(final String input,
+                                              final String output) {
         LinkedList<LinkedList<String>> tables = getTables(input);
         int counter = 0;
         File directory = new File(output);
@@ -51,7 +52,9 @@ public class ExtractDocxComponent {
                 File outFile = new File(
                         output + File.separator + "table" + counter + ".csv");
                 if (!outFile.exists()) //noinspection ResultOfMethodCallIgnored
+                {
                     outFile.createNewFile();
+                }
                 BufferedWriter writer =
                         new BufferedWriter(new OutputStreamWriter(
                                 new FileOutputStream(outFile), "utf-8"));
@@ -137,7 +140,8 @@ public class ExtractDocxComponent {
      * in a table each contains a String
      * @see LinkedList
      */
-    private static LinkedList<LinkedList<String>> getTables(String fileName) {
+    private static LinkedList<LinkedList<String>> getTables(
+            final String fileName) {
         XWPFDocument testFile;
         try {
             testFile = new XWPFDocument(new FileInputStream(fileName));
@@ -172,9 +176,10 @@ public class ExtractDocxComponent {
                             //otherwise put a comma before the entry, and add
                             // it to the rowString
                         }
-                        if (!rowString.equals("\n"))
+                        if (!rowString.equals("\n")) {
                             results.getLast().set(results.getLast().size() - 1,
                                     rowString);
+                        }
                         // if the rowString is not just a newline, update the
                         // entry in the Linked List of rows
                     }
