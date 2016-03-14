@@ -50,7 +50,7 @@ public class ExtractDocxComponentTests {
         }catch (FileNotFoundException e){
             System.out.printf("test.csv file was not found\n");
             e.printStackTrace();
-            assert(false);
+            assertTrue(false);
         }
 
         ExtractDocxComponent.extractTablesAndImages(fileName, output);
@@ -75,7 +75,7 @@ public class ExtractDocxComponentTests {
         }catch (IOException e){
             System.out.printf("Error opening zip file %s\n", output);
             e.printStackTrace();
-            assert(false);
+            assertTrue(false);
         }
 
 
