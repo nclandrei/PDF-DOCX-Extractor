@@ -40,7 +40,8 @@ public class HelperComponent {
                 //check the directory again, if empty then delete it
                 if (file.list().length == 0) {
                     file.delete();
-                    System.out.println("Directory is deleted : " + file.getAbsolutePath());
+                    System.out.println(
+                            "Directory is deleted : " + file.getAbsolutePath());
                 }
             }
         } else {
@@ -50,8 +51,7 @@ public class HelperComponent {
     }
 
     /**
-     * Method that returns the full path of a file provided
-     * as a parameter
+     * Method that returns the full path of a file provided as a parameter
      *
      * @param fileName
      * @return
@@ -60,7 +60,8 @@ public class HelperComponent {
         String separator = System.getProperty("file.separator");
         return (System.getProperty("user.dir") + separator) +
                 String.format("src%smain%sresources%sstatic%suploads%s%s",
-                        separator, separator, separator, separator, separator, fileName);
+                        separator, separator, separator, separator, separator,
+                        fileName);
     }
 
 }
