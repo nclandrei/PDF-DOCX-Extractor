@@ -1,21 +1,16 @@
 package uk.ac.glasgow.dcs.psd.Components;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Helper class designed to provide util methods to other components
+ * Helper class designed to provide util methods to other components.
  */
 @Component
 public class HelperComponent {
     /**
-     * Deletes the directory created with tables, images and README file
+     * Deletes the directory created with tables, images and README file.
      *
      * @param file the file/folder to be deleted
      * @throws IOException will throw an IOException if the file is not found
@@ -51,7 +46,7 @@ public class HelperComponent {
     }
 
     /**
-     * Method that returns the full path of a file provided as a parameter
+     * Method that returns the full path of a file provided as a parameter.
      *
      * @param fileName the file/directory to find the path of
      * @return returns a string that represents the path of the file/directory
