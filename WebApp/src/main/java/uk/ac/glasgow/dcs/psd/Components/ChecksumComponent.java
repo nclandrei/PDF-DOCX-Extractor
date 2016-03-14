@@ -10,17 +10,17 @@ import java.io.*;
 import java.util.Date;
 
 /**
- * Checksum component used for creating and
- * accessing checksum of uploaded files
+ * Checksum component used for creating and accessing checksum of uploaded
+ * files
  */
 
 @Component
 public class ChecksumComponent {
 
     /**
-     * <h1>Get link of file with right checksum or null</h1>
-     * Returns a Linked List of tables from a docx, which are each in turn a Linked
-     * List of rows, each row is a comma-separated String of all the entries in that row.
+     * <h1>Get link of file with right checksum or null</h1> Returns a Linked
+     * List of tables from a docx, which are each in turn a Linked List of rows,
+     * each row is a comma-separated String of all the entries in that row.
      *
      * @param filename        file to get checksum of
      * @param originalFile    original File to get checksum of
@@ -38,9 +38,10 @@ public class ChecksumComponent {
     }
 
     /**
-     * <h1>Check checksum of a file and return right file or null</h1>
-     * Returns a Linked List of tables from a docx, which are each in turn a Linked
-     * List of rows, each row is a comma-separated String of all the entries in that row.
+     * <h1>Check checksum of a file and return right file or null</h1> Returns a
+     * Linked List of tables from a docx, which are each in turn a Linked List
+     * of rows, each row is a comma-separated String of all the entries in that
+     * row.
      *
      * @param filename        file to get checksum of
      * @param originalFile    original File to get checksum of
@@ -74,9 +75,8 @@ public class ChecksumComponent {
     }
 
     /**
-     * <h1>Add checksum to checksums file</h1>
-     * If checksum is not in checksums file
-     * add it
+     * <h1>Add checksum to checksums file</h1> If checksum is not in checksums
+     * file add it
      *
      * @param filename      file to get checksum of
      * @param originalFile  original File to get checksum of
@@ -91,7 +91,8 @@ public class ChecksumComponent {
             if (dropboxUpload)
                 out.println(hc + " " + DropboxComponent.dropboxUpload(originalFile, filename, "/Apps/team-project/") + ":id FileName:"
                         + filename + ":FileName " + new Date());
-            else out.println(hc + " FileName:" + filename + ":FileName " + new Date());
+            else
+                out.println(hc + " FileName:" + filename + ":FileName " + new Date());
         } catch (IOException ignored) {
         }
     }
