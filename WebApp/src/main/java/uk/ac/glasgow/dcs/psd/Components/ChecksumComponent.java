@@ -31,10 +31,12 @@ public class ChecksumComponent {
     public static UploadZip getChecksum(final String filename,
                                         final File originalFile,
                                         final boolean dropboxUpload,
-                                        final boolean dropboxDownload) throws IOException {
+                                        final boolean dropboxDownload)
+            throws IOException {
         HashCode hc = Files.hash(originalFile, Hashing.sha1());
 
-        return checkChecksum(filename, originalFile, hc, dropboxUpload, dropboxDownload);
+        return checkChecksum(filename, originalFile, hc, dropboxUpload,
+                dropboxDownload);
     }
 
     /**
@@ -55,16 +57,21 @@ public class ChecksumComponent {
                                            final HashCode hc,
                                            final boolean dropboxUpload,
                                            final boolean dropboxDownload) {
-        try (BufferedReader br = new BufferedReader(new FileReader("checksums.txt"))) {
+        try (BufferedReader br = new BufferedReader(
+                new FileReader("checksums.txt"))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 if (sCurrentLine.contains(hc.toString())) {
                     if (dropboxDownload) {
                         return DropboxComponent.dropboxDownload(filename);
                     }
-                    String href = "/file/" + sCurrentLine.substring(sCurrentLine.indexOf("FileName:") + 9,
-                            sCurrentLine.indexOf(":FileName")).substring(0, filename.lastIndexOf("."));
-                    return new UploadZip(1, href, filename, 0, "Upload and Conversion was successful");
+                    String href = "/file/" + sCurrentLine.substring(
+                            sCurrentLine.indexOf("FileName:") + 9,
+                            sCurrentLine.indexOf(":FileName")).substring(
+                            0, filename.lastIndexOf(".")
+                    );
+                    return new UploadZip(1, href, filename, 0,
+                            "Upload and Conversion was successful");
                 }
             }
             addChecksumToFile(filename, originalFile, hc, dropboxUpload);
@@ -87,12 +94,18 @@ public class ChecksumComponent {
                                           final File originalFile,
                                           final HashCode hc,
                                           final boolean dropboxUpload) {
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("checksums.txt", true)))) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(
+                new FileWriter("checksums.txt", true)))
+        ) {
             if (dropboxUpload)
-                out.println(hc + " " + DropboxComponent.dropboxUpload(originalFile, filename, "/Apps/team-project/") + ":id FileName:"
-                        + filename + ":FileName " + new Date());
+                out.println(hc + " " + DropboxComponent.dropboxUpload(
+                        originalFile, filename, "/Apps/team-project/")
+                        + ":id FileName:" + filename + ":FileName " + new Date()
+                );
             else
-                out.println(hc + " FileName:" + filename + ":FileName " + new Date());
+                out.println(
+                        hc + " FileName:" + filename + ":FileName " + new Date()
+                );
         } catch (IOException ignored) {
         }
     }
