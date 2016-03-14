@@ -28,10 +28,10 @@ public class ChecksumComponent {
      * @param dropboxDownload option to download file from dropbox
      * @return String link to download file or null if no file exist
      */
-    public static UploadZip getChecksum(String filename,
-                                        File originalFile,
-                                        boolean dropboxUpload,
-                                        boolean dropboxDownload) throws IOException {
+    public static UploadZip getChecksum(final String filename,
+                                        final File originalFile,
+                                        final boolean dropboxUpload,
+                                        final boolean dropboxDownload) throws IOException {
         HashCode hc = Files.hash(originalFile, Hashing.sha1());
 
         return checkChecksum(filename, originalFile, hc, dropboxUpload, dropboxDownload);
@@ -49,11 +49,11 @@ public class ChecksumComponent {
      * @param hc              hashcode of checksum
      * @return String link to download file or null if no file exist
      */
-    private static UploadZip checkChecksum(String filename,
-                                           File originalFile,
-                                           HashCode hc,
-                                           boolean dropboxUpload,
-                                           boolean dropboxDownload) {
+    private static UploadZip checkChecksum(final String filename,
+                                           final File originalFile,
+                                           final HashCode hc,
+                                           final boolean dropboxUpload,
+                                           final boolean dropboxDownload) {
         try (BufferedReader br = new BufferedReader(new FileReader("checksums.txt"))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
@@ -83,10 +83,10 @@ public class ChecksumComponent {
      * @param dropboxUpload option to upload file to dropbox
      * @param hc            hashcode of checksum
      */
-    private static void addChecksumToFile(String filename,
-                                          File originalFile,
-                                          HashCode hc,
-                                          boolean dropboxUpload) {
+    private static void addChecksumToFile(final String filename,
+                                          final File originalFile,
+                                          final HashCode hc,
+                                          final boolean dropboxUpload) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("checksums.txt", true)))) {
             if (dropboxUpload)
                 out.println(hc + " " + DropboxComponent.dropboxUpload(originalFile, filename, "/Apps/team-project/") + ":id FileName:"
