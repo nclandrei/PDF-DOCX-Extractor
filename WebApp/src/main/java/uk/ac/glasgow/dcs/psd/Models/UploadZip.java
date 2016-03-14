@@ -19,8 +19,8 @@ public class UploadZip {
      * @param fileSize its size
      * @param message  to print out if needed
      */
-    public UploadZip(int status, String href, String filename, int fileSize,
-                     String message) {
+    public UploadZip(final int status, final String href, final String filename,
+                     final int fileSize, final String message) {
         this.status = status;
         this.href = href;
         this.filename = filename;
@@ -42,7 +42,7 @@ public class UploadZip {
      *
      * @param message string to be set to
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
@@ -60,7 +60,7 @@ public class UploadZip {
      *
      * @param status int to set the status to.
      */
-    public void setStatus(int status) {
+    public void setStatus(final int status) {
         this.status = status;
     }
 
@@ -78,7 +78,7 @@ public class UploadZip {
      *
      * @param href String to set the href to
      */
-    public void setHref(String href) {
+    public void setHref(final String href) {
         this.href = href;
     }
 
@@ -96,7 +96,7 @@ public class UploadZip {
      *
      * @param filename String to set the filename to
      */
-    public void setFilename(String filename) {
+    public void setFilename(final String filename) {
         this.filename = filename;
     }
 
@@ -114,7 +114,7 @@ public class UploadZip {
      *
      * @param fileSize int to set the file size to
      */
-    public void setFileSize(int fileSize) {
+    public void setFileSize(final int fileSize) {
         this.fileSize = fileSize;
     }
 }
