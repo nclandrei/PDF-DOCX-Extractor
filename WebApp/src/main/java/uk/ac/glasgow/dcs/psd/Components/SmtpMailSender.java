@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 /**
- * Component to send emails using Gmail API and java MailSender
+ * Component to send emails using Gmail API and java MailSender.
  */
 
 @Component
@@ -19,11 +19,12 @@ public class SmtpMailSender {
     private JavaMailSender javaMailSender;
 
     /**
-     * <h1>Send email</h1> Allows to send email using Gmail
+     * <h1>Send email</h1> Allows to send email using Gmail.
      *
      * @param to      address to send email to
      * @param subject subject of the email message
      * @param body    body of the email message
+     * @throws MessagingException ca throw an exception if sending fails
      */
     public void send(String to, String subject, String body)
             throws MessagingException {
