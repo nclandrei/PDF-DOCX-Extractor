@@ -46,7 +46,7 @@ public class UploadDownloadController {
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     @ResponseBody
     public UploadZip handleFileUpload(
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") final MultipartFile file) {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
@@ -114,13 +114,15 @@ public class UploadDownloadController {
      * using Dropbox integration.
      *
      * @param file file to upload
+     * @param fileName the name of the file
      * @return path to created zip or error
+     * @throws IOException throws an IOException if the file is not found
      */
     @RequestMapping(value = "/uploadFileDropbox", method = RequestMethod.POST)
     @ResponseBody
-    public UploadZip handleFileUploadDropbox(@RequestParam("file") String file,
+    public UploadZip handleFileUploadDropbox(@RequestParam("file") final String file,
                                              @RequestParam("fileName")
-                                             String fileName)
+                                             final String fileName)
             throws IOException {
         try {
             URL website = new URL(file);
@@ -173,12 +175,13 @@ public class UploadDownloadController {
      * <h1>Download file</h1> Allows to download processed files.
      *
      * @param fileName filename to download
-     * @return path to file or error
+     * @param response the response
+     * @throws IOException throws error if file cannot be found
      */
     @RequestMapping(value = "/file/{fileID}", method = RequestMethod.GET)
     public void getFile(
-            @PathVariable("fileID") String fileName,
-            HttpServletResponse response) throws IOException {
+            @PathVariable("fileID") final String fileName,
+            final HttpServletResponse response) throws IOException {
 
         String src = HelperComponent.getFileLocation(fileName + ".zip");
 
