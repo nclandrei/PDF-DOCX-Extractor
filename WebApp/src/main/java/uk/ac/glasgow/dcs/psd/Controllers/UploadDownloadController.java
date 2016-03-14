@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uk.ac.glasgow.dcs.psd.Components.*;
 import uk.ac.glasgow.dcs.psd.Models.UploadZip;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
@@ -12,71 +13,76 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 /**
- * Controller responsible to manage
- * uploads and downloads from post/get
+ * Controller responsible to manage uploads and downloads from post/get
  * requests.
  */
 @RestController
 public class UploadDownloadController {
 
     /**
-     * Property to indicate whether or not
-     * use checksum method
+     * Property to indicate whether or not use checksum method.
      */
     @Value("${doChecksum}")
     private boolean doChecksum;
 
     /**
-     * Property to indicate whether or not
-     * upload files to dropbox
+     * Property to indicate whether or not upload files to dropbox.
      */
     @Value("${uploadToDropbox}")
     private boolean uploadToDropbox;
 
     /**
-     * Property to indicate whether or not
-     * upload files to dropbox
+     * Property to indicate whether or not upload files to dropbox.
      */
     @Value("${uploadToDropbox}")
     private boolean downloadFromDropbox;
 
     /**
-     * <h1>Upload file</h1>
-     * Allows to upload files for process
+     * <h1>Upload file</h1> Allows to upload files for process.
      *
-     * @param file          file to upload
-     * @return              path to created zip or error
+     * @param file file to upload
+     * @return path to created zip or error
      */
-    @RequestMapping(value="/uploadFile", method= RequestMethod.POST)
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     @ResponseBody
-    public UploadZip handleFileUpload(@RequestParam("file") MultipartFile file){
+    public UploadZip handleFileUpload(
+            @RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 String fileName = file.getOriginalFilename();
                 BufferedOutputStream stream =
                         new BufferedOutputStream(
-                                new FileOutputStream(new File(HelperComponent.getFileLocation(fileName))));
+                                new FileOutputStream(new File(HelperComponent
+                                        .getFileLocation(fileName))));
 
                 stream.write(bytes);
                 stream.close();
 
-                String extension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-                String fileWithoutExtension = HelperComponent.getFileLocation(fileName.substring(0, fileName.lastIndexOf(".")));
+                String extension = fileName.substring(fileName.lastIndexOf("."),
+                        fileName.length());
+                String fileWithoutExtension = HelperComponent.getFileLocation(
+                        fileName.substring(0, fileName.lastIndexOf(".")));
 
-                File originalFile = new File(HelperComponent.getFileLocation(fileName));
+                File originalFile =
+                        new File(HelperComponent.getFileLocation(fileName));
 
                 if (doChecksum) {
-                    UploadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
-                    if (existingFile != null)
+                    UploadZip existingFile = ChecksumComponent
+                            .getChecksum(fileName, originalFile,
+                                    uploadToDropbox, downloadFromDropbox);
+                    if (existingFile != null) {
                         return existingFile;
+                    }
                 }
 
-                if(extension.compareTo(".docx") == 0) {
-                    ExtractDocxComponent.extractTablesAndImages(HelperComponent.getFileLocation(fileName), fileWithoutExtension);
+                if (extension.compareTo(".docx") == 0) {
+                    ExtractDocxComponent.extractTablesAndImages(
+                            HelperComponent.getFileLocation(fileName),
+                            fileWithoutExtension);
                 }
 
-                if(extension.compareTo(".pdf") == 0){
+                if (extension.compareTo(".pdf") == 0) {
                     ExtractPdfComponent.process(fileWithoutExtension);
                 }
 
@@ -84,30 +90,38 @@ public class UploadDownloadController {
                 //noinspection ResultOfMethodCallIgnored
                 HelperComponent.delete(originalFile);
 
-                String href = "/file/"+fileName.substring(0,fileName.lastIndexOf("."));
-                return new UploadZip(1, href, fileName,0, "Upload and Conversion was successful");
-//                return "/file/" + fileName.substring(0,fileName.lastIndexOf("."));
+                String href = "/file/" + fileName
+                        .substring(0, fileName.lastIndexOf("."));
+                return new UploadZip(1, href, fileName, 0,
+                        "Upload and Conversion was successful");
+//                return "/file/" + fileName.substring(0,fileName.lastIndexOf
+// ("."));
             } catch (Exception e) {
-                return new UploadZip(0,null,null,0,"Upload and Conversion was not successful"); // @todo change this
+                return new UploadZip(0, null, null, 0,
+                        "Upload and Conversion was not successful"); // @todo
+                // change this
             }
         } else {
-            return new UploadZip(0,null,null,0, "Upload and Conversion was not successful"); // @todo change this
+            return new UploadZip(0, null, null, 0,
+                    "Upload and Conversion was not successful"); // @todo
+            // change this
 //            return "You failed to upload because the file was empty.";
         }
     }
 
     /**
-     * <h1>Upload file using Dropbox</h1>
-     * Allows to upload files for process
-     * using Dropbox integration
+     * <h1>Upload file using Dropbox</h1> Allows to upload files for process
+     * using Dropbox integration.
      *
-     * @param file          file to upload
-     * @return              path to created zip or error
+     * @param file file to upload
+     * @return path to created zip or error
      */
-    @RequestMapping(value="/uploadFileDropbox", method=RequestMethod.POST)
+    @RequestMapping(value = "/uploadFileDropbox", method = RequestMethod.POST)
     @ResponseBody
     public UploadZip handleFileUploadDropbox(@RequestParam("file") String file,
-                                             @RequestParam("fileName") String fileName) throws IOException {
+                                             @RequestParam("fileName")
+                                             String fileName)
+            throws IOException {
         try {
             URL website = new URL(file);
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -116,47 +130,57 @@ public class UploadDownloadController {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
 
-            String extension = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-            String fileWithoutExtension = HelperComponent.getFileLocation(fileName.substring(0, fileName.lastIndexOf(".")));
+            String extension = fileName.substring(fileName.lastIndexOf("."),
+                    fileName.length());
+            String fileWithoutExtension = HelperComponent.getFileLocation(
+                    fileName.substring(0, fileName.lastIndexOf(".")));
 
             File originalFile = new File(inputFileName);
             if (doChecksum) {
-                UploadZip existingFile = ChecksumComponent.getChecksum(fileName,originalFile,uploadToDropbox,downloadFromDropbox);
-                if (existingFile != null)
+                UploadZip existingFile = ChecksumComponent
+                        .getChecksum(fileName, originalFile, uploadToDropbox,
+                                downloadFromDropbox);
+                if (existingFile != null) {
                     return existingFile;
+                }
             }
 
-            if(extension.compareTo(".docx") == 0) {
-                ExtractDocxComponent.extractTablesAndImages(HelperComponent.getFileLocation(fileName), fileWithoutExtension);
+            if (extension.compareTo(".docx") == 0) {
+                ExtractDocxComponent.extractTablesAndImages(
+                        HelperComponent.getFileLocation(fileName),
+                        fileWithoutExtension);
             }
 
-            if(extension.compareTo(".pdf") == 0){
+            if (extension.compareTo(".pdf") == 0) {
                 ExtractPdfComponent.process(fileWithoutExtension);
             }
 
             //noinspection ResultOfMethodCallIgnored
             originalFile.delete();
-            String href = "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
+            String href =
+                    "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
 
-            return new UploadZip(1, href, fileName,0, "Upload and Conversion was successful");
+            return new UploadZip(1, href, fileName, 0,
+                    "Upload and Conversion was successful");
         } catch (Exception e) {
-            return new UploadZip(0, null, null, 0, "Upload and Conversion was not successful"); // @todo change this
+            return new UploadZip(0, null, null, 0,
+                    "Upload and Conversion was not successful"); // @todo
+            // change this
         }
     }
 
     /**
-     * <h1>Download file</h1>
-     * Allows to download processed files
+     * <h1>Download file</h1> Allows to download processed files.
      *
-     * @param fileName      filename to download
-     * @return              path to file or error
+     * @param fileName filename to download
+     * @return path to file or error
      */
     @RequestMapping(value = "/file/{fileID}", method = RequestMethod.GET)
     public void getFile(
             @PathVariable("fileID") String fileName,
             HttpServletResponse response) throws IOException {
 
-        String src = HelperComponent.getFileLocation(fileName+".zip");
+        String src = HelperComponent.getFileLocation(fileName + ".zip");
 
         File file = new File(src);
         InputStream is = new FileInputStream(file);
@@ -177,8 +201,10 @@ public class UploadDownloadController {
         os.close();
         is.close();
 
-        if(!doChecksum) //noinspection ResultOfMethodCallIgnored
+        if (!doChecksum) //noinspection ResultOfMethodCallIgnored
+        {
             file.delete();
+        }
     }
 
 }
