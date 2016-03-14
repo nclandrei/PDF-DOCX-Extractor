@@ -33,7 +33,7 @@ public class UploadZip {
      *
      * @return a String with the Zip's message
      */
-    public String getMessage() {
+    public final String getMessage() {
         return message;
     }
 
@@ -42,7 +42,7 @@ public class UploadZip {
      *
      * @param message string to be set to
      */
-    public void setMessage(final String message) {
+    public final void setMessage(final String message) {
         this.message = message;
     }
 
@@ -51,7 +51,7 @@ public class UploadZip {
      *
      * @return a int with the Zip's status
      */
-    public int getStatus() {
+    public final int getStatus() {
         return status;
     }
 
@@ -60,7 +60,7 @@ public class UploadZip {
      *
      * @param status int to set the status to.
      */
-    public void setStatus(final int status) {
+    public final void setStatus(final int status) {
         this.status = status;
     }
 
@@ -69,7 +69,7 @@ public class UploadZip {
      *
      * @return a String with the Zip's href
      */
-    public String getHref() {
+    public final String getHref() {
         return href;
     }
 
@@ -78,7 +78,7 @@ public class UploadZip {
      *
      * @param href String to set the href to
      */
-    public void setHref(final String href) {
+    public final void setHref(final String href) {
         this.href = href;
     }
 
@@ -87,7 +87,7 @@ public class UploadZip {
      *
      * @return a String with the Zip's filename
      */
-    public String getFilename() {
+    public final String getFilename() {
         return filename;
     }
 
@@ -96,7 +96,7 @@ public class UploadZip {
      *
      * @param filename String to set the filename to
      */
-    public void setFilename(final String filename) {
+    public final void setFilename(final String filename) {
         this.filename = filename;
     }
 
@@ -105,7 +105,7 @@ public class UploadZip {
      *
      * @return an int with the Zip's int
      */
-    public int getFileSize() {
+    public final int getFileSize() {
         return fileSize;
     }
 
@@ -114,7 +114,7 @@ public class UploadZip {
      *
      * @param fileSize int to set the file size to
      */
-    public void setFileSize(final int fileSize) {
+    public final void setFileSize(final int fileSize) {
         this.fileSize = fileSize;
     }
 }
