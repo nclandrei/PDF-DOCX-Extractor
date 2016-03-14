@@ -31,7 +31,7 @@ public class UploadZip {
     /**
      * Return the Zip's message.
      *
-     * @return
+     * @return a String with the Zip's message
      */
     public String getMessage() {
         return message;
@@ -49,7 +49,7 @@ public class UploadZip {
     /**
      * Get this Zip's status.
      *
-     * @return
+     * @return a int with the Zip's status
      */
     public int getStatus() {
         return status;
@@ -67,7 +67,7 @@ public class UploadZip {
     /**
      * Get the Zip's href.
      *
-     * @return
+     * @return a String with the Zip's href
      */
     public String getHref() {
         return href;
@@ -85,7 +85,7 @@ public class UploadZip {
     /**
      * Get the Zip's filename.
      *
-     * @return
+     * @return a String with the Zip's filename
      */
     public String getFilename() {
         return filename;
@@ -103,7 +103,7 @@ public class UploadZip {
     /**
      * Get the Zip's file size.
      *
-     * @return
+     * @return an int with the Zip's int
      */
     public int getFileSize() {
         return fileSize;
