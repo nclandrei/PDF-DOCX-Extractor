@@ -35,8 +35,6 @@ public class HelperComponent {
                 //check the directory again, if empty then delete it
                 if (file.list().length == 0) {
                     file.delete();
-                    System.out.println(
-                            "Directory is deleted : " + file.getAbsolutePath());
                 }
             }
         } else {

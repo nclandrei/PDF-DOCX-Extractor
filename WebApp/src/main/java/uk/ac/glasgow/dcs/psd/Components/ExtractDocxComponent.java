@@ -40,7 +40,6 @@ public class ExtractDocxComponent {
         File directory = new File(output);
 
         if (tables == null) {
-            System.out.printf("ERROR: No Tables found for file: %s\n", input);
             return;
         }
 
@@ -67,7 +66,6 @@ public class ExtractDocxComponent {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             return;
         }
 
@@ -146,8 +144,6 @@ public class ExtractDocxComponent {
         try {
             testFile = new XWPFDocument(new FileInputStream(fileName));
         } catch (IOException e) {
-            System.out.printf("ERROR: File <%s> not found\n", fileName);
-            e.printStackTrace();
             return null;
         }
 

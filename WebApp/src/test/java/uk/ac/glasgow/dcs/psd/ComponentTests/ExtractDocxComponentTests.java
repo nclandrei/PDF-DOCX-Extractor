@@ -27,8 +27,6 @@ public class ExtractDocxComponentTests {
         fileName = directory + "/Resources/test.docx";
         output = directory + "/Resources/test";
         testCsv = directory + "/Resources/test.csv";
-
-
     }
 
 
@@ -62,13 +60,11 @@ public class ExtractDocxComponentTests {
             ZipEntry entry;
             while(entries.hasMoreElements()){
                 entry = entries.nextElement();
-                System.out.println(entry.getName());
                 if (entry.getName().endsWith(".csv")) {
                     zipReader = new BufferedReader(new InputStreamReader(zip.getInputStream(entry)));
                     String testLine;
                     while((testLine = testReader.readLine()) != null) {
                         String zipLine = zipReader.readLine();
-                        System.out.printf("Test: %s\n Zip:%s\n", testLine, zipLine);
                         assertEquals(testLine, zipLine);
                     }
                 }
