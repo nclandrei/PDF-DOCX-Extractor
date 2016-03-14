@@ -1,4 +1,4 @@
-package uk.ac.glasgow.dcs.psd.Controllers;
+package uk.ac.glasgow.dcs.psd.ControllerTests;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import uk.ac.glasgow.dcs.psd.Controllers.EmailController;
 import uk.ac.glasgow.dcs.psd.WebAppApplication;
 
 import javax.mail.MessagingException;
