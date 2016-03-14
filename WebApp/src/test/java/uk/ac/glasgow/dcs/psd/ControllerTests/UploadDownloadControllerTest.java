@@ -72,7 +72,7 @@ public class UploadDownloadControllerTest {
      */
     @Test
     public void getFile() throws Exception {
-        this.mockMvc.perform(get("/test")
+        this.mockMvc.perform(get("/file/test")
                 .accept("application/zip"))
                 .andExpect(status().isOk());
     }
