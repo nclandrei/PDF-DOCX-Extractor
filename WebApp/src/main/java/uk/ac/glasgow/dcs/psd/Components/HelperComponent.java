@@ -17,8 +17,8 @@ public class HelperComponent {
     /**
      * Deletes the directory created with tables, images and README file
      *
-     * @param file
-     * @throws IOException
+     * @param file the file/folder to be deleted
+     * @throws IOException will throw an IOException if the file is not found
      */
     public static void delete(File file) throws IOException {
 
@@ -53,8 +53,8 @@ public class HelperComponent {
     /**
      * Method that returns the full path of a file provided as a parameter
      *
-     * @param fileName
-     * @return
+     * @param fileName the file/directory to find the path of
+     * @return returns a string that represents the path of the file/directory
      */
     public static String getFileLocation(String fileName) {
         String separator = System.getProperty("file.separator");
