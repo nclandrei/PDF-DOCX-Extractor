@@ -18,13 +18,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Test case for HomeController
+ * Test case for JavascriptTestController
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 @PropertySource("classpath:application.properties")
 @WebAppConfiguration
-public class HomeControllerTest {
+public class JavascriptTestControllerTest {
     @Autowired WebApplicationContext wac;
 
     private MockMvc mockMvc;
@@ -35,13 +35,13 @@ public class HomeControllerTest {
     }
 
     /**
-     * Try to open base url and expect HTML page
-     * with HTML code 200.
+     * Try to open base url/qunit/qunit_setup.html
+     * and expect HTML page with HTML code 200.
      * @throws Exception if an error occurs
      */
     @Test
-    public void getHome() throws Exception {
-        this.mockMvc.perform(get("/")
+    public void getTest() throws Exception {
+        this.mockMvc.perform(get("/qunit/qunit_setup.html")
                 .accept(MediaType.TEXT_HTML))
                 .andExpect(status().isOk());
     }
