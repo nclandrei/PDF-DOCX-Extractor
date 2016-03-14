@@ -4,7 +4,9 @@ package uk.ac.glasgow.dcs.psd.ComponentTests;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import uk.ac.glasgow.dcs.psd.Components.ExtractPdfComponent;
 import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
 
@@ -32,31 +34,29 @@ public class ExtractPdfComponentTests {
      * @param file2 input file 2
      * @return true if the files have the same content, false otherwise
      */
-    private boolean compareFiles(String file1, String file2){
+    private boolean compareFiles(String file1, String file2) {
         String resultString;
         String oracleString;
         boolean comparison = true;
-        try(BufferedReader resultReader = new BufferedReader(new FileReader(file1));
-            BufferedReader oracleReader = new BufferedReader(new FileReader(file2))){
+        try (BufferedReader resultReader = new BufferedReader(new FileReader(file1));
+             BufferedReader oracleReader = new BufferedReader(new FileReader(file2))) {
 
-            while((resultString = resultReader.readLine()) != null && (oracleString = oracleReader.readLine()) != null){
-                if(!resultString.equals(oracleString)){
+            while ((resultString = resultReader.readLine()) != null && (oracleString = oracleReader.readLine()) != null) {
+                if (!resultString.equals(oracleString)) {
                     comparison = false;
                     break;
                 }
             }
-        }
-        catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return comparison;
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         //disable System.out to prevent tabula component from doing debug printing
         originalOut = System.out;
         collectedOut = new ByteArrayOutputStream();
@@ -70,18 +70,18 @@ public class ExtractPdfComponentTests {
 
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         System.setOut(originalOut);
     }
 
     /**
      * <h1>Tests the operation of processJSON</h1>
-     *
+     * <p>
      * This function uses a sample json to generate a folder with the extracted table
      * and compare that against a pre-made table.
-      */
+     */
     @Test
-    public void processJSONTest(){
+    public void processJSONTest() {
 
         File workFolder = new File(directory + "/ResourcesTests/");
         workFolder.mkdir();
@@ -90,7 +90,7 @@ public class ExtractPdfComponentTests {
         File sourceJson = new File(jsonFileWithoutExtension + ".json");
         File copyJson = new File(directory + "/ResourcesTests/sample7.json");
 
-        try{
+        try {
             //copy the original json because it gets deleted
             Files.copy(sourceJson.toPath(), copyJson.toPath());
 
@@ -99,10 +99,9 @@ public class ExtractPdfComponentTests {
             Method processJSON = pdfExtract.getDeclaredMethod("processJSON", cArg);
             processJSON.setAccessible(true);
             processJSON.invoke(null, newJsonLoc);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
+            return;
         }
 
         boolean comparison = compareFiles(newJsonLoc + "/table0.csv", directory + "/Resources/table0.csv");
@@ -118,22 +117,21 @@ public class ExtractPdfComponentTests {
 
     /**
      * <h1>Tests the operation of generateJSON</h1>
-     *
+     * <p>
      * This function uses a sample pdf to generate an extracted json
      * and compare that against a pre-made json.
      */
     @Test
-    public void generateJSONTest(){
-        try{
+    public void generateJSONTest() {
+        try {
             Class[] cArg = new Class[1];
             cArg[0] = String.class;
             Method generateJSON = pdfExtract.getDeclaredMethod("generateJSON", cArg);
             generateJSON.setAccessible(true);
-            generateJSON.invoke(null ,jsonFileWithoutExtension + "0");
-        }
-        catch(Exception e){
+            generateJSON.invoke(null, jsonFileWithoutExtension + "0");
+        } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
+            return;
         }
 
         boolean comparison = compareFiles(jsonFileWithoutExtension + ".json", jsonFileWithoutExtension + "0.json");
@@ -146,13 +144,13 @@ public class ExtractPdfComponentTests {
 
     /**
      * <h1>Tests the operation of main process functio</h1>
-     *
+     * <p>
      * This function uses a sample pdf to generate a zip
      * and compare its contents against a pre-made csv which represents
      * the only table in the sample pdf.
      */
     @Test
-    public void processTest(){
+    public void processTest() {
         String pdfWithoutExtension = directory + "/Resources/sample70";
         ExtractPdfComponent.process(pdfWithoutExtension);
         boolean success = true;
@@ -161,7 +159,7 @@ public class ExtractPdfComponentTests {
         BufferedReader zipReader = null;
         try {
             testReader = new BufferedReader(new FileReader(directory + "/Resources/table0.csv"));
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.err.printf("table0.csv file was not found\n");
             e.printStackTrace();
             assertTrue(false);
@@ -170,14 +168,14 @@ public class ExtractPdfComponentTests {
         try {
             ZipFile zip = new ZipFile(pdfWithoutExtension + ".zip");
             Enumeration<? extends ZipEntry> entries = zip.entries();
-            while(entries.hasMoreElements()){
+            while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
                 if (entry.getName().endsWith(".csv")) {
                     zipReader = new BufferedReader(new InputStreamReader(zip.getInputStream(entry)));
                     String testLine;
                     while ((testLine = testReader.readLine()) != null) {
                         String zipLine = zipReader.readLine();
-                        if(!testLine.equals(zipLine)){
+                        if (!testLine.equals(zipLine)) {
                             success = false;
                             break;
                         }
@@ -187,8 +185,7 @@ public class ExtractPdfComponentTests {
             zipReader.close();
             testReader.close();
             (new File(pdfWithoutExtension + ".zip")).delete();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.err.printf("Error opening zip file %s\n", pdfWithoutExtension);
             e.printStackTrace();
             success = false;
@@ -199,12 +196,12 @@ public class ExtractPdfComponentTests {
 
     /**
      * <h1>Tests the operation of extractImages</h1>
-     *
+     * <p>
      * This function uses a sample pdf to extract three images
      * and then checks that they are all present.
      */
     @Test
-    public void extractImagesTest(){
+    public void extractImagesTest() {
 
         String imageDir = directory + "/Resources/images";
 
@@ -214,10 +211,9 @@ public class ExtractPdfComponentTests {
             Method extractImages = pdfExtract.getDeclaredMethod("extractImages", cArg);
             extractImages.setAccessible(true);
             extractImages.invoke(null, imageDir);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
+            return;
         }
 
         File image1 = new File(imageDir + "/image1.png");
@@ -226,10 +222,9 @@ public class ExtractPdfComponentTests {
 
         boolean success = image1.exists() && image2.exists() && image3.exists();
 
-        try{
+        try {
             HelperComponent.delete(new File(imageDir));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
