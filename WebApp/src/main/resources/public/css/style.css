@@ -143,3 +143,14 @@ nav {height: 64px;}
 .dev-row{
     margin: 10px 0;
 }
+
+#modal2 h5{
+    margin:24px 0;
+}
+
+#modal2 #notice-title{
+
+}
+#modal2 #notice-text{
+    font-size:120%;
+}
