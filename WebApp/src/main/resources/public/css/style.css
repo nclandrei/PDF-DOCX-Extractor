@@ -43,15 +43,11 @@ html{
 }
 
 .light-blue.lighten-1{
-	background: #1C4587 !important;
+	//background: #1C4587 !important;
 }
 
 .btn-large.waves-effect.waves-light.orange{
 	background: #69728C !important;
-}
-
-#submit-button{
-    //background: #43495C !important;
 }
 
 .material-icons.right{
@@ -59,7 +55,6 @@ html{
 }
 
 #header-img {
-	max-height:64px;
 	padding: 4px;
 }
 
@@ -71,7 +66,6 @@ html{
 
 #modal3 div div.modal-footer{
     float:none;
-    //margin: none;
 }
 
 #modal3 img {
@@ -116,7 +110,28 @@ html{
     color: #333 !important;
 }
 
-nav {height: 64px;}
+nav {
+    height: 116px;
+    background-color: white;
+    box-shadow: 0 4px 5px 0 rgba(27, 58, 106, 0.16), -4px 4px 20px 0 rgba(27, 58, 106, 0.12);
+}
+
+.nav-wrapper.container {
+}
+
+nav ul {
+}
+
+nav ul li{
+    height:116px;
+    display:table;
+}
+
+nav ul li a {
+    color: rgb(27, 58, 106);
+    display:table-cell;
+    vertical-align: middle;
+}
 
 @media only screen and (max-width: 600px) {
     #logo-text {

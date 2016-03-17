@@ -11,5 +11,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-test:4.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.3.0.RELEASE" level="project" />
     <orderEntry type="module" module-name="main" scope="TEST" />
+    <orderEntry type="module" module-name="main" />
   </component>
 </module>
