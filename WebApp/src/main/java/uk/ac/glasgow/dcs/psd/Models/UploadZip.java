@@ -4,11 +4,11 @@ package uk.ac.glasgow.dcs.psd.Models;
  * UploadZip is a class that models the attributes of a Zip file.
  */
 public class UploadZip {
-    int status;
-    String href;
-    String filename;
-    int fileSize;
-    String message;
+    private int status;
+    private String href;
+    private String filename;
+    private int fileSize;
+    private String message;
 
     /**
      * Constructor for the UploadZip class.
