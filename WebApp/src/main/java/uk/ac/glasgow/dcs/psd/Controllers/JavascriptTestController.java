@@ -13,7 +13,6 @@ public class JavascriptTestController {
      * Routes /test to actual html page
      * @return          qunit_setup.html page
      */
-
     @RequestMapping("/qUnit")
     String testIndex() { return "/qunit/index.html"; }
 

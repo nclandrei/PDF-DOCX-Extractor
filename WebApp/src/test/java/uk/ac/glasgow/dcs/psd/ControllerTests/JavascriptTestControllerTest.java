@@ -40,9 +40,21 @@ public class JavascriptTestControllerTest {
      * @throws Exception if an error occurs
      */
     @Test
-    public void test() throws Exception {
-        this.mockMvc.perform(get("/test")
+    public void testIndex() throws Exception {
+        this.mockMvc.perform(get("/qUnit")
                 .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Try to open base url/qunit/tests.html
+     * and expect text page with HTML code 200.
+     * @throws Exception if an error occurs
+     */
+    @Test
+    public void testJS() throws Exception {
+        this.mockMvc.perform(get("/tests.js")
+                .accept(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
     }
 }
