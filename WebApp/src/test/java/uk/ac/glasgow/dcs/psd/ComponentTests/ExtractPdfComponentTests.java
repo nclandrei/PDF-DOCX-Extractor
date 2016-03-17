@@ -92,7 +92,9 @@ public class ExtractPdfComponentTests {
 
         try {
             //copy the original json because it gets deleted
-            Files.copy(sourceJson.toPath(), copyJson.toPath());
+            if (!copyJson.exists()) {
+                Files.copy(sourceJson.toPath(), copyJson.toPath());
+            }
 
             Class[] cArg = new Class[1];
             cArg[0] = String.class;
