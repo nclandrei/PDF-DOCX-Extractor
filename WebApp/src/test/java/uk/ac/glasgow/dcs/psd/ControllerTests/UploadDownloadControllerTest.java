@@ -1,29 +1,30 @@
 package uk.ac.glasgow.dcs.psd.ControllerTests;
 
         import org.junit.After;
-        import org.junit.Before;
-        import org.junit.Test;
-        import org.junit.runner.RunWith;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.beans.factory.support.ReplaceOverride;
-        import org.springframework.boot.test.SpringApplicationConfiguration;
-        import org.springframework.context.annotation.PropertySource;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.annotation.PropertySource;
         import org.springframework.http.MediaType;
         import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-        import org.springframework.test.context.web.WebAppConfiguration;
-        import org.springframework.test.web.servlet.MockMvc;
-        import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-        import org.springframework.web.context.WebApplicationContext;
-        import uk.ac.glasgow.dcs.psd.ApplicationConfiguration;
-        import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import uk.ac.glasgow.dcs.psd.ApplicationConfiguration;
 
-        import java.io.File;
-        import java.io.IOException;
-        import java.nio.file.Files;
-        import java.nio.file.StandardCopyOption;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
-        import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-        import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+        import static org.hamcrest.Matchers.containsInAnyOrder;
+        import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Test case for HomeController
@@ -38,7 +39,8 @@ public class UploadDownloadControllerTest {
 
     private MockMvc mockMvc;
 
-    String publicResourcesTestZip = "";
+    String publicResourcesTestZip;
+    String publicResourcesSecondTestZip;
 
     @Before
     public void setup() {
@@ -48,7 +50,9 @@ public class UploadDownloadControllerTest {
         directoryTest += "/src/test/java/uk/ac/glasgow/dcs/psd";
         directoryMain += "/src/main/";
         String resourcesTestZip = directoryTest + "/Resources/testGetFile.zip";
-        publicResourcesTestZip += directoryMain + "resources/static/uploads/test.zip";
+        publicResourcesTestZip = directoryMain + "resources/static/uploads/test.zip";
+        publicResourcesSecondTestZip =
+                directoryMain + "resources/static/uploads/Zfbj7AHekx.zip";
         try {
             Files.copy(new File(resourcesTestZip).toPath(),
                     new File(publicResourcesTestZip).toPath(),
@@ -61,8 +65,11 @@ public class UploadDownloadControllerTest {
 
     @After
     public void tearDown(){
-        // remove test.zip
-        new File(publicResourcesTestZip).delete();
+        boolean deleteTestZip = new File(publicResourcesTestZip).delete();
+        boolean deleteSecondTestZip = new File(publicResourcesSecondTestZip).delete();
+        if(!deleteTestZip || !deleteSecondTestZip) {
+            System.out.println("Failed to delete test zips");
+        }
     }
 
     /**
@@ -87,5 +94,40 @@ public class UploadDownloadControllerTest {
         this.mockMvc.perform(get("/tests")
                 .accept("application/zip"))
                 .andExpect(status().is4xxClientError());
+    }
+
+    /**
+     * Test working link to a file
+     */
+    @Test
+    public void handleFileUploadDropbox() {
+        try {
+            this.mockMvc.perform(post("/uploadFileDropbox")
+                    .param("file","https://cldup.com/Zfbj7AHekx.docx")
+                    .param("fileName","Zfbj7AHekx.docx"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.status").value(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test not working link to a file
+     */
+    @Test
+    public void handleFileUploadDropboxNotWorking() {
+        try {
+            this.mockMvc.perform(post("/uploadFileDropbox")
+                    .param("file","Zfbj7AHekx.docx")
+                    .param("fileName","Zfbj7AHekx.docx"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(jsonPath("$.status").value(0));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

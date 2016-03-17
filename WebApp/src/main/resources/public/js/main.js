@@ -132,7 +132,6 @@ $(document).ready(function () {
                 $('#modal2').openModal();
                 $('#cancel').on('click', function() {
                     location.reload(true);
-                    console.log("it goes here");
                 });
                 $('#agreeToUpload').on('click', function() {
                     $('#spinner').spin('default');
