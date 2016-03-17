@@ -14,6 +14,6 @@ public class JavascriptTestController {
      * @return          qunit_setup.html page
      */
     @RequestMapping("/test")
-    String test() { return "/qunit/qunit_setup.html"; }
+    String test() { return "/qunit/index.html"; }
 
 }
