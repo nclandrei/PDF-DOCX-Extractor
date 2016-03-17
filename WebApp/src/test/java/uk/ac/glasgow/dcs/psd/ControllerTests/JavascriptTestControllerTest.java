@@ -40,8 +40,8 @@ public class JavascriptTestControllerTest {
      * @throws Exception if an error occurs
      */
     @Test
-    public void getTest() throws Exception {
-        this.mockMvc.perform(get("/qunit/qunit_setup.html")
+    public void test() throws Exception {
+        this.mockMvc.perform(get("/test")
                 .accept(MediaType.TEXT_HTML))
                 .andExpect(status().isOk());
     }
