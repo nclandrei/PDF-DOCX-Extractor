@@ -48,7 +48,31 @@
 		<main.basedir>${basedir}/../..</main.basedir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+        <sonar.cobertura.reportPath>target/site/cobertura/coverage.xml</sonar.cobertura.reportPath>
 	</properties>
+
+    <profiles>
+
+        <profile>
+            <id>default</id>
+            <properties>
+                <testcase.include>%regex[.*/ComponentTests/.*[.]class]</testcase.include>
+                <testcase.include>%regex[.*/ControllerTests/.*[.]class]</testcase.include>
+                <testcase.exclude></testcase.exclude>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>coberturaTest</id>
+            <properties>
+                <testcase.include>%regex[.*/ComponentTests/.*[.]class]</testcase.include>
+                <testcase.exclude>%regex[.*/ControllerTests/.*[.]class]</testcase.exclude>
+            </properties>
+        </profile>
+    </profiles>
 
 	<dependencies>
 		<dependency>
@@ -111,10 +135,12 @@
 	</dependencies>
     <build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -123,6 +149,33 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>${testcase.include}</include>
+                    </includes>
+                    <excludes>
+                        <exclude>${testcase.exclude}</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                    <check/>
+                </configuration>
+            </plugin>
+
 		</plugins>
 	</build>
 </project>
