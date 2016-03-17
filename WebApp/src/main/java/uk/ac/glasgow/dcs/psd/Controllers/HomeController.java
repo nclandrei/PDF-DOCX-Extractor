@@ -19,4 +19,12 @@ public class HomeController {
     @RequestMapping("/")
     String home() { return "/index.html"; }
 
+    /**
+     * <h1>Return #404 page</h1>
+     * Returns 404.html page when when unknown page is accessed.
+     * @return          resources/public/404.html
+     */
+    @RequestMapping("/error404")
+    String error404() { return "/404.html"; }
+
 }
