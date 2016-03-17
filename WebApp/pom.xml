@@ -173,6 +173,16 @@
                         <format>xml</format>
                     </formats>
                     <check/>
+                    <instrumentation>
+                        <ignores>
+                            <ignore>uk/ac/glasgow/dcs/psd/Controllers/*</ignore>
+                            <ignore>uk/ac/glasgow/dcs/psd/ComponentTests/*</ignore>
+                        </ignores>
+                        <excludes>
+                            <exclude>uk/ac/glasgow/dcs/psd/Controllers/*</exclude>
+                            <exclude>uk/ac/glasgow/dcs/psd/ComponentTests/*</exclude>
+                        </excludes>
+                    </instrumentation>
                 </configuration>
             </plugin>
 
