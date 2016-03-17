@@ -68,14 +68,10 @@ html{
     text-align:center;
 
 }
-#modal3 div div{
-    //float:left;64
-    //margin: 0 40px;
-}
 
 #modal3 div div.modal-footer{
     float:none;
-    margin: none;
+    //margin: none;
 }
 
 #modal3 img {
@@ -98,11 +94,20 @@ html{
     font-family:'Lato';
     position:relative;
     top:-24px;
-    //left:10px;
     font-weight:900;
-    letter-spacing:-2px;
+    letter-spacing:1px;
 }
-
+/*
+#logo-subtext{
+    display:block;
+    font-family:'Lato';
+    position:relative;
+    top:-24px;
+    font-weight:900;
+    letter-spacing:1px;
+    font-size:50%;
+}
+*/
 #logo-container .col{
     padding:0;
 }
@@ -116,13 +121,14 @@ nav {height: 64px;}
 @media only screen and (max-width: 600px) {
     #logo-text {
         display: none;
-    }
+    }#logo-subtext {
+         display: none;
+     }
     #header-img{
         left: 18px;
         position: relative;
     }
 }
-
 
 @media only screen and (max-width: 800px) {
     #gla-uni {
@@ -130,13 +136,8 @@ nav {height: 64px;}
     }
 }
 
-
 .dev-name{
     font-weight:bold;
-}
-
-.dev-role{
-
 }
 
 .dev-row{
