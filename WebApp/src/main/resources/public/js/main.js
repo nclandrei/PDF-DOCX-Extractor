@@ -129,26 +129,38 @@ $(document).ready(function () {
         success: function (files) {
             //noinspection JSUnresolvedVariable
             if (files[0].bytes <= 26214400) {
-                $('#spinner').spin('default');
-                $.ajax({
-                    type: "POST",
-                    url: "/uploadFileDropbox",
-                    data: {
-                        file: files[0].link,
-                        fileName: files[0].name
-                    },
-                    success: function (result) {
-                        $('#spinner').spin(false);
-                        location.href = result;
-                    },
-                    error: function (e) {
-                        alert('Failure ' + e.status);
-                    }
+                $('#modal2').openModal();
+                $('#cancel').on('click', function() {
+                    location.reload(true);
+                    console.log("it goes here");
                 });
+                $('#agreeToUpload').on('click', function() {
+                    $('#spinner').spin('default');
+                    $.ajax({
+                        type: "POST",
+                        url: "/uploadFileDropbox",
+                        data: {
+                            file: files[0].link,
+                            fileName: files[0].name
+                        },
+                        success: function (result) {
+                            $('#spinner').spin(false);
+                            if (result.status != 1) {
+                                alert(result.message);
+                            } else {
+                                location.href = result.href;
+                            }
+                        },
+                        error: function (e) {
+                            alert('Failure ' + e.status);
+                        }
+                    });
+                })
             } else {
                 //noinspection JSUnresolvedVariable
                 alert(files[0].name +
-                        $([files[0].bytes]).map(function () { return " (" + (this / 1024 / 1024).toFixed(2) + " MB)" })[0] +
+                        $([files[0].bytes]).map(function ()
+                        { return " (" + (this / 1024 / 1024).toFixed(2) + " MB)" })[0] +
                         " is too big! Maximum file size is 25MB.")
             }
         },

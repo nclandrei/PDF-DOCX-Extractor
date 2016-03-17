@@ -32,6 +32,7 @@
             <li><!--suppress XmlDuplicatedId -->
                 <a href="#" id="bug-report-button">Submit a bug report</a></li>
             <li><a href="#">About</a></li>
+            <li><a href="#">Team</a></li>
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -45,9 +46,6 @@
             <h5 class="header col s12 light">A modern way to extract tables from PDF and DOCX files</h5>
         </div>
         <div class="row center">
-            <!--
-            <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">upload file</a>
-            -->
             <!--suppress HtmlUnknownTarget -->
             <form method="POST" action="uploadFile" id="localUpload" enctype="multipart/form-data">
                 <label class="btn-large waves-effect waves-light orange" type="file"
@@ -212,7 +210,7 @@
                         <button id="agreeToUpload" class=" modal-action modal-close waves-effect waves-light btn orange"
                                 type="submit" name="action" style="margin-left:4px;">Agree
                         </button>
-                        <a href="#" class=" modal-action modal-close waves-effect waves-light btn">Cancel</a>
+                        <a href="#" id="cancel" class=" modal-action modal-close waves-effect waves-light btn">Cancel</a>
                     </div>
                 </div>
 
