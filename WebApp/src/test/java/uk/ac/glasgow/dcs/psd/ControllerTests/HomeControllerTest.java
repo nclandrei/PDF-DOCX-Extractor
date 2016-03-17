@@ -45,4 +45,17 @@ public class HomeControllerTest {
                 .accept(MediaType.TEXT_HTML))
                 .andExpect(status().isOk());
     }
+
+    /**
+     * Try to open non existing url
+     * and expect HTML page
+     * with HTML code 404.
+     * @throws Exception if an error occurs
+     */
+    @Test
+    public void get404() throws Exception {
+        this.mockMvc.perform(get("/error404")
+                .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk());
+    }
 }
