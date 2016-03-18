@@ -176,13 +176,12 @@
                     <instrumentation>
                         <ignores>
                             <ignore>uk/ac/glasgow/dcs/psd/Controllers/*</ignore>
-                            <ignore>uk/ac/glasgow/dcs/psd/ComponentTests/*</ignore>
                             <ignore>uk/ac/glasgow/dcs/psd/WebApplication*</ignore>
                             <ignore>uk/ac/glasgow/dcs/psd/Application*</ignore>
+                            <ignore>uk/ac/glasgow/dcs/psd/Customization*</ignore>
                         </ignores>
                         <excludes>
                             <exclude>uk/ac/glasgow/dcs/psd/Controllers/*</exclude>
-                            <exclude>uk/ac/glasgow/dcs/psd/ComponentTests/*</exclude>
                             <exclude>uk/ac/glasgow/dcs/psd/WebAppApplication*</exclude>
                             <exclude>uk/ac/glasgow/dcs/psd/Application*</exclude>
                             <exclude>uk/ac/glasgow/dcs/psd/Customization*</exclude>
