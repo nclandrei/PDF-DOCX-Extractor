@@ -44,30 +44,6 @@ $(document).ready(function () {
         }
     });
 
-    // drag and drop
-    new Dropzone(document.body, {
-        url: "/uploadFile",
-        maxFilesize: 25,
-        uploadMultiple: false,
-        maxFiles: 1,
-        acceptedFiles: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        accept: function(file, done) {
-            $('#spinner').spin('default');
-            done();
-        },
-        processData: false,
-        contentType: false,
-        previewsContainer: "#previews",
-        success: function (result) {
-            $('#spinner').spin(false);
-            //noinspection JSValidateTypes
-            location.href = result.xhr.response;
-        },
-        error: function (e) {
-            alert('Failure ' + e.status);
-        }
-    });
-
     $('#bug-report').validate({
         errorClass: 'invalid',
         errorPlacement: function (error, element) {
@@ -121,6 +97,40 @@ $(document).ready(function () {
                 alert('Failure ' + e.status);
             }
         });
+    });
+
+    // drag and drop
+    new Dropzone(document.body, {
+        url: "/uploadFile",
+        maxFilesize: 25,
+        uploadMultiple: false,
+        maxFiles: 1,
+        acceptedFiles: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        accept: function(file, done) {
+            $('#modal2').openModal();
+            $('#cancel').one('click', function (e) {
+                location.reload(true);
+            });
+            $('#agreeToUpload').one('click', function (e) {
+                $('#spinner').spin('default');
+                done();
+            });
+        },
+        processData: false,
+        contentType: false,
+        previewsContainer: "#previews",
+        success: function (result) {
+            $('#spinner').spin(false);
+            var r = JSON.parse(result.xhr.responseText);
+            if (r.status != 1) {
+                alert(r.message);
+            } else {
+                document.location = r.href;
+            }
+        },
+        error: function (e) {
+            alert('Failure ' + e.status);
+        }
     });
 
     var button = Dropbox.createChooseButton({
