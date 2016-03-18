@@ -16,15 +16,15 @@ public class UploadZip {
      * @param status   status code
      * @param href     a the file to be downloaded
      * @param filename the name of the zip file
-     * @param fileSize its size
      * @param message  to print out if needed
      */
-    public UploadZip(final int status, final String href, final String filename,
-                     final int fileSize, final String message) {
+    public UploadZip(final int status,
+                     final String href,
+                     final String filename,
+                     final String message) {
         this.status = status;
         this.href = href;
         this.filename = filename;
-        this.fileSize = fileSize;
         this.message = message;
     }
 

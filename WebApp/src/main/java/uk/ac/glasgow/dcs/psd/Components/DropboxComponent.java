@@ -120,7 +120,7 @@ public class DropboxComponent {
             e.printStackTrace();
         }
 
-        return new UploadZip(1, linkDirect.url, fileName, 0,
+        return new UploadZip(1, linkDirect.url, fileName,
                 "Upload and Conversion was successful");
     }
 

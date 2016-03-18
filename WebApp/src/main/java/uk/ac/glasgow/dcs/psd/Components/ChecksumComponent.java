@@ -70,7 +70,7 @@ public class ChecksumComponent {
                             sCurrentLine.indexOf(":FileName")).substring(
                             0, filename.lastIndexOf(".")
                     );
-                    return new UploadZip(1, href, filename, 0,
+                    return new UploadZip(1, href, filename,
                             "Upload and Conversion was successful");
                 }
             }

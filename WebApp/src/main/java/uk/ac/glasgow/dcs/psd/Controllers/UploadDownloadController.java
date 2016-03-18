@@ -87,25 +87,23 @@ public class UploadDownloadController {
                 }
 
                 //delete the original uploaded file
-                //noinspection ResultOfMethodCallIgnored
                 HelperComponent.delete(originalFile);
 
                 String href = "/file/" + fileName
                         .substring(0, fileName.lastIndexOf("."));
-                return new UploadZip(1, href, fileName, 0,
+                return new UploadZip(1, href, fileName,
                         "Upload and Conversion was successful");
-//                return "/file/" + fileName.substring(0,fileName.lastIndexOf
-// ("."));
             } catch (Exception e) {
-                return new UploadZip(0, null, null, 0,
-                        "Upload and Conversion was not successful"); // @todo
-                // change this
+                return new UploadZip(0, null, null,
+                        "Failed to convert the file. " +
+                                "If you see this more than once, " +
+                                "please submit a bug report.");
             }
         } else {
-            return new UploadZip(0, null, null, 0,
-                    "Upload and Conversion was not successful"); // @todo
-            // change this
-//            return "You failed to upload because the file was empty.";
+            return new UploadZip(0, null, null,
+                    "Failed to upload the file. " +
+                            "If you see this more than once, " +
+                            "please submit a bug report.");
         }
     }
 
@@ -125,6 +123,10 @@ public class UploadDownloadController {
                                              final String fileName)
             throws IOException {
         try {
+            if(file == null || fileName == null) {
+                return new UploadZip(1, null, null,
+                        "Failed to get Dropbox file.");
+            }
             URL website = new URL(file);
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
             String inputFileName = HelperComponent.getFileLocation(fileName);
@@ -157,17 +159,17 @@ public class UploadDownloadController {
                 ExtractPdfComponent.process(fileWithoutExtension);
             }
 
-            //noinspection ResultOfMethodCallIgnored
             originalFile.delete();
             String href =
                     "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
 
-            return new UploadZip(1, href, fileName, 0,
+            return new UploadZip(1, href, fileName,
                     "Upload and Conversion was successful");
         } catch (Exception e) {
-            return new UploadZip(0, null, null, 0,
-                    "Upload and Conversion was not successful"); // @todo
-            // change this
+            return new UploadZip(0, null, null,
+                    "Failed to convert the file. " +
+                            "If you see this more than once, " +
+                            "please submit a bug report.");
         }
     }
 
@@ -204,7 +206,7 @@ public class UploadDownloadController {
         os.close();
         is.close();
 
-        if (!doChecksum) //noinspection ResultOfMethodCallIgnored
+        if (!doChecksum)
         {
             file.delete();
         }

@@ -16,7 +16,7 @@ public class UploadZipTest {
 
     @Before
     public void setUp() {
-        uZip = new UploadZip(0, null, null, 0, null);
+        uZip = new UploadZip(0, null, null, null);
     }
 
     @After
@@ -33,9 +33,7 @@ public class UploadZipTest {
             f.setAccessible(true);
             int retrievedStatus = (int) f.get(uZip);
             assertTrue(retrievedStatus == 200);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -49,9 +47,7 @@ public class UploadZipTest {
             f.setAccessible(true);
             String retrievedFilename = (String) f.get(uZip);
             assertTrue(retrievedFilename.equals("file"));
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -65,9 +61,7 @@ public class UploadZipTest {
             f.setAccessible(true);
             String retrievedHref = (String) f.get(uZip);
             assertTrue(retrievedHref.equals("/link/"));
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -81,25 +75,7 @@ public class UploadZipTest {
             f.setAccessible(true);
             String retrievedMessage = (String) f.get(uZip);
             assertTrue(retrievedMessage.equals("message"));
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void setFileSizeTest() {
-        uZip.setFileSize(10);
-
-        try {
-            Field f = uZip.getClass().getDeclaredField("fileSize");
-            f.setAccessible(true);
-            int retrievedFileSize = (int) f.get(uZip);
-            assertTrue(retrievedFileSize == 10);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -127,12 +103,6 @@ public class UploadZipTest {
     public void getMessageTest() {
         uZip.setMessage("message");
         assertTrue(uZip.getMessage().equals("message"));
-    }
-
-    @Test
-    public void getFileSizeTest() {
-        uZip.setFileSize(10);
-        assertTrue(uZip.getFileSize() == 10);
     }
 
 }
