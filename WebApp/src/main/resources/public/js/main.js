@@ -44,30 +44,6 @@ $(document).ready(function () {
         }
     });
 
-    $('#localUpload').submit(function (e) {
-        e.preventDefault();
-        $('#spinner').spin('default');
-        var formData = new FormData(document.getElementById("localUpload"));
-        $.ajax({
-            type: "POST",
-            url: "/uploadFile",
-            enctype: 'multipart/form-data',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (result) {
-                console.log("inside ajax");
-                $('#spinner').spin(false);
-                if(result.status != 1){
-                    alert(result.message);
-                } else { location.href = result.href; }
-            },
-            error: function (e) {
-                alert('Failure ' + e.status);
-            }
-        });
-    });
-
     // drag and drop
     new Dropzone(document.body, {
         url: "/uploadFile",
@@ -124,16 +100,40 @@ $(document).ready(function () {
         }
     });
 
+    $('#localUpload').submit(function (e) {
+        e.preventDefault();
+        $('#spinner').spin('default');
+        var formData = new FormData(document.getElementById("localUpload"));
+        $.ajax({
+            type: "POST",
+            url: "/uploadFile",
+            enctype: 'multipart/form-data',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                $('#spinner').spin(false);
+                if(result.status != 1){
+                    alert(result.message);
+                } else { location.href = result.href; }
+            },
+            error: function (e) {
+                alert('Failure ' + e.status);
+            }
+        });
+    });
+
     var button = Dropbox.createChooseButton({
         // Required. Called when a user selects an item in the Chooser.
         success: function (files) {
             //noinspection JSUnresolvedVariable
             if (files[0].bytes <= 26214400) {
                 $('#modal2').openModal();
-                $('#cancel').on('click', function() {
+                $('#cancel').one('click', function (e) {
                     location.reload(true);
                 });
-                $('#agreeToUpload').on('click', function() {
+                $('#agreeToUpload').one('click', function (e) {
+                    e.preventDefault();
                     $('#spinner').spin('default');
                     $.ajax({
                         type: "POST",
@@ -154,7 +154,7 @@ $(document).ready(function () {
                             alert('Failure ' + e.status);
                         }
                     });
-                })
+                });
             } else {
                 //noinspection JSUnresolvedVariable
                 alert(files[0].name +
