@@ -119,4 +119,18 @@ public class HelperComponentTest {
 
     }
 
+    /**
+     * Test randomize filename method
+     */
+    @Test
+    public void RandomizeFilenameTest() {
+        String filename1 = "test";
+        String filename2 = filename1;
+
+        filename1 = HelperComponent.RandomizeFilename(filename1);
+        filename2 = HelperComponent.RandomizeFilename(filename2);
+
+        assertNotEquals(filename1,filename2);
+    }
+
 }

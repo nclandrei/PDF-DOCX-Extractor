@@ -3,6 +3,7 @@ package uk.ac.glasgow.dcs.psd.Components;
 import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Helper class designed to provide util methods to other components.
@@ -55,6 +56,18 @@ public class HelperComponent {
                 String.format("src%smain%sresources%sstatic%suploads%s%s",
                         separator, separator, separator, separator, separator,
                         fileName);
+    }
+
+    /**
+     * Randomise filename by adding a random
+     * digit in front of it.
+     * @param fileName original filename
+     * @return fileName
+     */
+    public static String RandomizeFilename(String fileName) {
+        int randomNumber = new Random().nextInt(1000000);
+        fileName = randomNumber + " " + fileName;
+        return fileName;
     }
 
 }

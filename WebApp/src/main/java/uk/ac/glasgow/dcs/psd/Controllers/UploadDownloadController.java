@@ -52,7 +52,7 @@ public class UploadDownloadController {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                String fileName = RandomizeFilename(file.getOriginalFilename());
+                String fileName = HelperComponent.RandomizeFilename(file.getOriginalFilename());
                 BufferedOutputStream stream =
                         new BufferedOutputStream(
                                 new FileOutputStream(new File(HelperComponent
@@ -131,7 +131,7 @@ public class UploadDownloadController {
             }
             URL website = new URL(file);
 
-            fileName = RandomizeFilename(fileName);
+            fileName = HelperComponent.RandomizeFilename(fileName);
 
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
             String inputFileName = HelperComponent.getFileLocation(fileName);
@@ -176,18 +176,6 @@ public class UploadDownloadController {
                             "If you see this more than once, " +
                             "please submit a bug report.");
         }
-    }
-
-    /**
-     * Randomise filename by adding a random
-     * digit in front of it.
-     * @param fileName original filename
-     * @return fileName
-    */
-    private String RandomizeFilename(String fileName) {
-        int randomNumber = new Random().nextInt(1000000);
-        fileName = randomNumber + " " + fileName;
-        return fileName;
     }
 
     /**

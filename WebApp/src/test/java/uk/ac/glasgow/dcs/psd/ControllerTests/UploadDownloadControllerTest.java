@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
         import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.ac.glasgow.dcs.psd.ApplicationConfiguration;
+        import uk.ac.glasgow.dcs.psd.Controllers.UploadDownloadController;
 
         import java.io.*;
         import java.nio.file.Files;
