@@ -10,6 +10,25 @@
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
   <script src="https://code.jquery.com/qunit/qunit-1.22.0.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+  <script>
+    // tell QUnit you're not ready to start right away...
+    QUnit.config.autostart = false;
+
+    $.ajax({
+      url: '/index.html',
+      dataType: 'html',
+      success: function(html) {
+        // find specific elements you want...
+        //var elem = $(html).find(...);
+        console.log("html found");
+        //$('#qunit-fixture').append(elem);
+
+        QUnit.start();  // ...tell QUnit you're ready to go
+      }
+    });
+    </script>
   <script src="tests.js"></script>
 </body>
 </html>
