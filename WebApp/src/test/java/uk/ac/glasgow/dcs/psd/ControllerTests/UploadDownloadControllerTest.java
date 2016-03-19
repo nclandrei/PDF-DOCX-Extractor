@@ -40,6 +40,7 @@ public class UploadDownloadControllerTest {
 
     private MockMvc mockMvc;
 
+    String directoryMain;
     String publicResourcesTestZip;
     String publicResourcesSecondTestZip;
     String getTestResourcesTestDocx;
@@ -55,7 +56,7 @@ public class UploadDownloadControllerTest {
     public void setup() {
         // for getFile()
         String directoryTest = System.getProperty("user.dir");
-        String directoryMain = directoryTest;
+        directoryMain = directoryTest;
         directoryTest += "/src/test/java/uk/ac/glasgow/dcs/psd";
         directoryMain += "/src/main/";
         String resourcesTestZip = directoryTest + "/Resources/testGetFile.zip";
@@ -81,10 +82,17 @@ public class UploadDownloadControllerTest {
      */
     @After
     public void tearDown() {
-        new File(publicResourcesTestZip).delete();
-        new File(publicResourcesSecondTestZip).delete();
-        new File(getPublicResourcesTestDocx).delete();
-        new File(getPublicResourcesTestPdf).delete();
+        File folder = new File(directoryMain + "resources/static/uploads/");
+        File[] listOfFiles = folder.listFiles();
+
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    if(file.getName().contains(".zip"))
+                        file.delete();
+                }
+            }
+        }
     }
 
     /**
@@ -141,7 +149,7 @@ public class UploadDownloadControllerTest {
             MockMultipartFile File = new MockMultipartFile("file",
                     null,
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "non existing file".getBytes());
+                    "".getBytes());
 
             MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
             mockMvc.perform(MockMvcRequestBuilders.fileUpload("/uploadFile")
@@ -183,7 +191,7 @@ public class UploadDownloadControllerTest {
             MockMultipartFile File = new MockMultipartFile("file",
                     null,
                     "application/pdf",
-                    "non existing file".getBytes());
+                    "".getBytes());
 
             MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
             mockMvc.perform(MockMvcRequestBuilders.fileUpload("/uploadFile")
