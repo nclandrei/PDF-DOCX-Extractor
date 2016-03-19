@@ -1,40 +1,56 @@
-function GreetingService() {
-}
-
-GreetingService.prototype.greeting = "Hello";
-
-GreetingService.prototype.greet = function(name) {
-	'use strict';
-	if (!name) {
-		name = "anonymous";
-	}
-	return this.greeting + ", " + name;
-};
-
+/*
+ * Wait until jquery is ready
+ * and only then execute any
+ * of these functions
+ */
 $(document).ready(function () {
 
+    /*
+     * initialize jquery modal
+     */
     $('.modal-trigger').leanModal();
 
+    /*
+     * open modal1 when bug report
+     * button is pressed
+     */
     $('#bug-report-button').on('click', function () {
         $('#modal1').openModal();
     });
 
+    /*
+     * open modal3 when about team
+     * button is pressed
+     */
     $('#team-button').on('click', function () {
         $('#modal3').openModal();
     });
 
+    /*
+     * resize textarea1 on click
+     */
     $('#textarea1').trigger('autoresize');
 
+    /*
+     * close sidebar navigation
+     * on close click
+     */
     $('.button-collapse').sideNav({
             closeOnClick: true
         }
     );
 
+    /*
+     * local upload function helper
+     * changes submit button from
+     * disabled to enabled or
+     * shows an error to a user
+     * if file is not acceptable
+     */
     $('#file-upload').on('change', function () {
         var myFile = $(this).val();
         var ext = myFile.split('.').pop();
         if (ext != "docx" && ext != "pdf" && ext != null) {
-            //noinspection JSUnusedAssignment
             myFile = $(this).val(null);
             alert("Extension ." + ext + " is not supported."
                     + " This tool does work with Microsoft Office .docx and .pdf documents only!");
@@ -44,6 +60,10 @@ $(document).ready(function () {
         }
     });
 
+    /*
+     * validation function for
+     * bug reports
+     */
     $('#bug-report').validate({
         errorClass: 'invalid',
         errorPlacement: function (error, element) {
@@ -51,6 +71,11 @@ $(document).ready(function () {
         }
     });
 
+    /*
+     * submit bug report function which
+     * is called whenever a new bug report
+     * is submitted by the user
+     */
     $('#bug-report').submit(function (e) {
         e.preventDefault();
         var isvalidate=$("#bug-report").valid();
@@ -76,6 +101,11 @@ $(document).ready(function () {
         }
     });
 
+    /*
+     * local upload function which is called
+     * whenever upload using select -> submit
+     * is submitted
+     */
     $('#localUpload').submit(function (e) {
         e.preventDefault();
         $('#spinner').spin('default');
@@ -99,7 +129,10 @@ $(document).ready(function () {
         });
     });
 
-    // drag and drop
+    /*
+     * function to support drag-n-drop
+     * of files inside the application.
+     */
     new Dropzone(document.body, {
         url: "/uploadFile",
         maxFilesize: 25,
@@ -133,6 +166,11 @@ $(document).ready(function () {
         }
     });
 
+    /*
+     * function to allow Dropbox upload feature
+     * and is called whenever a user presses
+     * upload using dropbox button.
+     */
     var button = Dropbox.createChooseButton({
         // Required. Called when a user selects an item in the Chooser.
         success: function (files) {
@@ -166,46 +204,46 @@ $(document).ready(function () {
                     });
                 });
             } else {
-                //noinspection JSUnresolvedVariable
                 alert(files[0].name +
                         $([files[0].bytes]).map(function ()
                         { return " (" + (this / 1024 / 1024).toFixed(2) + " MB)" })[0] +
                         " is too big! Maximum file size is 25MB.")
             }
         },
-        cancel: function () {
-
-        },
+        cancel: function () {},
         linkType: "direct",
         multiselect: false,
         extensions: ['.pdf', '.docx']
     });
 
+    /*
+     * create a dropbox button
+     */
     document.getElementById("dropbox").appendChild(button);
 
-    // loading spinner
+    /*
+     * usage of spinner js
+     */
     (function (factory) {
-        //noinspection JSUnresolvedVariable
+        /*
+         * use with jquery
+         */
         if (typeof exports == 'object') {
-            // CommonJS
-            //noinspection JSUnresolvedFunction
             factory(require('jquery'), require('spin.js'))
-        } else { //noinspection JSUnresolvedVariable
+        } else {
             if (typeof define == 'function' && define.amd) {
-                // AMD, register as anonymous module
-                //noinspection JSUnresolvedFunction
                 define(['jquery', 'spin'], factory)
             } else {
-                // Browser globals
                 if (!window.Spinner) throw new Error('Spin.js not present');
                 factory(window.jQuery, window.Spinner)
             }
         }
 
+        /*
+         * start/stop spinner
+         */
     }(function ($, Spinner) {
-
         $.fn.spin = function (opts, color) {
-
             return this.each(function () {
                 var $this = $(this)
                         , data = $this.data();
@@ -223,7 +261,9 @@ $(document).ready(function () {
                 }
             })
         };
-
+        /*
+         * set spinner options
+         */
         $.fn.spin.presets = {
             tiny: { lines: 8, length: 2, width: 2, radius: 3 }
             , small: { lines: 8, length: 4, width: 3, radius: 5 }
