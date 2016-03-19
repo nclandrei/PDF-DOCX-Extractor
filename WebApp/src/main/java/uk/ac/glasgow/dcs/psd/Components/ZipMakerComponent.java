@@ -87,7 +87,7 @@ public class ZipMakerComponent {
 
             // adding the README file explaining to the user
             // the inside of the archive
-            File readmeFile = new File("./README.txt");
+            File readmeFile = new File("./src/main/resources/README.txt");
             FileInputStream fis = new FileInputStream(readmeFile);
             zos.putNextEntry(new ZipEntry(readmeFile.getName()));
 
