@@ -11,6 +11,8 @@ import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Controller responsible to manage uploads and downloads from post/get
@@ -50,7 +52,7 @@ public class UploadDownloadController {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                String fileName = file.getOriginalFilename();
+                String fileName = RandomizeFilename(file.getOriginalFilename());
                 BufferedOutputStream stream =
                         new BufferedOutputStream(
                                 new FileOutputStream(new File(HelperComponent
@@ -120,7 +122,7 @@ public class UploadDownloadController {
     @ResponseBody
     public UploadZip handleFileUploadDropbox(@RequestParam("file") final String file,
                                              @RequestParam("fileName")
-                                             final String fileName)
+                                             String fileName)
             throws IOException {
         try {
             if(file == null || fileName == null) {
@@ -128,6 +130,9 @@ public class UploadDownloadController {
                         "Failed to get Dropbox file.");
             }
             URL website = new URL(file);
+
+            fileName = RandomizeFilename(fileName);
+
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
             String inputFileName = HelperComponent.getFileLocation(fileName);
             FileOutputStream fos = new FileOutputStream(inputFileName);
@@ -171,6 +176,18 @@ public class UploadDownloadController {
                             "If you see this more than once, " +
                             "please submit a bug report.");
         }
+    }
+
+    /**
+     * Randomise filename by adding a random
+     * digit in front of it.
+     * @param fileName original filename
+     * @return fileName
+    */
+    private String RandomizeFilename(String fileName) {
+        int randomNumber = new Random().nextInt(1000000);
+        fileName = randomNumber + " " + fileName;
+        return fileName;
     }
 
     /**
