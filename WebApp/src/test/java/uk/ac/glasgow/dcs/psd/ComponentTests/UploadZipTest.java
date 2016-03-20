@@ -10,6 +10,13 @@ import uk.ac.glasgow.dcs.psd.Models.UploadZip;
 
 import java.lang.reflect.Field;
 
+
+/**
+ * This class uses reflection tests
+ * to validate the API of UploadZip
+ * Ensuring that everything is correct before
+ * sending it through Springs Jackson ObjectMapper.
+ */
 public class UploadZipTest {
 
     UploadZip uZip = null;
