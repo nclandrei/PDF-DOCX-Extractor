@@ -145,6 +145,39 @@ public class ExtractPdfComponentTests {
     }
 
     /**
+     * <h1>Tests the operation of generateJSON</h1>
+     * <p>
+     * This function tests that Tabula will not attempt
+     * to process a file that does not exist
+     */
+    @Test
+    public void generateJSONWithoutPDFTest() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        PrintStream old = System.err;
+        System.setErr(ps);
+        try {
+            Class[] cArg = new Class[1];
+            cArg[0] = String.class;
+            Method generateJSON = pdfExtract.getDeclaredMethod("generateJSON", cArg);
+            generateJSON.setAccessible(true);
+            generateJSON.invoke(null, jsonFileWithoutExtension + "1");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        System.err.flush();
+        System.setErr(old);
+        String result = baos.toString();
+
+        (new File(jsonFileWithoutExtension + "1.json")).delete();
+
+        assertTrue(result.equals("Error: File does not exist\n"));
+
+    }
+
+
+    /**
      * <h1>Tests the operation of main process functio</h1>
      * <p>
      * This function uses a sample pdf to generate a zip
