@@ -31,6 +31,10 @@ public class UploadZipTest {
         uZip = null;
     }
 
+    /**
+     * Test that changing status works
+     * correctly
+     */
     @Test
     public void setStatusTest() {
         uZip.setStatus(200);
@@ -45,6 +49,10 @@ public class UploadZipTest {
         }
     }
 
+    /**
+     * Test that setting filenames
+     * works correctly
+     */
     @Test
     public void setFilenamesTest() {
         uZip.setFilename("file");
@@ -59,6 +67,10 @@ public class UploadZipTest {
         }
     }
 
+    /**
+     * Test that setting href link
+     * works correctly
+     */
     @Test
     public void setHrefTest() {
         uZip.setHref("/link/");
@@ -73,6 +85,10 @@ public class UploadZipTest {
         }
     }
 
+    /**
+     * Test that setting messages
+     * works correctly
+     */
     @Test
     public void setMessageTest() {
         uZip.setMessage("message");
@@ -87,25 +103,40 @@ public class UploadZipTest {
         }
     }
 
+    /**
+     * Test that getting status
+     * works correctly
+     */
     @Test
     public void getStatusTest() {
         uZip.setStatus(200);
         assertTrue(uZip.getStatus() == 200);
     }
 
-
+    /**
+     * Test that getting filenames
+     * works correctly
+     */
     @Test
     public void getFilenamesTest() {
         uZip.setFilename("file");
         assertTrue(uZip.getFilename().equals("file"));
     }
 
+    /**
+     * Test that getting href link
+     * works correctly
+     */
     @Test
     public void getHrefTest() {
         uZip.setHref("/link/");
         assertTrue(uZip.getHref().equals("/link/"));
     }
 
+    /**
+     * Test that getting message
+     * works correctly
+     */
     @Test
     public void getMessageTest() {
         uZip.setMessage("message");
