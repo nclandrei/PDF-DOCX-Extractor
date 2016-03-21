@@ -70,6 +70,13 @@ public class SmtpMailSenderTest {
         ex = null;
     }
 
+    /**
+     * This test asserts that an email can be sent
+     * successfully without raising an exception
+     *
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     */
     @Test
     public void testEmailSender () throws NoSuchFieldException, IllegalAccessException {
         try {
