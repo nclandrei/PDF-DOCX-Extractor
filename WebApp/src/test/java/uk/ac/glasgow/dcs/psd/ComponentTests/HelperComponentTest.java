@@ -11,6 +11,9 @@ import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class tests the functionality of the HelperComponent class
+ */
 public class HelperComponentTest {
 
     String fileName;
@@ -59,6 +62,9 @@ public class HelperComponentTest {
         }
     }
 
+    /**
+     * Test a simple deletion of a regular file
+     */
     @Test
     public void deleteFileTest() {
         File deleteFile = new File(fileName);
@@ -71,6 +77,9 @@ public class HelperComponentTest {
         assertFalse(deleteFile.exists());
     }
 
+    /**
+     * Test the deletion of an empty folder
+     */
     @Test
     public void deleteEmptyDirectoryTest() {
         File deleteFile = new File(emptyDirName);
@@ -83,6 +92,10 @@ public class HelperComponentTest {
         assertFalse(deleteFile.exists());
     }
 
+    /**
+     * Test the deletion of a folder with
+     * other files inside of it
+     */
     @Test
     public void deleteNonEmptyDirectoryTest() {
         File deleteFile = new File(nonEmptyDirName);
@@ -95,7 +108,9 @@ public class HelperComponentTest {
         assertFalse(deleteFile.exists());
     }
 
-
+    /**
+     * Test the deletion of a single file inside of a dir
+     */
     @Test
     public void deleteFileInDirTest() {
         File deleteFile = new File(fileInDirName);
@@ -108,6 +123,10 @@ public class HelperComponentTest {
         assertFalse(deleteFile.exists());
     }
 
+    /**
+     * Test that the string returned by getFileLocation
+     * is as expected
+     */
     @Test
     public void getFileLocationTest() {
         String testFileName = ".git plzzz";
@@ -120,7 +139,9 @@ public class HelperComponentTest {
     }
 
     /**
-     * Test randomize filename method
+     * Test that if the same filename is passed to
+     * the RandomizeFilename function twice the
+     * results will be different
      */
     @Test
     public void RandomizeFilenameTest() {
