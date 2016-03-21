@@ -56,6 +56,9 @@ public class ZipMakerComponent {
 
             String zipFolder = "";
 
+            zos.putNextEntry(new ZipEntry("csv" + File.separator));
+            zos.putNextEntry(new ZipEntry("images" + File.separator));
+
             for (int i = 0; i < srcFiles.size(); i++) {
 
                 File srcFile = srcFiles.get(i);
