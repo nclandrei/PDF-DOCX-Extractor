@@ -19,8 +19,5 @@ Features
 
 Known Bugs
 -------------------
-- The 'About' and 'Team' page do not display on mobile internet browsers
 - On large screens the footer section does not properly go to the bottom of the
   page
-- When dragging and dropping file, it works the first time, but not a second
-  without refreshing
