@@ -11,34 +11,9 @@ $(document).ready(function () {
     $('.modal-trigger').leanModal();
 
     /*
-     * open modal1 when bug report
-     * button is pressed
-     */
-    $('#bug-report-button').on('click', function () {
-        $('#modal1').openModal();
-    });
-
-    /*
-     * open modal3 when about team
-     * button is pressed
-     */
-    $('#team-button').on('click', function () {
-        $('#modal3').openModal();
-    });
-
-    /*
      * resize textarea1 on click
      */
     $('#textarea1').trigger('autoresize');
-
-    /*
-     * close sidebar navigation
-     * on close click
-     */
-    $('.button-collapse').sideNav({
-            closeOnClick: true
-        }
-    );
 
     /*
      * local upload function helper
