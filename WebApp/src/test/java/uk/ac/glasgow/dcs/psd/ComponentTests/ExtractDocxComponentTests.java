@@ -118,7 +118,7 @@ public class ExtractDocxComponentTests {
      * checking to make sure that it returns the expected output.
      */
     @Test
-    public void extractTablesAndImageTest() {
+    public void extractTableAndImageTest() {
         ExtractDocxComponent
                 .extractTablesAndImages(directory + "/Resources/testImage.docx",
                         output);
