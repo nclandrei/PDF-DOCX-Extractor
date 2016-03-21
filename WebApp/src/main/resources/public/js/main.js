@@ -6,6 +6,17 @@
 $(document).ready(function () {
 
     /*
+     * Initialize sidebar
+     */
+    (function($){
+        $(function(){
+
+            $('.button-collapse').sideNav();
+
+        }); // end of document ready
+    })(jQuery); // end of jQuery name space
+
+    /*
      * initialize jquery modal
      */
     $('.modal-trigger').leanModal();
@@ -203,31 +214,9 @@ $(document).ready(function () {
          * set spinner options
          */
         $.fn.spin.presets = {
-            tiny: { lines: 8, length: 2, width: 2, radius: 3 }
-            , small: { lines: 8, length: 4, width: 3, radius: 5 }
-            , large: { lines: 10, length: 8, width: 4, radius: 8 }
-            , default: {
-                lines: 13 // The number of lines to draw
-                , length: 28 // The length of each line
-                , width: 14 // The line thickness
-                , radius: 42 // The radius of the inner circle
-                , scale: 1 // Scales overall size of the spinner
-                , corners: 1 // Corner roundness (0..1)
-                , color: '#000' // #rgb or #rrggbb or array of colors
-                , opacity: 0.25 // Opacity of the lines
-                , rotate: 0 // The rotation offset
-                , direction: 1 // 1: clockwise, -1: counterclockwise
-                , speed: 1 // Rounds per second
-                , trail: 60 // Afterglow percentage
-                , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-                , zIndex: 2e9 // The z-index (defaults to 2000000000)
-                , className: 'spinner' // The CSS class to assign to the spinner
-                , top: '50%' // Top position relative to parent
-                , left: '50%' // Left position relative to parent
-                , shadow: false // Whether to render a shadow
-                , hwaccel: false // Whether to use hardware acceleration
-                , position: 'absolute' // Element positioning
-            }
+            tiny: { lines: 8, length: 2, width: 2, radius: 3 },
+            small: { lines: 8, length: 4, width: 3, radius: 5 },
+            large: { lines: 10, length: 8, width: 4, radius: 8 },
         }
     }));
 });

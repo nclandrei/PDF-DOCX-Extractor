@@ -37,7 +37,9 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
     {
         String userDir = System.getProperties().getProperty("user.dir");
         String prefix = "file:";
-        registry.addResourceHandler("/**").addResourceLocations(RESOURCE_LOCATIONS);
+        registry.addResourceHandler("/**")
+                .addResourceLocations(RESOURCE_LOCATIONS)
+                .setCachePeriod(31556926);
         registry.addResourceHandler("/qunit/**")
                 .addResourceLocations(prefix + userDir + "/src/test/qunit/");
     }

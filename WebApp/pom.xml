@@ -135,12 +135,10 @@
 	</dependencies>
     <build>
 		<plugins>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -149,7 +147,6 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -162,7 +159,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
@@ -189,7 +185,35 @@
                     </instrumentation>
                 </configuration>
             </plugin>
-
+            <plugin>
+            <groupId>com.samaxes.maven</groupId>
+            <artifactId>minify-maven-plugin</artifactId>
+            <version>1.7.4</version>
+            <executions>
+                <execution>
+                    <id>default-minify</id>
+                    <phase>prepare-package</phase>
+                    <configuration>
+                        <webappSourceDir>${basedir}/src/main/resources/public</webappSourceDir>
+                        <webappTargetDir>${basedir}/src/main/resources/public/deliver</webappTargetDir>
+                        <charset>UTF-8</charset>
+                        <cssSourceDir>css</cssSourceDir>
+                        <cssEngine>YUI</cssEngine>
+                        <cssSourceIncludes>
+                            <cssSourceInclude>*.css</cssSourceInclude>
+                        </cssSourceIncludes>
+                        <jsSourceDir>js</jsSourceDir>
+                        <jsEngine>YUI</jsEngine>
+                        <jsSourceIncludes>
+                            <jsSourceInclude>*.js</jsSourceInclude>
+                        </jsSourceIncludes>
+                    </configuration>
+                    <goals>
+                        <goal>minify</goal>
+                    </goals>
+                </execution>
+            </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>
