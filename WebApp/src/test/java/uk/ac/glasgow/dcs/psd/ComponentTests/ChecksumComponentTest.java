@@ -1,15 +1,14 @@
 package uk.ac.glasgow.dcs.psd.ComponentTests;
 
-import junit.framework.TestCase;
 import org.junit.*;
-
-import static org.junit.Assert.*;
 import uk.ac.glasgow.dcs.psd.Components.ChecksumComponent;
-import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
-
 import java.io.*;
-import java.util.Date;
+import static org.junit.Assert.assertTrue;
 
+/**
+ * Component for testing checksum
+ * feature.
+ */
 public class ChecksumComponentTest {
 
     String directory;
@@ -18,7 +17,6 @@ public class ChecksumComponentTest {
     String test1Check = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
     String test2Check = "109f4b3c50d7b0df729d299bc6f8e9ef9066971f";
     String test3Check = "3ebfa301dc59196f18593c45e519287a23297589";
-
 
     @BeforeClass
     public static void beforeClass(){
@@ -40,6 +38,10 @@ public class ChecksumComponentTest {
         newFile.renameTo(oldFile);
     }
 
+    /**
+     * Create resources for
+     * each test case
+     */
     @Before
     public void setUp(){
         directory = System.getProperty("user.dir");
@@ -57,7 +59,11 @@ public class ChecksumComponentTest {
         }
     }
 
-
+    /**
+     * Remove old checksum file
+     * after completion of each
+     * test case
+     */
     @After
     public void tearDown(){
         directory = System.getProperty("user.dir");
@@ -69,7 +75,11 @@ public class ChecksumComponentTest {
 
     }
 
-
+    /**
+     * Check that checksum.txt
+     * exist and program has
+     * permissions to view/modify it
+     */
     @Test
     public void getChecksumTest(){
         try {
@@ -99,7 +109,10 @@ public class ChecksumComponentTest {
 
     }
 
-
+    /**
+     * Test checksum component
+     * with multiple checksums
+     */
     @Test
     public void multipleAddChecksumTest(){
         try {
