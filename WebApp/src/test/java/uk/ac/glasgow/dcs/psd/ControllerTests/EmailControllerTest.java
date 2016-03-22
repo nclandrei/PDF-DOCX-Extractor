@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import uk.ac.glasgow.dcs.psd.ApplicationConfiguration;
 import uk.ac.glasgow.dcs.psd.Controllers.EmailController;
-import uk.ac.glasgow.dcs.psd.WebAppApplication;
 
 import javax.mail.MessagingException;
 
@@ -18,8 +19,9 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
  * with specified parameters
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = WebAppApplication.class)
-@PropertySource("classpath:application.properties ")
+@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
+@PropertySource("classpath:application.properties")
+@WebAppConfiguration
 public class EmailControllerTest {
 
     /**
