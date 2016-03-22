@@ -1,11 +1,13 @@
 package uk.ac.glasgow.dcs.psd.Controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uk.ac.glasgow.dcs.psd.Components.*;
 import uk.ac.glasgow.dcs.psd.Models.UploadZip;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
@@ -32,6 +34,12 @@ public class UploadDownloadController {
      */
     @Value("${uploadToDropbox}")
     private boolean uploadToDropbox;
+
+    /**
+     * request property
+     */
+    @Autowired
+    private HttpServletRequest request;
 
     /**
      * Property to indicate whether or not upload files to dropbox.
@@ -78,20 +86,28 @@ public class UploadDownloadController {
                     }
                 }
 
-                if (extension.compareTo(".docx") == 0) {
+                if(extension.compareToIgnoreCase(".docx") != 0 &&
+                        extension.compareToIgnoreCase(".pdf") != 0) {
+                    return new UploadZip(0, null, null,
+                            "Failed to convert the file. " +
+                                    "If you see this more than once, " +
+                                    "please submit a bug report.");
+                }
+
+                if (extension.compareToIgnoreCase(".docx") == 0) {
                     ExtractDocxComponent.extractTablesAndImages(
                             HelperComponent.getFileLocation(fileName),
                             fileWithoutExtension);
                 }
 
-                if (extension.compareTo(".pdf") == 0) {
+                if (extension.compareToIgnoreCase(".pdf") == 0) {
                     ExtractPdfComponent.process(fileWithoutExtension);
                 }
 
                 //delete the original uploaded file
                 HelperComponent.delete(originalFile);
 
-                String href = "/file/" + fileName
+                String href = HelperComponent.getBaseUrl(request) + "/file/" + fileName
                         .substring(0, fileName.lastIndexOf("."));
                 return new UploadZip(1, href, fileName,
                         "Upload and Conversion was successful");
@@ -154,18 +170,26 @@ public class UploadDownloadController {
                 }
             }
 
-            if (extension.compareTo(".docx") == 0) {
+            if(extension.compareToIgnoreCase(".docx") != 0 &&
+                    extension.compareToIgnoreCase(".pdf") != 0) {
+                return new UploadZip(0, null, null,
+                        "Failed to convert the file. " +
+                                "If you see this more than once, " +
+                                "please submit a bug report.");
+            }
+
+            if (extension.compareToIgnoreCase(".docx") == 0) {
                 ExtractDocxComponent.extractTablesAndImages(
                         HelperComponent.getFileLocation(fileName),
                         fileWithoutExtension);
             }
 
-            if (extension.compareTo(".pdf") == 0) {
+            if (extension.compareToIgnoreCase(".pdf") == 0) {
                 ExtractPdfComponent.process(fileWithoutExtension);
             }
 
             originalFile.delete();
-            String href =
+            String href = HelperComponent.getBaseUrl(request) +
                     "/file/" + fileName.substring(0, fileName.lastIndexOf("."));
 
             return new UploadZip(1, href, fileName,

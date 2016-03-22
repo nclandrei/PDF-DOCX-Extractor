@@ -1,6 +1,9 @@
 package uk.ac.glasgow.dcs.psd.Components;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -68,6 +71,17 @@ public class HelperComponent {
         int randomNumber = new Random().nextInt(1000000);
         fileName = randomNumber + " " + fileName;
         return fileName;
+    }
+
+    /**
+     * Get base url of current application.
+     * Local copy example http://localhost:8080
+     * @return  baseUrl
+     */
+    public static String getBaseUrl(HttpServletRequest request) {
+        return String.format("http://%s:%s",
+                request.getServerName(),
+                request.getServerPort() != 80 ? request.getServerPort() : "");
     }
 
 }

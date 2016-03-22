@@ -6,15 +6,31 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import uk.ac.glasgow.dcs.psd.ApplicationConfiguration;
 import uk.ac.glasgow.dcs.psd.Components.HelperComponent;
+import uk.ac.glasgow.dcs.psd.WebAppApplication;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
 /**
  * This class tests the functionality of the HelperComponent class
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
+@PropertySource("classpath:application.properties")
+@WebAppConfiguration
 public class HelperComponentTest {
+
+    @Autowired
+    private HttpServletRequest request;
 
     String fileName;
     String emptyDirName;
@@ -152,6 +168,34 @@ public class HelperComponentTest {
         filename2 = HelperComponent.RandomizeFilename(filename2);
 
         assertNotEquals(filename1,filename2);
+    }
+
+    /**
+     * Test getBaseUrl method against correct
+     * base url.
+     */
+    @Test
+    public void getBaseUrlTest() {
+        String test = String.format("http://%s:%s",
+                request.getServerName(),
+                request.getServerPort() != 80 ? request.getServerPort() : "");
+
+        String method = HelperComponent.getBaseUrl(request);
+
+        assertEquals(test,method);
+    }
+
+    /**
+     * Test getBaseUrl method against incorrect
+     * base url.
+     */
+    @Test
+    public void getBaseUrlTestFalse() {
+        String test = "";
+
+        String method = HelperComponent.getBaseUrl(request);
+
+        assertNotEquals(test,method);
     }
 
 }
