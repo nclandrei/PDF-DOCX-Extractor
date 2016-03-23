@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -79,9 +80,19 @@ public class HelperComponent {
      * @return  baseUrl
      */
     public static String getBaseUrl(HttpServletRequest request) {
-        return String.format("http://%s:%s",
-                request.getServerName(),
-                request.getServerPort() != 80 ? request.getServerPort() : "");
+        String name = request.getServerName();
+        String port = request.getServerPort() + "";
+        String http = "http";
+        if (Objects.equals(port, "80")) {
+            port = "";
+        } else if (Objects.equals(port, "443")) {
+            http = "https";
+            port = "";
+        }
+        return String.format("%s://%s:%s",
+                http,
+                name,
+                port);
     }
 
 }
