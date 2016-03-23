@@ -213,10 +213,6 @@ $(document).ready(function () {
         /*
          * set spinner options
          */
-        $.fn.spin.presets = {
-            tiny: { lines: 8, length: 2, width: 2, radius: 3 },
-            small: { lines: 8, length: 4, width: 3, radius: 5 },
-            large: { lines: 10, length: 8, width: 4, radius: 8 },
-        }
+        $.fn.spin.presets={tiny:{lines:8,length:2,width:2,radius:3},small:{lines:8,length:4,width:3,radius:5},large:{lines:10,length:8,width:4,radius:8},"default":{lines:13,length:28,width:14,radius:42,scale:1,corners:1,color:"#000",opacity:.25,rotate:0,direction:1,speed:1,trail:60,fps:20,zIndex:2e9,className:"spinner",top:"50%",left:"50%",shadow:!1,hwaccel:!1,position:"absolute"}};
     }));
 });
