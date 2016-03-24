@@ -2,72 +2,97 @@ QUnit.begin(function( details ) {
   console.log( "Test amount:", details.totalTests );
 });
 
-/*// Not using asyncTest as it will be deprecated soon
-function setupModule() {
-  $('input[name="text"]').on('click', function() {
-       $('.has-error').hide();
-  })
-  $('input[name="text"]').on('keypress', function() {
-      $('.has-error').hide();
-  });
+var myFileInput;
+var chosenFileFlag = false;
+//$("#test-message").append('<input id="file-upload" type="file" name="file" id="testInput" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required/>');
+
+$('#testInput').on('change', function () {
+    myFileInput = $(this).val();
+    var ext = myFileInput.split('.').pop();
+    if (ext != "docx" && ext != "pdf" && ext != null) {
+        myFileInput = $(this).val(null);
+        alert("Extension ." + ext + " is not supported."
+                + " This tool does work with Microsoft Office .docx and .pdf documents only!");
+        $('#submit-button').attr("disabled", true);
+    } else {
+        $('#submit-button').attr("disabled", false);
+    }
+});
+
+QUnit.test( "CI Extraction Tool Tests", function( assert ) {
+
+assert.expect(2);
+var done = assert.async(2);
+
+
+while(chosenFileFlag==false){
+    if(!$("#testInput").value) {
+       chosenFileFlag = true;
+       test1();
+    }
 }
 
-module('tests', {setup:setupModule});
+function test1() {
+    setTimeout(function() {
+          /*$.ajax({
+                  type: "POST",
+                  url: "/uploadFile",
+                  enctype: 'multipart/form-data',
+                  data: myFileInput,
+                  processData: false,
+                  contentType: false,
+                  success: function (result) {
+                      assert.ok( true, "first call done." );
+                      if(result.status != 1){
+                          alert(result.message);
+                      } else { location.href = result.href; }
+                  },
+                  error: function (e) {
+                      assert.ok( false, "first call failed." );
+                      alert(e.status);
+                  }
+          })*/
 
-test("errors should be hidden on key press", function() {
-  $('input[name="text"]').trigger('keypress')
-  equal($('.has-error').is(':visible'), false);
-});
+        $.ajax({
+                type: "POST",
+                url: "/uploadFileDropbox",
+                data: {
+                    file: "https://cldup.com/Zfbj7AHekx.docx",
+                    fileName: "myfile.docx"
+                },
+                success: function (result) {
+                    if(result.status == 1){
+                        assert.ok( true, "Correct - Dropbox test" );
 
-test("errors not be hidden unless there is a keypress", function() {
-  equal($('.has-error').is(':visible'), true);
-});
+                    } else {
+                        assert.ok( false, "Incorrect - Dropbox test" );
+                    }
+                },
+                error: function (e) {
 
-test("errors should be hidden on click", function() {
-  $('input[name="text"]').click()
-  equal($('.has-error').is(':visible'),false);
-});*/
+                    console.log("wrong")
+                    assert.ok( false, "Incorrect - Dropbox test" );
+                }
+        });
+        done();
+    }, 100 );
+}
 
-QUnit.test( "multiple call done()", function( assert ) {
-  assert.expect( 3 );
-  var done = assert.async( 3 );
+  //setTimeout();
+//  console.log($("#testInput").val());
 
-  setTimeout(function() {
-  //var button = Dropbox.createChooseButton({})
-  //$('#localUpload label').click();
+//      assert.ok( true, "first call done." );
+     // done();
+  //}, 500 );
 
-  //var formData = new FormData(document.getElementById("localUpload"));
-  var formData = new FormData();
-  formData.append("file",myFileInput.files[0], "sample.pdf");
+  //setTimeout(function() {
+  //  assert.ok( true, "second call done." );
+  //  done();
+  //}, 1500 );
 
-  $.ajax({
-              type: "POST",
-              url: "/uploadFile",
-              enctype: 'multipart/form-data',
-              data: formData,
-              processData: false,
-              contentType: false,
-              success: function (result) {
-                  if(result.status != 1){
-                      alert(result.message);
-                  } else { location.href = result.href; }
-              },
-              error: function (e) {
-                  alert('Failure ' + e.status);
-              }
-          });
+  //setTimeout(function() {
+  //  assert.ok( true, "third call done." );
+  //  done();
+  //}, 2500 );
 
-    assert.ok( true, "first call done." );
-    done();
-  }, 500 );
-
-  setTimeout(function() {
-    assert.ok( true, "second call done." );
-    done();
-  }, 1500 );
-
-  setTimeout(function() {
-    assert.ok( true, "third call done." );
-    done();
-  }, 2500 );
 });
