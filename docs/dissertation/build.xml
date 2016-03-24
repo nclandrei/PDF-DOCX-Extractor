@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project basedir="." default="build" name="l3proj-casestudy-TEAM">
+  
+  <target name="clean">    
+    <delete>      
+      <fileset dir="." includes="**/*.*~" defaultexcludes="false"/>
+      <fileset dir="." includes="*.aux,*.bbl,*.blg,*.dvi,*.idx,*.lof,*.log,*.ckeys,*.maf,*.mtc*,*.nav,*.out,*.ps,*.snm,*.toc,*.vrb,*.svn"/>  
+    </delete>
+      
+  </target>
+
+  
+  <target name="cleanall" depends="clean">
+    
+    <delete >
+      <fileset dir="." includes="*.pdf"/>
+    </delete>
+
+  </target>
+
+  
+  <target name="build" depends="">
+		
+    <exec executable="pdflatex" dir=".">
+      <arg value="dissertation" />
+    </exec>
+    
+    <exec executable="bibtex" dir=".">
+      <arg value="dissertation" />
+    </exec>
+    
+    <exec executable="pdflatex" dir=".">
+      <arg value="dissertation" />
+    </exec>
+
+    <exec executable="pdflatex" dir=".">
+      <arg value="dissertation" />
+    </exec>
+    
+  </target>
+
+</project>
