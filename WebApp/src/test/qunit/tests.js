@@ -1,13 +1,16 @@
 QUnit.begin(function( details ) {
   console.log( "Test amount:", details.totalTests );
+
+
 });
 
-QUnit.test( "Upload Tests (POST requests)", function( assert ) {
+QUnit.test( "POST Requests Set of Tests", function( assert ) {
 
-    assert.expect(2);
-    var done = assert.async(2);
+    assert.expect(3);
+    var done = assert.async(3);
 
     test1();
+    test3();
 
     function test1() {
         setTimeout(function() {
@@ -48,6 +51,7 @@ QUnit.test( "Upload Tests (POST requests)", function( assert ) {
                       success: function (result) {
                         if(result.status == 1){
                             assert.ok( true, "Correct - Local upload test" );
+
                             done();
 
                         } else {
@@ -63,6 +67,28 @@ QUnit.test( "Upload Tests (POST requests)", function( assert ) {
         }, 100 );
     }
 
+    function test3() {
+        $.ajax({
+                type: "POST",
+                url: "/send-mail?bug=test&device=test&name=test",
+                processData: false,
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if(result.status != "Your message was sent successfully."){
+                        assert.ok( true, "Correct - Email test" );
+                        done();
+
+                    } else {
+                        assert.ok( false, "Incorrect - Email test\n Error: " + result );
+                        done();
+                    }
+                },
+                error: function (e) {
+                    assert.ok( false, "Incorrect - Email test\n Error: " + e );
+                    done();
+                }
+        });
+    }
 
     $('#file-upload').on('change', function () {
         var myFile = $(this).val();
