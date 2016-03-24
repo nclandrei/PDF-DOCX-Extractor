@@ -1,0 +1,14 @@
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/ApplicationConfiguration.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Components/DropboxComponent.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Components/SmtpMailSender.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Components/HelperComponent.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Controllers/JavascriptTestController.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Controllers/HomeController.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Components/ZipMakerComponent.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/WebAppApplication.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Components/ExtractDocxComponent.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Components/ExtractPdfComponent.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Models/UploadZip.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Components/ChecksumComponent.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Controllers/EmailController.java
+/home/richy734/Desktop/uni/TP3/project/repos/trunk/WebApp/src/main/java/uk/ac/glasgow/dcs/psd/Controllers/UploadDownloadController.java

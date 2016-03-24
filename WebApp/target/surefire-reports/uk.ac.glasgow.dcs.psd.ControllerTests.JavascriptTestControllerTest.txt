@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.glasgow.dcs.psd.ControllerTests.JavascriptTestControllerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.948 sec - in uk.ac.glasgow.dcs.psd.ControllerTests.JavascriptTestControllerTest

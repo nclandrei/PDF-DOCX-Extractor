@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.glasgow.dcs.psd.ControllerTests.EmailControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.533 sec - in uk.ac.glasgow.dcs.psd.ControllerTests.EmailControllerTest

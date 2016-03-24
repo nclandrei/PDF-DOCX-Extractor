@@ -1,0 +1,15 @@
+uk/ac/glasgow/dcs/psd/UtilityClasses/ZipMakerUtilities.class
+uk/ac/glasgow/dcs/psd/ComponentTests/ZipMakerComponentTest.class
+uk/ac/glasgow/dcs/psd/ComponentTests/SmtpMailSenderTest.class
+uk/ac/glasgow/dcs/psd/ComponentTests/ExtractDocxComponentTests.class
+uk/ac/glasgow/dcs/psd/ComponentTests/HelperComponentTest.class
+uk/ac/glasgow/dcs/psd/ComponentTests/DropboxComponentTest.class
+uk/ac/glasgow/dcs/psd/ComponentTests/SmtpMailSenderTest$ContextConfiguration.class
+uk/ac/glasgow/dcs/psd/ControllerTests/UploadDownloadControllerTest.class
+uk/ac/glasgow/dcs/psd/ComponentTests/ChecksumComponentTest.class
+uk/ac/glasgow/dcs/psd/ControllerTests/HomeControllerTest.class
+uk/ac/glasgow/dcs/psd/ControllerTests/JavascriptTestControllerTest.class
+uk/ac/glasgow/dcs/psd/ControllerTests/EmailControllerTest.class
+uk/ac/glasgow/dcs/psd/WebAppApplicationTests.class
+uk/ac/glasgow/dcs/psd/ComponentTests/ExtractPdfComponentTests.class
+uk/ac/glasgow/dcs/psd/ComponentTests/UploadZipTest.class

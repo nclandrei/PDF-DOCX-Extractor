@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.glasgow.dcs.psd.ComponentTests.HelperComponentTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.645 sec - in uk.ac.glasgow.dcs.psd.ComponentTests.HelperComponentTest

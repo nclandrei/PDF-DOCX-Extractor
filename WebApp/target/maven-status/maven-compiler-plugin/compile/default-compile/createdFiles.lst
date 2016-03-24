@@ -1,0 +1,15 @@
+uk/ac/glasgow/dcs/psd/Components/ExtractPdfComponent.class
+uk/ac/glasgow/dcs/psd/Components/HelperComponent.class
+uk/ac/glasgow/dcs/psd/Models/UploadZip.class
+uk/ac/glasgow/dcs/psd/Components/DropboxComponent.class
+uk/ac/glasgow/dcs/psd/Controllers/HomeController.class
+uk/ac/glasgow/dcs/psd/WebAppApplication.class
+uk/ac/glasgow/dcs/psd/Controllers/JavascriptTestController.class
+uk/ac/glasgow/dcs/psd/Components/ZipMakerComponent.class
+uk/ac/glasgow/dcs/psd/CustomizationBean.class
+uk/ac/glasgow/dcs/psd/ApplicationConfiguration.class
+uk/ac/glasgow/dcs/psd/Controllers/EmailController.class
+uk/ac/glasgow/dcs/psd/Components/SmtpMailSender.class
+uk/ac/glasgow/dcs/psd/Components/ChecksumComponent.class
+uk/ac/glasgow/dcs/psd/Controllers/UploadDownloadController.class
+uk/ac/glasgow/dcs/psd/Components/ExtractDocxComponent.class
