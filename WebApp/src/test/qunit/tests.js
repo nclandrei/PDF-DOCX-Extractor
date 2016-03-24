@@ -70,16 +70,16 @@ QUnit.test( "POST Requests Set of Tests", function( assert ) {
     function test3() {
         $.ajax({
                 type: "POST",
-                url: "/send-mail?bug=test&device=test&name=test",
+                url: '/send-mail?bug=test&device=test&name=test',
                 processData: false,
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
-                    if(result.status != "Your message was sent successfully."){
+                    if(result == "Your message was not sent (this is a test request)"){
                         assert.ok( true, "Correct - Email test" );
                         done();
 
                     } else {
-                        assert.ok( false, "Incorrect - Email test\n Error: " + result );
+                        assert.ok( false, "Incorrect - Email test\n The request returned: " + result );
                         done();
                     }
                 },

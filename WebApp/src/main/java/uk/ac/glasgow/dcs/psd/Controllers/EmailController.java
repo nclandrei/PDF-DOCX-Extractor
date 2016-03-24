@@ -30,9 +30,15 @@ public class EmailController {
 	public String sendMail(@RequestParam("bug") String bug,
 								  @RequestParam("device") String device,
 								  @RequestParam("name") String name) throws MessagingException {
+
+		if (bug.equals("test") && device.equals("test") && name.equals("test")) {
+			return "Your message was not sent (this is a test request)";
+		}
+
 		smtpMailSender.send("guteamx.contact@gmail.com", "Bug report on " + device + " by " + name,
                 bug);
 
 		return "Your message was sent successfully.";
+
 	}
 }
