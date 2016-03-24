@@ -8,8 +8,20 @@
 </head>
 <body>
   <div id="qunit"></div>
-  <!--<div id="test-message">Please choose a file to run the tests: </div>
-  -->
+
+  <div id="test-message">
+    <p>Please choose a file to run Upload Test #2</p>
+    <form method="POST" action="uploadFile" id="localUpload" enctype="multipart/form-data">
+      <input id="file-upload" type="file" name="file"
+             accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+             required/>
+      <button data-target="modal2" class="btn modal-trigger btn-large waves-effect waves-light orange"
+              id="submit-button" style="font-size:15px;margin-bottom:6px;" disabled>
+        Submit
+      </button>
+    </form>
+  </div>
+
   <div id="qunit-fixture"></div>
   <script src="https://code.jquery.com/qunit/qunit-1.22.0.js"></script>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

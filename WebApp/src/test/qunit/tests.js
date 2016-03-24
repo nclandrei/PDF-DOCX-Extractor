@@ -2,97 +2,84 @@ QUnit.begin(function( details ) {
   console.log( "Test amount:", details.totalTests );
 });
 
-var myFileInput;
-var chosenFileFlag = false;
-//$("#test-message").append('<input id="file-upload" type="file" name="file" id="testInput" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required/>');
+QUnit.test( "Upload Tests (POST requests)", function( assert ) {
 
-$('#testInput').on('change', function () {
-    myFileInput = $(this).val();
-    var ext = myFileInput.split('.').pop();
-    if (ext != "docx" && ext != "pdf" && ext != null) {
-        myFileInput = $(this).val(null);
-        alert("Extension ." + ext + " is not supported."
-                + " This tool does work with Microsoft Office .docx and .pdf documents only!");
-        $('#submit-button').attr("disabled", true);
-    } else {
-        $('#submit-button').attr("disabled", false);
-    }
-});
+    assert.expect(2);
+    var done = assert.async(2);
 
-QUnit.test( "CI Extraction Tool Tests", function( assert ) {
+    test1();
 
-assert.expect(2);
-var done = assert.async(2);
+    function test1() {
+        setTimeout(function() {
+            $.ajax({
+                    type: "POST",
+                    url: "/uploadFileDropbox",
+                    data: {
+                        file: "https://cldup.com/Zfbj7AHekx.docx",
+                        fileName: "myfile.docx"
+                    },
+                    success: function (result) {
+                        if(result.status == 1){
+                            assert.ok( true, "Correct - Dropbox test" );
+                            done();
 
-
-while(chosenFileFlag==false){
-    if(!$("#testInput").value) {
-       chosenFileFlag = true;
-       test1();
-    }
-}
-
-function test1() {
-    setTimeout(function() {
-          /*$.ajax({
-                  type: "POST",
-                  url: "/uploadFile",
-                  enctype: 'multipart/form-data',
-                  data: myFileInput,
-                  processData: false,
-                  contentType: false,
-                  success: function (result) {
-                      assert.ok( true, "first call done." );
-                      if(result.status != 1){
-                          alert(result.message);
-                      } else { location.href = result.href; }
-                  },
-                  error: function (e) {
-                      assert.ok( false, "first call failed." );
-                      alert(e.status);
-                  }
-          })*/
-
-        $.ajax({
-                type: "POST",
-                url: "/uploadFileDropbox",
-                data: {
-                    file: "https://cldup.com/Zfbj7AHekx.docx",
-                    fileName: "myfile.docx"
-                },
-                success: function (result) {
-                    if(result.status == 1){
-                        assert.ok( true, "Correct - Dropbox test" );
-
-                    } else {
-                        assert.ok( false, "Incorrect - Dropbox test" );
+                        } else {
+                            assert.ok( false, "Incorrect - Dropbox test\n Error: " + result );
+                            done();
+                        }
+                    },
+                    error: function (e) {
+                            assert.ok( false, "Incorrect - Dropbox test\n Error: " + e );
+                            done();
                     }
-                },
-                error: function (e) {
+            });
+        }, 100 );
+    }
 
-                    console.log("wrong")
-                    assert.ok( false, "Incorrect - Dropbox test" );
-                }
-        });
-        done();
-    }, 100 );
-}
+    function test2(formData) {
+        setTimeout(function() {
+              $.ajax({
+                      type: "POST",
+                      url: "/uploadFile",
+                      enctype: 'multipart/form-data',
+                      data: formData,
+                      processData: false,
+                      contentType: false,
+                      success: function (result) {
+                        if(result.status == 1){
+                            assert.ok( true, "Correct - Local upload test" );
+                            done();
 
-  //setTimeout();
-//  console.log($("#testInput").val());
+                        } else {
+                            assert.ok( false, "Incorrect - Local upload test\n Error: " + result );
+                            done();
+                        }
+                      },
+                      error: function (e) {
+                            assert.ok( false, "Incorrect - Local upload test\n Error: " + e );
+                            done();
+                      }
+                  });
+        }, 100 );
+    }
 
-//      assert.ok( true, "first call done." );
-     // done();
-  //}, 500 );
 
-  //setTimeout(function() {
-  //  assert.ok( true, "second call done." );
-  //  done();
-  //}, 1500 );
+    $('#file-upload').on('change', function () {
+        var myFile = $(this).val();
+        var ext = myFile.split('.').pop();
+        if (ext != "docx" && ext != "pdf" && ext != null) {
+            myFile = $(this).val(null);
+            alert("Extension ." + ext + " is not supported."
+                    + " This tool does work with Microsoft Office .docx and .pdf documents only!");
+            $('#submit-button').attr("disabled", true);
+        } else {
+            $('#submit-button').attr("disabled", false);
+        }
+    });
 
-  //setTimeout(function() {
-  //  assert.ok( true, "third call done." );
-  //  done();
-  //}, 2500 );
-
+    $('#localUpload').submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(document.getElementById("localUpload"));
+        test2(formData);
+    });
 });
