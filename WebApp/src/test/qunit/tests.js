@@ -34,6 +34,29 @@ QUnit.test( "multiple call done()", function( assert ) {
 
   setTimeout(function() {
   //var button = Dropbox.createChooseButton({})
+  //$('#localUpload label').click();
+
+  //var formData = new FormData(document.getElementById("localUpload"));
+  var formData = new FormData();
+  formData.append("file",myFileInput.files[0], "sample.pdf");
+
+  $.ajax({
+              type: "POST",
+              url: "/uploadFile",
+              enctype: 'multipart/form-data',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function (result) {
+                  if(result.status != 1){
+                      alert(result.message);
+                  } else { location.href = result.href; }
+              },
+              error: function (e) {
+                  alert('Failure ' + e.status);
+              }
+          });
+
     assert.ok( true, "first call done." );
     done();
   }, 500 );

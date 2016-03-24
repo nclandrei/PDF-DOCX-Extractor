@@ -15,7 +15,7 @@
   <script>
   $( document ).ready(function() {
 
-    // tell QUnit you're not ready to start right away...
+    // Delay qUnit start
     QUnit.config.autostart = false;
 
     $.ajax({
@@ -24,7 +24,8 @@
       success: function(html) {
         var elem = $(html).find("#main-header");
         $('#qunit-fixture').append(elem);
-        QUnit.start();  // ...tell QUnit you're ready to go
+        // Start qUnit
+        QUnit.start();
       }
     });
   });
