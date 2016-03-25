@@ -56,8 +56,8 @@
         <profile>
             <id>default</id>
             <properties>
-                <testcase.include>%regex[.*/ComponentTests/.*[.]class]</testcase.include>
-                <testcase.include>%regex[.*/ControllerTests/.*[.]class]</testcase.include>
+                <testcase.include>%regex[.*ComponentTests.*[.]class]</testcase.include>
+                <testcase.include>%regex[.*ControllerTests.*[.]class]</testcase.include>
                 <testcase.exclude></testcase.exclude>
             </properties>
             <activation>
@@ -68,8 +68,8 @@
         <profile>
             <id>coberturaTest</id>
             <properties>
-                <testcase.include>%regex[.*/ComponentTests/.*[.]class]</testcase.include>
-                <testcase.exclude>%regex[.*/ControllerTests/.*[.]class]</testcase.exclude>
+                <testcase.include>%regex[.*ComponentTests.*[.]class]</testcase.include>
+                <testcase.exclude>%regex[.*ControllerTests.*[.]class]</testcase.exclude>
             </properties>
         </profile>
     </profiles>
