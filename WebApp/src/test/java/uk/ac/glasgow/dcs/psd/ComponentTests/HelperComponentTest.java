@@ -45,10 +45,7 @@ public class HelperComponentTest {
         emptyDirName = resourcesDir + "testDeleteEmptyFolder";
         nonEmptyDirName = resourcesDir + "testNonEmptyDeleteFolder";
         fileInDirName = resourcesDir + "testNonEmptyDeleteFolder/file.txt";
-    }
 
-    @After
-    public void tearDown() {
         File file = new File(fileName);
         try {
             if (!file.exists())
@@ -76,6 +73,10 @@ public class HelperComponentTest {
                 e.printStackTrace();
             }
         }
+    }
+
+    @After
+    public void tearDown() {
     }
 
     /**
