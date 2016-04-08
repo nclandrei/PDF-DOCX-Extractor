@@ -1,33 +1,29 @@
-% This example An LaTeX document showing how to use the l3proj class to
-% write your report. Use pdflatex and bibtex to process the file, creating 
-% a PDF file as output (there is no need to use dvips when using pdflatex).
-
-% Modified 
-
 \documentclass{l3proj}
-
 \begin{document}
 
-\title{An Example Project}
+\title{Data Extraction from Semi-Structured Sources}
 
-\author{Lewis Carroll \\
-        Betty Davis \\
-        James Dean \\
-        Marilyn Monroe \\
-        John Wayne}
+\author{Ian Denev \\
+        Ivan Kyosev \\
+        Andrei-Mihai Nicolae \\
+        Richard Pearson \\
+        Edvinas Simkus
+}
 
-\date{9 January 2009}
+\date{11 April 2016}
 
 \maketitle
 
 \begin{abstract}
 
-The abstract goes here
+This case study follows the six-month-long process of developing a commercial software project for the Crichton Institute. The team of authors consists of five undergraduate students from the BSc(Hons) Software Engineering programme at the University of Glasgow. 
+
+The motivation behind writing this document was to provide insight as to how specific issues were solved in the context of following certain methodologies and workflows. Key experiences included making design choices, implementing features, negotiating with clients, refactoring, etc. 
+
+The results of the team's efforts led to overwhelmingly positive feedback. All of our clients' needs in terms of functionality and user experience were satisfied. Therefore this paper demonstrates how an appropriate use of software engineering practises and frequent client interaction can lead to a favourable outcome.
 
 \end{abstract}
 
-%% Comment out this line if you do not wish to give consent for your
-%% work to be distributed in electronic format.
 \educationalconsent
 
 \newpage
@@ -35,189 +31,431 @@ The abstract goes here
 %==============================================================================
 \section{Introduction}
 
-Software engineering 
+The purpose of this document is to provide a case study of the software engineering process carried out by our team during the development of a data extraction tool. This paper also examines the critical events encountered throughout the process, and in particular their impact on the team, and what was learnt from these experiences. It concludes by reflecting on the team's acquired understanding of how to approach developing an application, meant to address the needs of a real-world customer.
 
-This paper presents a case study of... 
+\subsection{Project Outline}
+\label{outline}
 
 
-%% Final paragraph.
-The rest of the case study is structured as follows.  Section
-\ref{sec:background} presents the background of the case study
-discussed, describing the customer and project context, aims and
-objectives and project state at the time of writing.  Sections
-\ref{sec:alice} through Section \ref{sec:managing} discuss issues that
-arose during the project...
+The purpose of the project was to develop an application for the Crichton Institute which would allow their staff members and associates to extract tabular data and images from semi-structured sources. It was initially requested that this tool would only be used with PDF documents, however, through research efforts and further developments in the clients' requirements, the scope of the project was expanded to also include extraction from DOCX documents. 
 
-%==============================================================================
-\section{Case Study Background}
+The final product took the form of a Spring-based web application where a user can submit a PDF or DOCX from either local storage or Dropbox. Upon processing the submitted file the website would prompt the user to download a compressed zip file containing two folders - one with separate CSVs for each table identified within the document and anther one with the extracted images. The front-end is responsive and aesthetically pleasing as it makes good use of material design. It also conforms to the colour scheme and guidelines set out by the client. 
 
-Include details of 
-
+\subsection{Document Structure}
+\label{structure}
+The rest of the dissertation is structured as follows:
 \begin{itemize}
-\item The customer organisation and background.
-\item The rationale and initial objectives for the project.
-\item The final software was delivered for the customer.
+    
+    \item Section \ref{sec:background} presents the case study background 
+    
+    \item Section \ref{sec:expr} deals  with  various  experiences  that  we  encountered
+throughout the development of our project
+    \begin{itemize}
+        \item \ref{sec:first_req} - \ref{sec:first_proto} cover the initial stages of requirements gathering and project planing
+        \item \ref{sec:research_pdf} - \ref{sec:first_demo} details the process of developing the initial implementation of the system
+        \item \ref{sec:impl_pdf} - \ref{sec:renego_client} is concerned with expanding the feature set of our application and gathering further requirements
+        \item \ref{sec:quality_ass} details our quality assurance efforts
+        \item \ref{sec:final_cust} covers the final client meeting
+    \end{itemize}
+    \item Section \ref{sec:conclusion} details the conclusions we have drawn from our experiences, and the process of software engineering as a whole.
 \end{itemize}
 
 %==============================================================================
-\section{Alice}
-\label{sec:alice}
+\newpage
+\section{Case Study Background}
+\label{sec:background}
 
-ALICE \cite{alice} was beginning to get very tired of sitting by her sister
-on the bank and of having nothing to do: once or twice she had peeped into
-the book her sister was reading, but it had no pictures or conversations in
-it, ``and what is the use of a book,'' thought Alice, ``without pictures or
-conversations?'
+\subsection{Client Details}
+\label{sec:proj_cust}
 
-So she was considering, in her own mind (as well as she could, for the hot
-day made her feel very sleepy and stupid), whether the pleasure of making a
-daisy-chain would be worth the trouble of getting up and picking the
-daisies, when suddenly a White Rabbit with pink eyes ran close by her.
+The Crichton Institute is a collaborative venture between the Crichton Campus academic institutions and partners in business, local government, health, and voluntary sectors. Our project customer was the Regional Observatory branch of the Crichton Institute, their main focus is in providing access to public data, information, and intelligence pertaining to a wide range of social, economical and environmental issues within the Dumfries and Galloway area of Scotland.
 
-There was nothing so very remarkable in that; nor did Alice think it so
-very much out of the way to hear the Rabbit say to itself ``Oh dear! Oh
-dear! I shall be too late!'' (when she thought it over afterwards it
-occurred to her that she ought to have wondered at this, but at the time it
-all seemed quite natural); but, when the Rabbit actually took a watch out
-of its waistcoat-pocket, and looked at it, and then hurried on, Alice
-started to her feet, for it flashed across her mind that she had never
-before seen a rabbit with either a waistcoat-pocket, or a watch to take out
-of it, and burning with curiosity, she ran across the field after it, and
-was just in time to see it pop down a large rabbit-hole under the hedge.
+Our main points of contacts with the Crichton Institute were:
+\begin{itemize}
+    \item Eva Milroy - Development Officer  Crichton Institute
+    \item Tony Fitzpatrick - Director of Crichton Institute Regional Observatory and Associate Senior Research Fellow (University of Glasgow)
+\end{itemize}
 
-In another moment down went Alice after it, never once considering how in
-the world she was to get out again.
+\subsection{Customer Objectives}
+\label{sec:cust_obj}
+Our client presented us with a challenge to extract raw data from tables inside PDF documents. The customer is hosting a large number of different documents without the source data for tables used inside them. It is hard and time consuming to extract that data by hand so an automated tool would greatly benefit the Crichton Institute. 
 
-The rabbit-hole went straight on like a tunnel for some way, and then
-dipped suddenly down, so suddenly that Alice had not a moment to think
-about stopping herself before she found herself falling down what seemed to
-be a very deep well.
+Of course this is not a new problem and solutions for extracting data from PDF documents already exist, however, they are:
+\begin{enumerate}
+    \item Expensive. Various different tools range from \pounds0.01 to \pounds0.05 per page.
+    \item Usually oriented towards enterprise users and are difficult to use.
+    \item Not customisable. The Crichton Institute wanted to provide users with data from the tables as well as images wrapped in a single, well defined and ubiquitous ZIP archive.
+\end{enumerate}
 
-Either the well was very deep, or she fell very slowly, for she had plenty
-of time as she went down to look about her, and to wonder what was going to
-happen next. First, she tried to look down and make out what she was coming
-to, but it was too dark to see anything: then she looked at the sides of
-the well, and noticed that they were filled with cupboards and
-book-shelves: here and there she saw maps and pictures hung upon pegs. She
-took down ajar from one of the shelves as she passed: it was labeled
-``ORANGE MARMALADE'' but to her great disappointment it was empty: she did
-not like to drop the jar, for fear of killing somebody underneath, so
-managed to put it into one of the cupboards as she fell past it.
+The extracted data, in a machine-readable format (CSV), would allow for further data analysis. It would also help people to obtain and use certified data for other projects and reports.
 
-``Well!'' thought Alice to herself ``After such a fall as this, I shall think
-nothing of tumbling down-stairs! How brave they'll all think me at home!
-Why, I wouldn't say anything about it, even if I fell off the top of the
-house!'' (which was very likely true.)
+\subsection{Summary of Achievements}
+\label{sec:summary_achievements}
+Several major objectives were achieved by the end of the project:
 
-Down, down, down. Would the fall never come to an end? ``I wonder how many
-miles I've fallen by this time?'' she said aloud. ``I must be getting
-somewhere near the centre of the earth. Let me see: that would be four
-thousand miles down, I think-'' (for, you see, Alice had learnt several
-things of this sort in her lessons in the school-room, and though this was
-not a very good opportunity for showing off her knowledge, as there was no
-one to listen to her, still it was good practice to say it over) `` yes
-that's about the right distance -- but then I wonder what Latitude or
-Longitude I've got to?'' (Alice had not the slightest idea what Latitude
-was, or Longitude either, but she thought they were nice grand words to
-say.)
+\begin{itemize}
+    \item High accuracy in data extraction from DOCX:
+    
+    Using the DOCX that our client gave us to work with, only one or two complex tables with multiple levels of headers do not format well during extraction, but are still largely readable.
+    
+    \item Industry-tested data extraction from PDF documents:
+    
+    Through creating a wrapper for Tabula, a tool used for extracting tables from PDF, we can deliver a comparable level of accuracy with PDF extraction.
+    
+    \item Does not rely on separators to identify tables:
+    
+    The system does not rely on there being special symbols inserted to define where a table starts or ends.
+    
+    \item Quick document conversion:
+    
+    The conversion process is relatively short, taking only a few seconds for a DOCX documents, and slightly longer for PDFs.
+    
+    \item Economical resource usage:
+    
+    Through deleting uploaded files after conversion, and other saving strategies employed by the tool, its resource usage is effectively managed.
+    
+    \item High test coverage:
+    
+    Using JUnit testing, and employing a strategy revolving around regression testing, we have ensured a high level of test coverage.
+    
+    \item Extensive use of JavaDocs:
 
-Presently she began again. ``I wonder if I shall fall fight through the
-earth! How funny it'll seem to come out among the people that walk with
-their heads downwards! The antipathies, I think-'' (she was rather glad
-there was no one listening, this time, as it didn't sound at all the right
-word) ``but I shall have to ask them what the name of the country is, you
-know. Please, Ma'am, is this New Zealand? Or Australia?'' (and she tried to
-curtsey as she spoke- fancy, curtseying as you're falling through the air!
-Do you think you could manage it?) ``And what an ignorant little girl she'll
-think me for asking! No, it'll never do to ask: perhaps I shall see it
-written up somewhere.''
+    By including JavaDocs for all methods and classes in our project we have assured a good level of maintainability and readability throughout the system.
+    
+    \item An API available to other developers
+    
+    The system is built on a simplistic RESTful API which allows developers to include our project functionality in their applications
+    
+    \item High software standards
+    
+    The application was developed with modularity in mind, ensuring low coupling, high cohesion and easy extensibility \ref{fig:comp_diagram}
 
-Down, down, down. There was nothing else to do, so Alice soon began talking
-again. ``Dinah'll miss me very much to-night, I should think!'' (Dinah was
-the cat.) ``I hope they'll remember her saucer of milk at tea-time. Dinah,
-my dear! I wish you were down here with me! There are no mice in the air,
-I'm afraid, but you might catch a bat, and that's very like a mouse, you
-know. But do cats eat bats, I wonder?'' And here Alice began to get rather
-sleepy, and went on saying to herself, in a dreamy son of way, ``Do cats eat
-bats? Do cats eat bats?'' and sometimes ``Do bats eat cats?'' for, you see, as
-she couldn't answer either question, it didn't much matter which way she
-put it. She felt that she was dozing off, and had just begun to dream that
-she was walking hand in hand with Dinah, and was saying to her, very
-earnestly, ``Now, Dinah, tell me the truth: did you ever eat a bat?'' when
-suddenly, thump! thump! down she came upon a heap of sticks and dry leaves,
-and the fall was over.
-
-Alice was not a bit hurt, and she jumped up on to her feet in a moment: she
-looked up, but it was all dark overhead: before her was another long
-passage, and the White Rabbit was still in sight, hurrying down it. There
-was not a moment to be lost: away went Alice like the wind, and was just in
-time to hear it say, as it turned a comer, ``Oh my ears and whiskers, how
-late it's getting!'' She was close behind it when she turned the comer, but
-the Rabbit was no longer to be seen: she found herself in a long, low hall,
-which was lit up by a row of lamps hanging from the roof.
-
-There were doors all round the hall, but they were all locked; and when
-Alice had been all the way down one side and up the other, trying every
-door, she walked sadly down the middle, wondering how she was ever to get
-out again.
-
-Suddenly she came upon a little three-legged table, all made of solid
-glass: there was nothing on it but a tiny golden key, and Alice's first
-idea was that this might belong to one of the doors of the hall; but, alas!
-either the locks were too large, or the key was too small, but at any rate
-it would not open any of them. However, on the second time round, she came
-upon a low curtain she had not noticed before, and behind it was a little
-door about fifteen inches high: she tried the little golden key in the
-lock, and to her great delight it fitted!
-
-\input{figures/alice}
-
-Alice opened the door (see Figure \ref{fig:alice}) and found that it
-led into a small passage, not much larger than a rat-hole: she knelt
-down and looked along the passage into the loveliest garden you ever
-saw. How she longed to get out of that dark hall, and wander about
-among those beds of bright flowers and those cool fountains, but she
-could not even get her head through the doorway; ``and even if my head
-would go through,'' thought poor Alice, ``it would be of very little
-use without my shoulders. Oh, how I wish I could shut up like a
-telescope! I think I could, if I only knew how to begin.'' For, you
-see, so many out-of-the- way things had happened lately, that Alice
-had begun to think that very few things indeed were really impossible.
+\end{itemize}
+\vspace{33pt}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.42]{figures/componentdiagram}
+    \caption{Component Diagram}
+    \label{fig:comp_diagram}
+\end{figure}
 
 %==============================================================================
+\newpage
+\section{Experiences}
+\label{sec:expr}
+%==============================================================================
+\subsection{First Requirements Gathering Session}
+\label{sec:first_req}
 
-\section{Choice of Colours}
-\label{design}
 
-The following diagrams (especially figure \ref{fig:alice}) illustrate the
-process...
+The official start of the development phase of this project was on the 21st October 2015. On that day we learnt about the general scope of activities of our client, the Crichton Institute. We were also informed about their particular business needs, and the various applications they need developed for them. This lead the way to the first requirements gathering session where our team had the chance to focus entirely on the project we had been assigned - Data Extraction from Semi-Structured Sources.
+
+
+Knowing that there would only be a limited amount of time to conduct the first requirements gathering session, our team had to ensure we would manage to obtain all the details needed to start developing a prototype \cite{Requirements-Gathering}. For this reason we employed the following approach:
+
+  \subsubsection{Deciding on the rules of engagement with the client} 
+  
+    Due to our clients being non-technical staff we decided it would make sense if we used traditional means of communication. Thus, we settled on using email for remote discussions and in-person conversations during the set meetings.
+  \subsubsection{Clarifying overall goals and significant requirements}
+  
+  To do this our team first considered the initial project description. Then, discussed our intermediate conclusions with the client in order to identify the following two main goals by the end of the meeting session:
+  \begin{itemize}
+        \item The clients would like to have some plug-in/application to extract raw data from PDF documents. 
+        \item The final product should be easy to access by non-tech-savvy users. 
+     \end{itemize}
+  
+  \subsubsection{ Identifying constraints and risks}
+    \begin{itemize}
+        \item With no codebase present yet, our team feared that any implementation might require more resources than our client can afford to allocate for this tool.
+        \item Especially in the early stages of development, our team felt concerned that the frequency of client meetings (one per month) may not satisfy our needs.
+        \item There could be issues when implementing various functionality, such that our level of technical understanding may prove unsatisfactory. That could potentially make some features impossible to complete.
+    \end{itemize}
+  \subsubsection{Deciding on goals for the next iteration}
+  
+  In terms of working towards a prototype for this product, we decided on the following:
+    \begin{itemize}
+        \item Do research on technologies and APIs that may be useful for this project.
+        \item Remind the client to provide the team with sample documents.
+        \item Begin experimentation with existing tools with the same functionality.
+        \item Focus on user stories in order to allow the transition from general goals to specific subsets of features. Examples of those include: 
+            \begin{itemize}
+                \item Receiving the output in one CSV file.
+                \item Utilising cloud storage uploading functionality.
+            \end{itemize}
+    \end{itemize}
+    
+  As for project and team organisation we made the following activities our top priority:
+  \begin{itemize}
+        \item Establish a workflow for our change management system (SVN)
+        \item Set-up programming environment to allow for feature experimentation
+    \end{itemize}
+    
+
+Overall, this first client meeting was an overwhelming success. Having done our research and laid out a plan beforehand proved invaluable. No time was wasted on both sides, and the team learnt through our effort how vital it is to follow a predefined and verified methodology whenever this is possible.
 
 %==============================================================================
-\section{Managing Dress Sense}
-\label{managing}
+\subsection{Team Organisation Tools}
+\label{sec:team_org}
 
-In this chapter, we describe how the implemented the system.
+No software project is built solely on coding efforts. Without proper team organisation and supporting tools it is hard to predict a successful outcome for any such endeavour.
+\subsubsection{Subversion}
+\label{sec:svn}
+    
+    Version control is a common practice in software development today. As part of the University-provided infrastructure using Subversion has been a key requirement to ensure teams are able to efficiently contribute to their codebase.
+    
+    For our team, making full use of Subversion has been essential since the beginning of the project. With all of us coming from a Git background, the first challenge was to quickly adapt to an entirely new paradigm. In order to establish a well understood workflow, we created a shared "wiki" page including some must-know SVN commands along with their intended use \cite{SVN}. 
+    
+    However, still lacking real-world experience with Subversion, soon enough we bumped into an issue that delayed our progress. Our team had a lot of trouble trying to ignore files to be submitted to our central repository. IDEs often store configuration and other similar files in a project's folder. Nevertheless, it is useless to commit those as they serve no real purpose to other contributors. We eventually resolved the issue by removing the unwanted files and being more diligent when committing to the repository.
+    
+    
+\subsubsection{Trac}
+\label{sec:trac}
+
+Trac is a web-based project management system that combines a number of crucial software development features. Due to its seamless integration with Subversion, for our team, Trac turned out to be another incredibly effective tool for achieving our client's long-term goals. 
+
+Over time, we could easily check the current status of our project in terms of both individual and team efforts in code contribution. This was possible thanks to the Timeline feature which shows a log of SVN commits and provides filtering options. This feature was used regularly in order to check if everyone was committing code frequently, and if not, then the rest of team would support the person who was encountering issues.
+
+Trac also helped us when we borrowed principles, notably milestones and sprints, from the popular and tested Scrum methodology. By the end of each milestone we would have completed a number of tasks with various importance (MoSCoW strategy). Without essential features such as Trac's tickets and Kanban board our team would have found it nearly impossible to assign tasks effectively, etc. As well as this, the wiki pages features gave us the opportunity to easily share information that would not be suitable for other categories e.g. component and sequence diagrams.
+    
+\subsubsection{Slack}
+\label{sec:slack}
+
+Slack, is an industry-standard tool for instant messaging, often used with small teams as an alternative to long-outdated tools like IRC. It is available on all modern platforms which allowed for each of our team members to immediately sign up and start benefiting from everything Slack has to offer.
+
+As our app was growing larger, we could easily identify at any point in time at least a few major topics of discussion regarding our project. This is where adjusting to Slack's channels feature was of incredible help. For every issue encountered, a team member would make a new channel where a certain topic would be explored without disturbing differently-themed prior talks.
+
+Slack's capability to connect to many external modules (esp. Jenkins) was also useful in allowing our team to be notified instantly whenever our build broke after a commit.
+
+%==============================================================================
+\subsection{First Project Prototype}
+\label{sec:first_proto}
+
+Following the first requirements gathering session and establishing our set of tools, we proceeded with creating a low-fidelity prototype, which took the form of a sequence diagram and mock-up. After discussing with the client about different possibilities, we thought a web-based application would better suit their needs, as opposed to a standalone API. We decided on having a 3-tier architecture, which was composed of:
+ 
+\begin{itemize}
+    \item The client - the browser our users will use (the browser type should not be of interest, as our application should work on any of them)
+    \item The web server - our hosting machine that will handle requests
+    \item The application server  - the logic part of the architecture plan, which would handle the processing of submitted fies
+\end{itemize}
+
+
+The user would interact with the extraction tool by going to a simple, single-paged website. The mock-up's design was very minimalistic, including a couple of tabs for different information (e.g. how to use the app) and having a transparent bar in the centre of the page with the document's URL, as well as a submit button. At the end of the process, the downloaded data would be a TXT file that contained all the text inside the PDF and 2 zip files, one with all the images and the other one with tables.
+
+As our development process was over, we concluded that the prototype we created was a good example of how the system should behave and gave us a clear goal in regards to creating a simplistic workflow for the user.
 
 %------------------------------------------------------------------------------
-\section{Kangaroo Practices}
+\subsection{Researching PDF Extraction} 
+\label{sec:research_pdf}
+During our requirements gathering session it was identified that the client is not interested in the information available within the main textual body of the PDF document. Knowing this we set out to develop a tool that would allow us to only extract the data from tables within the documents. To help us in this task, our client had provided a sample PDF produced by their organisation, saying it would be indicative of other documents that they would want to process with our tool.
 
 
+It was relieving to initially discover that the tables in question were not included into our document as static images, but were actually created directly in a Word document which was later exported to PDF. This meant that all the data within the individual cells of the table was available as simple text. Knowing this we began looking for libraries that would allow us to simply extract text from a PDF as proof of concept. There were usually at least one or two tools that provided such a feature in most languages, however, Java appeared to have the greatest variety and it was desirable to experiment with a good number of options. The first tool we considered seriously for this purpose was Apache PDFBox. It provided an easy to use API for extracting text from a PDF and we had no difficulty at all in creating a String object containing the full contents of a provided document. This was initially promising, however, we quickly identified numerous major flaws in this approach:
+\begin{enumerate}  
+    \item While processing the string there is no general method for identifying the start and end of a table
+    \item Certain tables had their top left corner cell left blank and there was no way of determining whether or not this was the case for each table, and so it was impossible to align the column headings with the correct content underneath in an output CSV
+    \item If a table cell consisted of two words, one on top of the other, the obtained string will contain the first word followed by a new line character and then the second word. Due to the fact that only some cells in a table have this format it is impossible to know when this is occurring and when it is simply the end of a row in a table
+    \item There is no way of knowing where to insert commas within the string as the contents of each table cell vary in the number of words it contains and it is not entirely obvious where one cell ends and another begins
+    \item The styles of the tables themselves varied massively (some of them having two rows intended to define the meaning of the data in the following ones) 
+\end{enumerate}
+
+All of these issues led us to the conclusion that we would not be able to implement a solution through simple string processing. At this point we briefly considered certain exotic solutions such as identifying the most common table styles and working out a way of developing something capable of working only with them, or creating some form of simplistic text processing AI or image analysis tool. We quickly realised that developing something of that type would be way beyond our capabilities, especially considering the time limitations of the project.
+
+Following these events we began looking for alternative ways of data extraction from PDF other than simply obtaining the entirety of its text. This is when we came across Tabula. This tool was developed by making use of the findings of a PhD student's work into image recognition done on tables in a PDF document \cite{PDFResearch}. It appeared to perfectly address our needs as it also only focused on extracting data from tables, however, it had two major issues. First of all, Tabula was available in two separate forms - a JAR which was intended to be used as a command line application and a Ruby based web server which provide a utility for marking a section of a PDF which would then be processed. Neither of these directly met the requirements of our client, so we knew that we would have to extract the functionality we needed from one of these two projects. The second issue with Tabula was that it still had a considerably large margin of error when it comes to the accuracy of the extracted data. Usually it would miss out on the contents of one or two tables cells or even skip over a table altogether. This was also obviously exacerbated by the wide array of different styles for the tables in the sample PDF. Despite all of this Tabula still provided us with much better results than our previous attempts at simply parsing the entire text string of a PDF's contents.
+
+This experience taught us about the value of conducting extensive research. It was essential to identify a suitable method for data extraction before proceeding with further development. If we hadn't done so, it would have greatly burdened our project to undergo a massive re-factoring effort in order to incorporate a better tool further in the development cycle \cite{ProjectPlanning}.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\section{Knots and Bundles}
-\label{sec:managing}
+\subsection{Negotiating With The Client}
+\label{sec:nego_client}
+After researching PDF extraction, discovering the difficulties behind it, and its inherent lack of accuracy, we decided to contact the client regarding our findings and how best to proceed. We argued that our team building an alternative to Tabula would be largely unrealistic. We also put forward that if we were to implement a similar feature that extracted data from tables in a DOCX file instead, we could guarantee a greater level of accuracy.
 
+Initially, there was some confusion over what we were suggesting. The client was against the idea because they believed that if they host DOCX documents on their website people would be able to edit the hosted files, and fraudulently claim them to be from the client. After some discussion we confirmed to the client that this would not be the case. It was agreed that we would proceed with creating and integrating a DOCX document extraction feature, provided that we included a terms of service that states that the client was not responsible for any changes to the provided data made by the users of the tool.
+
+From this event we had learnt that communicating, and negotiating, with our client not only helps us work more effectively but also helps us to deliver a better system that is more in tune with what the client wants. As this is such an important and integral part of the software engineering process it can be very difficult to do well. Additionally, we proved to ourselves that performing a feasibility study, and then negotiating with the client with regards to system requirements is the correct methodology as outlined in Sommerville's Software Engineering \cite{Requirements}.
+
+With regards to team dynamics, and the project in general, this event constituted a major shift. We were no longer focusing on just extracting tables from PDF documents, but instead now had an entire other file format to extract from, DOCX. Of course this also meant that we would now need to spread out our team's efforts on implementing this additional feature.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Implementing DOCX Extraction}
+\label{sec:impl_docx}
+Having successfully negotiated adding a major feature to the project with our client we were now left with the task of actually implementing it. This was broken down into three segments:
+\begin{itemize}
+    \item Researching DOCX extraction
+    \item Creating a proof of concept
+    \item Liaising with the client over progress, and requirements
+\end{itemize}
+
+Researching DOCX extraction, whilst not nearly as difficult as researching its PDF counterpart, was still an important undertaking. There are numerous tools and libraries, both paid and free, for this sole purpose, and many of them are written in, or can be utilised with, Java. Through testing with several different libraries, Apache POI was chosen for the task. This was due to its ease of use, and excellent documentation.
+
+Creating the proof of concept was relatively straightforward, with all of the documentation, and POI's ease of use, it took very little time. We then communicated with the client regarding the newly created proof of concept, discussed what this meant for the project, and gathered requirements for this feature.
+
+Implementing the DOCX extraction was a key point in our project, for us as a team it demonstrated that software projects, and their requirements, are not static - they will undoubtedly change. Whether from the influence of a client, or some external source, what the project must deliver can be altered through its life, up until deployment. These changes may be small, aesthetic changes, or they can be large additions as in our case. It is the duty of the software development team to negotiate with the client, and adapt to changes in requirements. In our case we had nearly doubled the scope of our project.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Choosing Spring Boot}
+\label{sec:choosing_spring}
+Before we started combining different tools for extracting PDF and DOCX documents, we had to choose our back-end implementation. We had a few options from the start, namely creating a Python based Django project, which we had experience with from our Web Application Development course. There were other options such as: Ruby on Rails, and Laravel, that were discussed. However, considering the components we had started working on were based purely on Java we decided to explore compatible web frameworks.
+
+Due to the nature of our project, and a high level of influence from dependability engineering \cite{Dependability} practises as well as previous experiences with Spring based frameworks, we chose Spring Boot with Maven to be the joining force of our project. Although this was a choice we had made after doing a large amount of research, and overall was a great success in the end, it did introduce various problems that we did not foresee in the beginning. Whilst Java is very portable, some of the components we used were not. Many hours were spent finding solutions to very specific problems which occurred on different operating systems. Luckily, as we were all using different development platforms, problems were identified as soon as a particular change was made. There was also a lack of support from the course coordinators as a lot of them were inexperienced with the framework.
+
+Of course, all these issues were really small compared to the benefits that Spring Boot provided. It allowed us to quickly incorporate new features with its clean structure, and minimal configuration requirements. Furthermore, it also enabled us to integrate extraction components, that we had written separately, with little change to the existing codebase. 
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Conforming to Client Design Requirements}
+\label{sec:design_req}
+
+As identified during the first client meeting, the main requirement regarding the UI was that there was a need for people with no technical background to be able to access our application. The clients themselves suggested that us creating a web interface would be the perfect scenario. We were, however, initially only provided with some vague guidance as to what our front-end should look like. Thus we had to make a lot of design decisions that we thought about what would be appropriate given the context of CI's business impact.
+
+Using the client's design guidelines, including a colour scheme and layout preferences, our team took initiative and not only implemented those guidelines, but did so while creating a "Material"-based UI. This helped us impress our clients, with them commenting on how much more professional our tool appeared as compared to their other internal software. 
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -% 
+\subsection{Initial Demonstration of a Working System}
+\label{sec:first_demo}
+During the second progress demonstration we held our first user acceptance testing session. We showed our client a prototype of a fully functional DOCX document extraction component, embedded into the initial front-end design. We also demonstrated the PDF extraction component functionality using the command line approach.
+
+At this point our implementation only allowed us to submit DOCX through the web application. Also, PDF conversion took quite long and was not yet integrated with the overall system. This did, however, allow us to explain to our client how we visualised the working system, and thus easily receive critical feedback. Some of it included issues we were already aware of such as the application crashing on multiple conversions as well as the Crichton Institute colour scheme not being incorporated in the application.
+
+The client also brought up additional issues we were not aware of. First of all, the application did not explicitly tell the user what it does. It was explained that this tool will likely be used by different kinds of people including school pupils that may find it difficult to understand its purpose. Furthermore, the application did not provide any information about the terms of service or include a privacy policy. This was a problem since the absence of such information might cause legal problems for the institute in the future.
+
+Finally, we discussed the possibility of standardised tables for future documents. We explained how this would not only help our project to deliver better results, but would also benefit their readers with a consistent style throughout the different PDF/DOCX documents.
+
+All of this feedback made us realise that our project was not just about good software development practises, but also about system usability and legal requirements.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Implementation of PDF Extraction }
+\label{sec:impl_pdf}
+Following our first demonstration of the web application, efforts shifted to working out how to properly incorporate the functionality provided by Tabula. The main problem holding us back was the complete lack of documentation. This stemmed from the fact that the Tabula JAR was never meant to be used as anything more than a command-line application. Its developers only provided a basic guideline of what arguments to supply when running the JAR from a shell. At the time we assumed that this would make it impossible to incorporate Tabula into our system as a ordinary JAR file should be, however, we still wanted to have this functionality in some form before our next client meeting.
+
+The team set out to achieve this by attempting to create a Java function that would act as if someone was giving arguments to the JAR from a command line shell. While looking into ways of emulating this behaviour we decided to use the Java ProcessBuilder class. It provided a constructor which took a list of strings as a parameter. These strings were meant to represent the command that one would type in a shell environment. Once a process is created and ran it would execute this command. The whole procedure introduced a great deal of overhead, but at least provided us with Tabula's output for a given PDF.
+
+Tabula gives its users the option of having the extracted data either as a CSV or JSON file. There was once again an issue as the CSV had no separators between the different tables (one of our client's requirements), so we decided to make use of the JSON instead. Each object within the JSON represented the contents of a separate table within the PDF and it was straightforward enough to write a function for converting these objects into a CSV with the desired separators (two consecutive new line characters between the tables). All of this, of course, meant that we would need the Tabula JAR present as a static file, placed within a resources folder inside the project directory.
+
+The initial implementation may have been imperfect, however, as the PDF extraction component was decoupled from the rest of the system and provided only one public method, it became quite easy to develop the rest of the application around it, with the intent of later improving its operation without altering the API.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Integrating Extraction Tools With Spring}
+\label{sec:spring_intg}
+Once we had both PDF and DOCX implementations ready it was time to combine our Spring Boot back-end system with both components. Because we took the time to consider the initial design \cite{Design-considerations} of our components, this step was quite easy. All we had to do is link separate component classes with the Spring project and write methods that would access those classes. 
+
+Spring boot is designed with low coupling in mind and so it was quite easy to make use of the API provided by the data extraction components through simply inspecting the file extension of the submitted document and calling the appropriate function. At this point we also managed to resolve the issue pertaining to multiple consecutive uploads causing the system to crash. This was apparently caused up by an incorrect set-up of the front-end's AJAX request to the server.
+
+Throughout the integration process we learnt how to best make use of modularity, in terms of software engineering. We found that building separate components is a very useful practice and that combining them afterwards is not necessarily difficult. We have also learnt that this approach can reduce the overhead of refactoring when combining different modules during the integration phase.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Renegotiating Output Formats and Image Extraction}
+\label{sec:renego_client}
+As we have understood from the first iteration and our initial discussions with the client, they desired that our system would extract all tables residing in a PDF document, without any special requirements as to how those tables should be organised (i.e. all of them in a single CSV file or each one would have its separate CSV).
+
+We kept developing our tool such that it would append all tables in a single CSV, and the resulting file would be downloaded. However, during our third meeting with the client, we finalised the output format: we needed to have a zip file containing 2 folders, "csv" and "images", which would hold both all images (i.e. jpg and png) and all tables (in separate CSV files). Moreover, we needed to include a simple "README" file which offered information on what data could be found inside the zip.
+
+An agreement was reached and we realised that appending all tables in a single file with a blank line between each table would be very hard for the user to visualise. Furthermore, as mentioned above, we did not have any requirements regarding images in the first iteration, while in the third we were asked to include a feature to compress them into a ZIP archive.
+
+Following these agreements, and a re-sketched system design, we started working on the image extraction tool. Even though we experimented with multiple Java libraries/wrappers that would have these features implemented, we shortened the list of candidates to a couple: Apache POI, PDFBox and JPedal. We observed that Apache POI was the perfect solution for extracting images from DOCX, while PDFBox was useful for PDF documents. The libraries' documentation was relatively easy to comprehend, therefore we quickly managed to include the new image extraction feature into our project.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Quality Assurance}
+\label{sec:quality_ass}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Refactoring PDF Extraction}
+\label{sec:refactor_pdf}
+With the vast majority of client requested features implemented, we began looking at improving the performance and stability of our application. The main point of interest, initially, was to heavily refactor the interaction with Tabula. While processing a PDF was generally slower than DOCX, the added overhead of forking a process, which passed arguments to the Tabula JAR, was certainly noticeable. It was also an example of a poor development practice as it would have made the PDF extraction feature much harder to maintain and extend.
+
+Having this in mind, we decided to re-examine the contents of the Tabula JAR and attempt to gain a basic understanding of its implementation, in the hopes of identifying a way to use it as a conventional JAR. This was done mostly through the help of the decompiler built into Intellij IDEA (the IDE that we used at the time). After some time, despite the lack of documentation, we were able to identify a combination of functions which would provide the desired output when presented with a PDF document - the previously discussed JSON file. This was a major breakthrough as it allowed us to remove the massive amount of overhead, caused by invoking a shell command in a forked process, thus greatly improving performance \cite{Refactoring}. Due to the nature of this solution, there was also no need to change the JSON processing utility within the PDF data extraction component or its API, so the rest of the system remained unaltered.
+
+There was only one more issue regarding the integration of the Tabula JAR. The rest of our project dependencies were included through Maven and the hosted repository provided by Tabula's developers appeared to be out of date compared with the JAR we had previously downloaded from their main site. To resolve this we had to include our own local repository and allow Maven to access the JAR from there.
+
+As a result of this refactoring effort, the team believed that the web application no longer had poorly implemented, function critical, features. This allowed us to move forward with simpler tasks relating to quality assurance such as documentation, removing stylistic inconsistencies and testing.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Testing}
+\label{sec:testing}
+Testing is of vital importance in every software development process. We decided to start creating test cases relatively late, but this was mainly because we did not want to conduct Test-Driven Development and instead followed a classic development approach.
+
+After thorough reading and an extensive learning process \cite{JUnit-In-Action}\cite{Effective-Testing}\cite{Hints-On-Test}, we managed to become much more familiar with both unit and integration testing and started performing tests on all of our software artifacts. We started by dividing them in to categories: Components, Controllers, Utility Classes, and general tests for the functionality of the entire system. Moreover, we also took great care to provide useful documentation for every unit test to clarify which part of the system is being examined.
+
+The actual implementation of test classes began in iteration 4 using JUnit for unit testing (executed through Maven commands) and Jenkins for continuous integration. Moreover, another important component of our testing suites was the usage of qUnit for testing JavaScript code. These were very logical options as they were specifically designed to accommodate our software stack.
+
+The primary type of testing conducted was regression based - if a bug is found, it is corrected and and a test case is written to ensure the implemented fix does not introduce new errors as well as confirm that the original problem has not returned further down the line. It was initially simpler to develop these tests for the various data extraction and helper components of our application, but this was later extended to check the functionality of our web framework controllers and front-end as well. By the end of this process Cobertura, the Jenkins plug-in we had installed, reported a method coverage of 100\% and a line coverage of 84\%.
+
+Furthermore, during the implementation of test classes, we continuously communicated with the clients to get their feedback for the purposes of User Acceptance Testing. This helped us ensure that our app corresponds to their requirements by identifying certain aspects of the work flow which were not entirely clear or needlessly complicated. The end result can be seen in various improvements made to the application's front-end between the 4th and 5th iteration. 
+
+This incremental process taught us valuable lessons and gave us useful experience in different testing frameworks, how the clients are crucial to the success of the project, as well as how to work in a team to identify bugs efficiently and find quick resolutions.
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Documenting}
+\label{sec:documenting}
+During the last iteration we found that our code was lacking readability and documentation, thus we began inserting JavaDoc styled comments for all implementation classes, and unit tests. Furthermore, we used a locally installed SonarQube server to report on documentation levels throughout the project, highlighting areas that were lacking JavaDocs completely, and others that were not in the correct format.
+
+In the end, we concluded that a good structure to our code and detailed, but not overly exhaustive comments, are beneficial not only for different developers working on the same piece of code, but also for future collaborators that would find it easier to read and understand what is happening if they have instructions and information wherever necessary \cite{Documentation}.
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Continuous Integration (Jenkins)}
+\label{sec:jenkins}
+Combining Jenkins, our continuous integration tool, with our project was initially challenging. Our project requires Maven version 3.0.3 at the least to be able to resolve dependencies and plug-ins that the system needs to be able to function, but when we first started setting up Jenkins an earlier version was installed. We found a way around this by installing a newer version of Maven in our team directory, which would then be invoked by a bash script in Jenkins. This setup was less than perfect as it meant Jenkins would not report on the results of our test cases. However, this was later fixed when a newer version of Maven was integrated with the CI tool. Jenkins was also configured to send messages to a Slack channel, that we all could subscribe to, stating when a build had passed or failed, detailing how many tests were run, and how many passed/failed. Furthermore, on the Jenkins dashboard for our tool, we could see a graph detailing the trend of our test results.
+
+From configuring Jenkins to work with our project, it became obvious just how necessary it is to have a continuous integration application. Jenkins building and testing the code in the repository after each commit, notifying us via Slack of passes and failures in the tests, tracking test coverage, and even reporting on style errors, helped us manage our time more effectively, and reduced risk, one of the main benefits of continuous integration \cite{CI}.
+
+As a team we were now being notified immediately of any build failures, and could quickly work to remedy the situation, which was a substantial change in the team dynamic. Moreover, it greatly increased the stability of the project as we could now identify which sections were more liable to fail tests after changes, and schedule them for refactoring.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Resolving Compatibility Issues}
+\label{sec:resolve_comp}
+During the quality assurance phase we found that our system was not performing equally well on different platforms. Many issues arose between Unix-like and Windows operating systems. Because we worked on separate features of the overall system, these issues were not apparent in the beginning. Differences between line endings and file path separators caused unexpected behaviour on different platforms. "The Pragmatic Programmer" \cite{Basic-Tools} book helped with understanding why these differences exist. We had to use Java built-in tools to specify the symbols we want and not use system-specific ones.
+
+These issues required us to read a great number of different API references to figure out ways of fixing them. As a team we have learnt that there is a need to consider programming environments, other than the one you are familiar with when collaborating on a single project. Small, sometimes even ambiguous differences can create large issues in the codebase when it is not tested on different platforms.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Refactoring}
+\label{sec:refactor_style}
+After integrating Jenkins, our continuous integration system, with our project we also configured a checkstyle reporting plug-in for our source code. This plug-in would scan through all of the Java code in our project, and report on the distribution of checkstyle errors over the commit history. Furthermore, it also identified exactly where these checkstyle errors were, and what was causing them. Upon first running the plugin it uncovered over four hundred checkstyle errors in our Java code. It was decided that refactoring must take place, to ensure a greater level of maintainability, and readability for our code base. Whilst also making it easier for the system to be extended if needed \cite{Refactoring}.
+
+Through implementing the mass refactoring of our project, we learnt that the styling of code, and not just the efficiency of it, plays a major part in determining its quality. We realised that there is little point in developing a tool that is difficult to maintain, not because the concept is difficult, but rather due to the code not following a set styling. It is pivotal to work under the assumption that at some point, someone will be reading your code and need to be able to understand it.
+
+As a team we assigned one person to work on reducing the number of checkstyle errors in the application. This person was responsible for refactoring all of the Java code in the system to conform to the coding style that the checkstyle plugin expected. For the project this was a largely positive impact. Whilst refactoring would incur additional work, it also meant that the readability, maintainability, and extendability of our codebase would be improved.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Resource Utilisation Issue}
+\label{sec:resource_util}
+Even though we managed to integrate all of the required functionality into the system, we started to observe unusual CPU and memory utilisation. After consulting different resources, among which the most useful was a memory management related paper from Sun Microsystems \cite{Memory-Management}, we decided that we need to tune the garbage collector.
+
+By default, Java provides the developer with a serial collector. However, because our extraction tool was consuming an enormous amount of resources when trying to retrieve images, a parallel collector was a much more efficient choice. The latter is a newer development, aimed towards recent machines that have multiple CPUs and large amounts of memory. Therefore, it would try to use most of the machine's CPU power and memory, leaving no core idling while the process is ongoing.
+
+Initially our tool would use between 450-750 MB for a single request and it would stagnate at these numbers before the next requests came in. Thus, at the 2nd or 3rd request, the extraction tool would use even more than 1 GB of memory. One of our requirements was to keep everything as cost-effective as possible, and so we thought that the hosting server would not have enough power to give our system more than 1 GB of memory for a task that should not be that resource-exhaustive, therefore we changed to the parallel collector and added limits for memory. This increased our performance tremendously as these settings forced the machine to reduce all resource utilisation when it passed normal boundaries for memory usage. 
+
+In our final version, our app does not exceed half a gigabyte of memory and the CPU is held in normal and expected parameters.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Final Customer Meeting and Polishing the System}
+\label{sec:final_cust}
+
+After performing extensive quality assurance and generally polishing most aspects of the application the team  was scheduled to have its final customer meeting on the 3rd of March. This was the last opportunity to receive feedback and gather requirements from the client.
+
+We once again presented before the customer, however, it was harder to communicate certain changes that were made during this iteration, as a lot of it was focused on improving the back-end implementation of the application. Our client lacked the technical expertise to fully comprehend the changes we had made, but they understood that it was necessary for us to ensure that the website was reliable.
+
+Following this discussion we had the CI staff interact with our application once again, in order to experiment with the new zip-based output format. They identified that this workflow  was exactly what they had described during our previous meeting and were pleased with its simplicity. By the end of the demonstration our clients were reassured that the accuracy issues related to PDF extraction were not too severe. This was due to the presence of the notice which would appear upon submitting a document, as well as users being encouraged to submit DOCX as the preferred format. They were also impressed by the speed of both conversions, which was achieved as a result of our quality assurance efforts. 
+
+Since this was our final opportunity to gather requirements we asked the CI staff if there were still any elements of the website that were lacking. They replied that at the start of the project there was a lot of concern following our initial demonstration, where we outlined all the problems with PDF extraction, however, now the system was quite close to what they had initially imagined and expressed their satisfaction with the state of the application. The only issue that they could identify was the fact that their logo was not placed on a white background, which they felt was essential to their branding. This was a near instant fix to the application's front-end.
+
+After the meeting had concluded, the remainder of our development sessions were spent on final quality assurance efforts such as creating tests for edge cases that weren't being considered before and improving the readability of our code, thus simplifying the process of extending the tool in the future.
 
 %------------------------------------------------------------------------------
+\newpage
 \section{Conclusions}
+\label{sec:conclusion}
+As a result of the pivotal experiences we faced during the development life-cycle of our project, we have come to better understand the core principles of software engineering. Throughout this paper we have reflected upon critical sections that occurred during the development of our system as well as what was learnt from each experience.
 
-Explain the wider lessons that you learned about software engineering,
-based on the specific issues discussed in previous sections.  Reflect
-on the extent to which these lessons could be generalised to other
-types of software project.  Relate the wider lessons to others
-reported in case studies in the software engineering literature.
+At the start of the project we gained insight into the importance of client interaction. Communicating efficiently has been critical in understanding our client's mindset and requirements beyond technical needs. Our team achieved this by always asking precise questions and frequently gathering feedback.
+
+Another major observation was that an appropriate selection of tools, for each specific use case, turned out to be vital. Going through various iterations, for instance, would have been a much slower process had we not used a change management system. Documenting priorities and assigning tasks was an activity of utmost importance, made efficient through the use of Trac. For instant communication our team relied on Slack's channels and messaging features. Usage of similar sets of tools is widely reported in case studies compiled by small teams from around the world. The SPM Practices paper, for example, describes how projects resembling ours in terms of business needs, often emerge successful thanks to project management tools \cite{Software-Management}.
+
+Identifying APIs and libraries that would allow us to provide the needed functionality was a major issue at the start. In order to ensure that the users functional requirements would be satisfied, while also maintaining high software standards we had to perform extensive research. This greatly delayed our efforts in creating a high fidelity prototype at the start, however, by not rushing into design decisions that could have impacted us negatively further down the line, we managed to achieve a smooth and stable development cycle.
+
+Quality assurance was also instrumental in improving the deliverable artifacts of the project. Extensive testing, documenting, and refactoring of our system has made it much easier to extend and debug. As with any software project, our code changed and evolved. With proper and effective quality assurance, the process of integrating new features became much less cumbersome, and more efficient. This point is not subject solely to our application, but can apply to any software project.
+
+By the end of the project life-cycle, the developed application managed to successfully satisfy the needs of our client, as well as provide them with a simplistic workflow for extracting data from documents. The CI staff were particularly pleased with how stable and reliable the system was, especially after expressing concern about the viability of the project following the first client meeting. This accomplishment can be attributed to rigorously following the above-mentioned practises. A good team dynamic and dedication from all members was also key to successfully delivering the final product\cite{Team_Dynamic}.
 
 %==============================================================================
+\newpage
 \bibliographystyle{plain}
 \bibliography{dissertation}
 \end{document}
+    

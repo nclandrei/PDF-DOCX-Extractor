@@ -23,6 +23,15 @@
 \usepackage{graphicx}
 \fi
 
+\usepackage{url}
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\titlespacing{\subsection}{0pt}{0pt}{0pt}
+\titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+
+\usepackage{enumitem}
+%\setlist[itemize]{topsep=0pt}
+
 \usepackage [colorlinks=true]{hyperref}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{11pt plus 2pt}
