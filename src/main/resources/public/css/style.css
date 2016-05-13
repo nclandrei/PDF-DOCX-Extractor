@@ -1,0 +1,171 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+div#dropZone {
+    background: #ff9800;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    opacity: 0.6;
+    visibility: hidden;
+}
+
+html{
+    color:#58595B;
+}
+
+.material-icons{
+    color: #5B5B5B !important;
+}
+
+.orange-text{
+	color: #4e914d !important;
+}
+
+.orange{
+    background: #1B3A6A !important;
+}
+
+.light-blue.lighten-1{
+	//background: #1C4587 !important;
+}
+
+.btn-large.waves-effect.waves-light.orange{
+	background: #69728C !important;
+}
+
+.material-icons.right{
+    color:white !important;
+}
+
+#header-img {
+	padding: 4px;
+}
+
+#modal3 div div span{
+    display:block;
+    text-align:center;
+
+}
+
+#modal3 div div.modal-footer{
+    float:none;
+}
+
+#modal3 img {
+    border-radius:5px;
+    max-width:800px;
+    display:block;
+    margin:0 auto;
+    }
+
+.teamAvatar {
+    display: block;
+    margin: auto;
+}
+
+#modal2 h6, #modal2 ol, #modal2 ul{
+    text-align:left;
+}
+
+#logo-text{
+    font-family:'Lato';
+    position:relative;
+    top:-24px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+/*
+#logo-subtext{
+    display:block;
+    font-family:'Lato';
+    position:relative;
+    top:-24px;
+    font-weight:900;
+    letter-spacing:1px;
+    font-size:50%;
+}
+*/
+#logo-container .col{
+    padding:0;
+}
+
+.button-collapse i {
+    color: #333 !important;
+}
+
+nav {
+    height: 116px;
+    background-color: white;
+    box-shadow: 0 4px 5px 0 rgba(27, 58, 106, 0.16), -4px 4px 20px 0 rgba(27, 58, 106, 0.12);
+}
+
+.nav-wrapper.container {
+}
+
+nav ul {
+}
+
+nav ul li{
+    height:116px;
+    display:table;
+}
+
+nav ul li a {
+    color: rgb(27, 58, 106);
+    display:table-cell;
+    vertical-align: middle;
+}
+
+@media only screen and (max-width: 600px) {
+    #logo-text {
+        display: none;
+    }#logo-subtext {
+         display: none;
+     }
+    #header-img{
+        left: 18px;
+        position: relative;
+    }
+}
+
+#gla-uni {
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+.dev-name{
+    font-weight:bold;
+}
+
+.dev-row{
+    margin: 10px 0;
+}
+
+#modal2 h5{
+    margin:24px 0;
+}
+
+#modal2 #notice-title{
+
+}
+#modal2 #notice-text{
+    font-size:120%;
+}
