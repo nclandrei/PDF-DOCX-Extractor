@@ -1,5 +1,9 @@
-                    PDF/DOCX Extraction Tool
+PDF/DOCX Extraction Tool
+------------------------
 
+  
+  
+  
 What is the project
 -------------------
 
@@ -75,8 +79,8 @@ Crichton Institute - Regional Observatory
 
 Developers
 -------------------
-Ian Denev
-Ivan Kyosev
-Andrei-Mihai Nicolae
-Richard Pearson
+Ian Denev  
+Ivan Kyosev  
+Andrei-Mihai Nicolae  
+Richard Pearson  
 Edvinas Simkus
