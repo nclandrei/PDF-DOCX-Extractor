@@ -40,13 +40,6 @@ class, and every method. There is also some general commenting throughout to
 explain some difficult parts.
 
 
-Downloading
--------------------
-The full source code for this project can be obtained by checking out the stable
-trunk branch through at hoved.dcs.gla.ac.uk/extra/2015/tp3/x/repos/trunk/
-(note you will need to be able to access hoved).
-
-
 Installation
 -------------------
 After downloading the latest stable release navigate to the project directory,
@@ -68,9 +61,6 @@ This will start a web service running on port 8080, to access it got to:
     localhost:8080
 The service WILL NOT RUN if port 8080 is currently in use.
 
-
-
-Thank you for using our application!
 
 Client
 -------------------
