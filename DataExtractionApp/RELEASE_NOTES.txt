@@ -1,0 +1,23 @@
+                    PDF/DOCX Extraction Tool
+
+                         RELEASE 1.0.0
+
+Features
+-------------------
+- Can upload DOCXs or PDFs from local machine
+- Can also upload from Dropbox
+- Extracts data in tables from PDFs and DOCXs, into CSVs
+- Gives the user a Zip archive of two directories and a README:
+    - 'csv' which contains all of the tables found in the PDF/DOCX in CSV format
+    - 'images' which contains all of the images (PNG/JPG) found in the PDF/DOCX
+    - 'README.txt' describing the contents of the returned Zip
+- A bug report button that allows users to submit error details to a predefined
+  email address
+- There are currently 43 unit tests for the project
+- There is JavaDoc documentation for every class, and method
+
+
+Known Bugs
+-------------------
+- On large screens the footer section does not properly go to the bottom of the
+  page

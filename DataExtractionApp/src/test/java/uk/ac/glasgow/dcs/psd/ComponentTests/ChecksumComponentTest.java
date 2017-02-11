@@ -1,0 +1,150 @@
+package uk.ac.glasgow.dcs.psd.ComponentTests;
+
+import org.junit.*;
+import uk.ac.glasgow.dcs.psd.Components.ChecksumComponent;
+import java.io.*;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * Component for testing checksum
+ * feature.
+ */
+public class ChecksumComponentTest {
+
+    String directory;
+    String checksumsFileName;
+    String testFile;
+    String test1Check = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
+    String test2Check = "109f4b3c50d7b0df729d299bc6f8e9ef9066971f";
+    String test3Check = "3ebfa301dc59196f18593c45e519287a23297589";
+
+    @BeforeClass
+    public static void beforeClass(){
+        String checksumsFileName = "checksums.txt";
+        File oldFile = new File(checksumsFileName);
+        File newFile = new File(checksumsFileName+"-saved");
+        System.out.printf("\nMoving checksums.txt file away\n");
+
+        oldFile.renameTo(newFile);
+    }
+
+    @AfterClass
+    public static void afterClass(){
+        System.out.printf("\nMoving checksums.txt file back\n");
+        String checksumsFileName = "checksums.txt";
+        File oldFile = new File(checksumsFileName);
+        File newFile = new File(checksumsFileName+"-saved");
+
+        newFile.renameTo(oldFile);
+    }
+
+    /**
+     * Create resources for
+     * each test case
+     */
+    @Before
+    public void setUp(){
+        directory = System.getProperty("user.dir");
+        checksumsFileName = "checksums.txt";
+        String separator = System.getProperty("file.separator");
+        testFile = directory + String.format("%ssrc%stest%sjava%suk%sac%sglasgow%sdcs%spsd%sResources%stestChecksum",separator,separator,separator,separator,separator,separator,separator,separator,separator,separator);
+        File checksumsFile = new File(checksumsFileName);
+        if(!checksumsFile.exists()){
+            try {
+                checksumsFile.createNewFile();
+            }catch (IOException e){
+                e.printStackTrace();
+                System.out.printf("ERROR: Could not create file %s\n", checksumsFileName);
+            }
+        }
+    }
+
+    /**
+     * Remove old checksum file
+     * after completion of each
+     * test case
+     */
+    @After
+    public void tearDown(){
+        directory = System.getProperty("user.dir");
+        checksumsFileName = "checksums.txt";
+        File file = new File(checksumsFileName);
+
+        if(file.exists())
+            file.delete();
+
+    }
+
+    /**
+     * Check that checksum.txt
+     * exist and program has
+     * permissions to view/modify it
+     */
+    @Test
+    public void getChecksumTest(){
+        try {
+            ChecksumComponent.getChecksum(testFile+".txt", new File(testFile+".txt"), false, false);
+        }catch(IOException e){
+            e.printStackTrace();
+            System.out.printf("ERROR: File %s not found\n", testFile);
+        }
+
+        File checksumsFile = new File(checksumsFileName);
+        assertTrue(checksumsFile.exists());
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File(checksumsFileName)));
+            String line = reader.readLine();
+            assertTrue(line.contains("da39a3ee5e6b4b0d3255bfef95601890afd80709"));
+            assertTrue(line.contains(testFile));
+
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+            System.out.printf("ERROR: File %s not found\n", checksumsFileName);
+            assert(false);
+        }catch (IOException e){
+            e.printStackTrace();
+            System.out.printf("ERROR: Could not read line from %s\n", checksumsFileName);
+        }
+
+    }
+
+    /**
+     * Test checksum component
+     * with multiple checksums
+     */
+    @Test
+    public void multipleAddChecksumTest(){
+        try {
+            ChecksumComponent.getChecksum(testFile+".txt", new File(testFile+".txt"), false, false);
+            ChecksumComponent.getChecksum(testFile+"2.txt", new File(testFile+"2.txt"), false, false);
+            ChecksumComponent.getChecksum(testFile+"3.txt", new File(testFile+"3.txt"), false, false);
+        }catch(IOException e){
+            e.printStackTrace();
+            System.out.printf("ERROR: File %s not found\n", testFile);
+        }
+
+        File checksumsFile = new File(checksumsFileName);
+        assertTrue(checksumsFile.exists());
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File(checksumsFileName)));
+            String line = reader.readLine();
+            while(line!=null) {
+                assertTrue(line.contains(test1Check) || line.contains(test2Check) || line.contains(test3Check));
+                assertTrue(line.contains(testFile + ".txt") || line.contains(testFile + "2.txt") ||
+                        line.contains(testFile + "3.txt"));
+                line = reader.readLine();
+            }
+
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+            System.out.printf("ERROR: File %s not found\n", checksumsFileName);
+            assert(false);
+        }catch (IOException e){
+            e.printStackTrace();
+            System.out.printf("ERROR: Could not read line from %s\n", checksumsFileName);
+        }
+
+    }
+}
